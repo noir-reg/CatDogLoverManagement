@@ -7,16 +7,16 @@ namespace CatDogLoverManagement.Repository.Models
     {
         public Animal()
         {
-            Posts = new HashSet<Post>();
+            BlogPosts = new HashSet<BlogPost>();
         }
 
-        public int AnimalId { get; set; }
+        public Guid AnimalId { get; set; }
         public string AnimalName { get; set; } = null!;
         public string AnimalType { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Gender { get; set; } = null!;
         public int Age { get; set; }
 
-        public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<BlogPost> BlogPosts { get; set; }
     }
 }

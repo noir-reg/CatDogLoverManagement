@@ -1,0 +1,82 @@
+﻿@page "{id:Guid}"
+@model CatDogLoverManagement.Pages.Post.EditModel
+@{
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div>
+        <h1>Edit Post</h1>
+    </div>
+</div>
+
+<partial name="_Notification" />
+
+@if(Model.BlogPost != null)
+{
+    <div>
+        <div class="container">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="id" class="form-label">Post Id</label>
+                    <input type="text" class="form-control" id="id" asp-for="BlogPost.PostId" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" asp-for="BlogPost.Title" />
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" asp-for="BlogPost.Description"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="price" asp-for="BlogPost.Price" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="createdDate" class="form-label">CreatedDate</label>
+                    <input type="date" class="form-control" id="createdDate" asp-for="BlogPost.CreatedDate" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <textarea class="form-control" id="status" asp-for="BlogPost.Status"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="text" class="form-control" id="image" asp-for="BlogPost.Image" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="userId" class="form-label">UserID</label>
+                    <input type="text" class="form-control" id="userId" asp-for="BlogPost.UserId" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="animalId" class="form-label">AnimalID</label>
+                    <input type="text" class="form-control" id="animalId" asp-for="BlogPost.AnimalId" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="service" class="form-label">ServiceId</label>
+                    <input type="text" class="form-control" id="serviceId" asp-for="BlogPost.ServiceId" readonly />
+                </div>
+
+                <div class="mb-3 d-flex justify-content-between">
+                    <button class="btn btn-primary" type="submit" asp-page-handler="Edit">Submit</button>
+
+                    <button class="btn btn-danger" type="submit" asp-page-handler="Delete">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <p>Blog Post Not Found!</p>
+    </div>
+}
+

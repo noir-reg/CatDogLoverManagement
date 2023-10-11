@@ -7,12 +7,12 @@ namespace CatDogLoverManagement.Repository.Models
     {
         public Service()
         {
+            BlogPosts = new HashSet<BlogPost>();
             Comments = new HashSet<Comment>();
-            Posts = new HashSet<Post>();
             TimeFrames = new HashSet<TimeFrame>();
         }
 
-        public int ServiceId { get; set; }
+        public Guid ServiceId { get; set; }
         public string ServiceName { get; set; } = null!;
         public string Address { get; set; } = null!;
         public decimal Price { get; set; }
@@ -23,8 +23,8 @@ namespace CatDogLoverManagement.Repository.Models
         public string Note { get; set; } = null!;
         public string Image { get; set; } = null!;
 
+        public virtual ICollection<BlogPost> BlogPosts { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<TimeFrame> TimeFrames { get; set; }
     }
 }

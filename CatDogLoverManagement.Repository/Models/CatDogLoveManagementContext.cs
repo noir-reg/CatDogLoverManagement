@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
 
 namespace CatDogLoverManagement.Repository.Models
 {
@@ -18,9 +17,9 @@ namespace CatDogLoverManagement.Repository.Models
         }
 
         public virtual DbSet<Animal> Animals { get; set; } = null!;
+        public virtual DbSet<BlogPost> BlogPosts { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
-        public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<Service> Services { get; set; } = null!;
         public virtual DbSet<TimeFrame> TimeFrames { get; set; } = null!;
         public virtual DbSet<Transaction> Transactions { get; set; } = null!;
@@ -32,18 +31,8 @@ namespace CatDogLoverManagement.Repository.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer(GetConnectionString());
+                optionsBuilder.UseSqlServer("server =DESKTOP-JOU0GIQ\\CUONGPC;database =CatDogLoveManagement;uid=sa;pwd=123456;Trusted_Connection=true;Encrypt=False;");
             }
-        }
-        private string GetConnectionString()
-        {
-            IConfiguration config = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true)
-            .Build();
-            var strConn = config["ConnectionStrings:CatDogLoverManagementDb"];
-
-            return strConn;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,6 +40,8 @@ namespace CatDogLoverManagement.Repository.Models
             modelBuilder.Entity<Animal>(entity =>
             {
                 entity.ToTable("Animal");
+
+                entity.Property(e => e.AnimalId).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.AnimalName).HasMaxLength(100);
 
@@ -61,9 +52,46 @@ namespace CatDogLoverManagement.Repository.Models
                 entity.Property(e => e.Gender).HasMaxLength(100);
             });
 
+            modelBuilder.Entity<BlogPost>(entity =>
+            {
+                entity.HasKey(e => e.PostId)
+                    .HasName("PK__BlogPost__AA12601883E9FAB9");
+
+                entity.ToTable("BlogPost");
+
+                entity.Property(e => e.PostId).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasMaxLength(100);
+
+                entity.Property(e => e.Price).HasColumnType("money");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.Property(e => e.Title).HasMaxLength(100);
+
+                entity.HasOne(d => d.Animal)
+                    .WithMany(p => p.BlogPosts)
+                    .HasForeignKey(d => d.AnimalId)
+                    .HasConstraintName("FK__BlogPost__Animal__32E0915F");
+
+                entity.HasOne(d => d.Service)
+                    .WithMany(p => p.BlogPosts)
+                    .HasForeignKey(d => d.ServiceId)
+                    .HasConstraintName("FK__BlogPost__Servic__33D4B598");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.BlogPosts)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__BlogPost__UserId__31EC6D26");
+            });
+
             modelBuilder.Entity<Comment>(entity =>
             {
                 entity.ToTable("Comment");
+
+                entity.Property(e => e.CommentId).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.CommentMessage).HasMaxLength(100);
 
@@ -73,24 +101,26 @@ namespace CatDogLoverManagement.Repository.Models
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Comment__PostId__5EBF139D");
+                    .HasConstraintName("FK__Comment__PostId__38996AB5");
 
                 entity.HasOne(d => d.Service)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.ServiceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Comment__Service__5FB337D6");
+                    .HasConstraintName("FK__Comment__Service__398D8EEE");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Comment__UserId__5DCAEF64");
+                    .HasConstraintName("FK__Comment__UserId__37A5467C");
             });
 
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("Order");
+
+                entity.Property(e => e.OrderId).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.BookedDate).HasColumnType("datetime");
 
@@ -108,57 +138,26 @@ namespace CatDogLoverManagement.Repository.Models
                     .WithMany(p => p.OrderBuyers)
                     .HasForeignKey(d => d.BuyerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__BuyerId__628FA481");
+                    .HasConstraintName("FK__Order__BuyerId__3D5E1FD2");
 
                 entity.HasOne(d => d.Post)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__PostId__6477ECF3");
+                    .HasConstraintName("FK__Order__PostId__3F466844");
 
                 entity.HasOne(d => d.Seller)
                     .WithMany(p => p.OrderSellers)
                     .HasForeignKey(d => d.SellerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__SellerId__6383C8BA");
-            });
-
-            modelBuilder.Entity<Post>(entity =>
-            {
-                entity.ToTable("Post");
-
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Description).HasMaxLength(100);
-
-                entity.Property(e => e.Price).HasColumnType("money");
-
-                entity.Property(e => e.Status).HasMaxLength(50);
-
-                entity.Property(e => e.Title).HasMaxLength(100);
-
-                entity.HasOne(d => d.Animal)
-                    .WithMany(p => p.Posts)
-                    .HasForeignKey(d => d.AnimalId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Post__AnimalId__59FA5E80");
-
-                entity.HasOne(d => d.Service)
-                    .WithMany(p => p.Posts)
-                    .HasForeignKey(d => d.ServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Post__ServiceId__5AEE82B9");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Posts)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Post__UserId__59063A47");
+                    .HasConstraintName("FK__Order__SellerId__3E52440B");
             });
 
             modelBuilder.Entity<Service>(entity =>
             {
                 entity.ToTable("Service");
+
+                entity.Property(e => e.ServiceId).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Address).HasMaxLength(255);
 
@@ -181,28 +180,35 @@ namespace CatDogLoverManagement.Repository.Models
             {
                 entity.ToTable("TimeFrame");
 
+                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+
                 entity.Property(e => e.Time).HasMaxLength(50);
 
                 entity.HasOne(d => d.Service)
                     .WithMany(p => p.TimeFrames)
                     .HasForeignKey(d => d.ServiceId)
-                    .HasConstraintName("FK__TimeFrame__Servi__5070F446");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__TimeFrame__Servi__46E78A0C");
             });
 
             modelBuilder.Entity<Transaction>(entity =>
             {
                 entity.ToTable("Transaction");
 
+                entity.Property(e => e.TransactionId).HasDefaultValueSql("(newid())");
+
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.Transactions)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Transacti__Order__6754599E");
+                    .HasConstraintName("FK__Transacti__Order__4316F928");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("User");
+
+                entity.Property(e => e.UserId).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(100)
@@ -216,15 +222,17 @@ namespace CatDogLoverManagement.Repository.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__User__RoleId__5441852A");
+                    .HasConstraintName("FK__User__RoleId__286302EC");
             });
 
             modelBuilder.Entity<UserRole>(entity =>
             {
                 entity.HasKey(e => e.RoleId)
-                    .HasName("PK__UserRole__8AFACE1A18636E75");
+                    .HasName("PK__UserRole__8AFACE1A703DD820");
 
                 entity.ToTable("UserRole");
+
+                entity.Property(e => e.RoleId).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.RoleName).HasMaxLength(100);
             });

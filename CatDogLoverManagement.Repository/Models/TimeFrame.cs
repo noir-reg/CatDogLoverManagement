@@ -5,10 +5,10 @@ namespace CatDogLoverManagement.Repository.Models
 {
     public partial class TimeFrame
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Time { get; set; } = null!;
-        public int? ServiceId { get; set; }
+        public Guid ServiceId { get; set; }
 
-        public virtual Service? Service { get; set; }
+        public virtual Service Service { get; set; } = null!;
     }
 }

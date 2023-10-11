@@ -1,0 +1,65 @@
+﻿@page
+@model CatDogLoverManagement.Pages.Post.AddModel
+@{
+}
+
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div>
+        <h1>Add Post</h1>
+    </div>
+</div> 
+<div>
+    <div class="container">
+        <form method="post">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" asp-for="AddBlogPostRequest.Title" />
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" asp-for="AddBlogPostRequest.Description"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="text" class="form-control" id="price" asp-for="AddBlogPostRequest.Price" />
+            </div>
+
+            <div class="mb-3">
+                <label for="createdDate" class="form-label">CreatedDate</label>
+                <input type="date" class="form-control" id="createdDate" asp-for="AddBlogPostRequest.CreatedDate" />
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <textarea class="form-control" id="status" asp-for="AddBlogPostRequest.Status"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Image</label>
+                <input type="text" class="form-control" id="image" asp-for="AddBlogPostRequest.Image" />
+            </div>
+
+            <div class="mb-3">
+                <label for="userId" class="form-label">UserID</label>
+                <input type="text" class="form-control" id="userId" asp-for="AddBlogPostRequest.UserId" />
+            </div>
+
+            <div class="mb-3">
+                <label for="animalId" class="form-label">AnimalID</label>
+                <input type="text" class="form-control" id="animalId" asp-for="AddBlogPostRequest.AnimalId" />
+            </div>
+
+            <div class="mb-3">
+                <label for="service" class="form-label">ServiceId</label>
+                <input type="text" class="form-control" id="serviceId" asp-for="AddBlogPostRequest.ServiceId" />
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+ 

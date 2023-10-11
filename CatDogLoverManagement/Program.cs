@@ -1,3 +1,7 @@
+using CatDogLoverManagement.Repository.Models;
+using CatDogLoverManagement.Repository.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace CatDogLoverManagement
 {
     public class Program
@@ -6,8 +10,15 @@ namespace CatDogLoverManagement
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            //Add services to the container.
             builder.Services.AddRazorPages();
+
+            builder.Services.AddDbContext<CatDogLoveManagementContext>(options =>
+            options.UseSqlServer(
+                builder.Configuration.GetConnectionString("CatDogLoverManagementDb")));
+
+            //CRUD Repository
+            builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
 
             var app = builder.Build();
 

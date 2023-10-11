@@ -5,8 +5,8 @@ namespace CatDogLoverManagement.Repository.Models
 {
     public partial class Transaction
     {
-        public int TransactionId { get; set; }
-        public int OrderId { get; set; }
+        public Guid TransactionId { get; set; }
+        public Guid OrderId { get; set; }
 
         public virtual Order Order { get; set; } = null!;
     }
