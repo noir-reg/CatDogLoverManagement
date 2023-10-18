@@ -8,7 +8,7 @@
     <div>
         <h1>Add Post</h1>
     </div>
-</div> 
+</div>
 <div>
     <div class="container">
         <form method="post">
@@ -16,6 +16,7 @@
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="title" asp-for="AddBlogPostRequest.Title" />
             </div>
+
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea class="form-control" id="description" asp-for="AddBlogPostRequest.Description"></textarea>
@@ -31,14 +32,21 @@
                 <input type="date" class="form-control" id="createdDate" asp-for="AddBlogPostRequest.CreatedDate" />
             </div>
 
+            <!--Create Image API-->
             <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <textarea class="form-control" id="status" asp-for="AddBlogPostRequest.Status"></textarea>
+                <label for="featuredImageUpload" class="form-label">Featured Image Upload</label>
+                <input type="file" id="featuredImageUpload" asp-for="FeaturedImage" />
+                <img src="" id="featuredImageDisplay" style="display:none; width:300px;"/>
             </div>
 
             <div class="mb-3">
                 <label for="image" class="form-label">Image</label>
                 <input type="text" class="form-control" id="image" asp-for="AddBlogPostRequest.Image" />
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <input type="text" class="form-control" id="status" asp-for="AddBlogPostRequest.Status" />
             </div>
 
             <div class="mb-3">
@@ -62,4 +70,38 @@
         </form>
     </div>
 </div>
- 
+
+@section Scripts{
+    <script>
+        var editor = new FroalaEditor('#description', {
+            imageUploadURL: '/api/images'
+        });
+
+        const featuredImageUploadElement = document.getElementById('featuredImageUpload');
+        const image = document.getElementById('image');
+        const featuredImageDisplay = document.getElementById('featuredImageDisplay');
+
+        async function uploadfeaturedImage(e) {
+            console.log(e.target.files[0]);
+
+            let data = new FormData();
+            data.append('file', e.target.files[0]);
+
+            await fetch('/api/images', {
+                method: 'POST',
+                headers: {
+                    'Accept': '*/*',
+                },
+                body: data
+            }).then(response => response.json())
+                .then(result => {
+                    image.value = result.link;
+                    featuredImageDisplay.style.display = 'block';
+                    featuredImageDisplay.src = result.link;
+                });
+        }
+        featuredImageUploadElement.addEventListener('change', uploadfeaturedImage);
+
+    </script>
+}
+

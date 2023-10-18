@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,7 @@ namespace CatDogLoverManagement.Repository.Models.ViewModels
         public string Description { get; set; } = null!;
         public decimal Price { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string Status { get; set; } = null!;
+        public string Status { get; set; }
         public string Image { get; set; } = null!;
         public Guid UserId { get; set; } = Guid.Empty;
         public Guid AnimalId { get; set; } = Guid.Empty;

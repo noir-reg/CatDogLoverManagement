@@ -8,7 +8,6 @@ namespace CatDogLoverManagement.Repository.Models
         public BlogPost()
         {
             Comments = new HashSet<Comment>();
-            Orders = new HashSet<Order>();
         }
 
         public Guid PostId { get; set; }
@@ -26,6 +25,5 @@ namespace CatDogLoverManagement.Repository.Models
         public virtual Service? Service { get; set; }
         public virtual User? User { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
     }
 }

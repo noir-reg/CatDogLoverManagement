@@ -19,12 +19,12 @@ namespace CatDogLoverManagement.Pages.Post
         }
         public async Task OnGet()
         {
-          var notificationJson = (string)TempData["Notification"];
-            if(notificationJson != null)
+            var notificationJson = (string)TempData["Notification"];
+            if (notificationJson != null)
             {
                 ViewData["Notification"] = JsonSerializer.Deserialize<Notification>(notificationJson);
             }
-          BlogPosts = (await blogPostRepository.GetAllAsync())?.ToList();
+            BlogPosts = (await blogPostRepository.GetAllAsync())?.ToList();
         }
     }
 }

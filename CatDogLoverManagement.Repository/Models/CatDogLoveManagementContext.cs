@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace CatDogLoverManagement.Repository.Models
 {
@@ -31,8 +32,19 @@ namespace CatDogLoverManagement.Repository.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server =DESKTOP-JOU0GIQ\\CUONGPC;database =CatDogLoveManagement;uid=sa;pwd=123456;Trusted_Connection=true;Encrypt=False;");
+                optionsBuilder.UseSqlServer(GetConnectionString());
             }
+        }
+
+        private string GetConnectionString()
+        {
+            IConfiguration config = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true, true)
+            .Build();
+            var strConn = config["ConnectionStrings:CatDogLoverManagementDb"];
+
+            return strConn;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,7 +67,7 @@ namespace CatDogLoverManagement.Repository.Models
             modelBuilder.Entity<BlogPost>(entity =>
             {
                 entity.HasKey(e => e.PostId)
-                    .HasName("PK__BlogPost__AA12601883E9FAB9");
+                    .HasName("PK__BlogPost__AA12601883DC608F");
 
                 entity.ToTable("BlogPost");
 
@@ -74,17 +86,17 @@ namespace CatDogLoverManagement.Repository.Models
                 entity.HasOne(d => d.Animal)
                     .WithMany(p => p.BlogPosts)
                     .HasForeignKey(d => d.AnimalId)
-                    .HasConstraintName("FK__BlogPost__Animal__32E0915F");
+                    .HasConstraintName("FK__BlogPost__Animal__3C69FB99");
 
                 entity.HasOne(d => d.Service)
                     .WithMany(p => p.BlogPosts)
                     .HasForeignKey(d => d.ServiceId)
-                    .HasConstraintName("FK__BlogPost__Servic__33D4B598");
+                    .HasConstraintName("FK__BlogPost__Servic__3D5E1FD2");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.BlogPosts)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__BlogPost__UserId__31EC6D26");
+                    .HasConstraintName("FK__BlogPost__UserId__3E52440B");
             });
 
             modelBuilder.Entity<Comment>(entity =>
@@ -101,19 +113,19 @@ namespace CatDogLoverManagement.Repository.Models
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Comment__PostId__38996AB5");
+                    .HasConstraintName("FK__Comment__PostId__3F466844");
 
                 entity.HasOne(d => d.Service)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.ServiceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Comment__Service__398D8EEE");
+                    .HasConstraintName("FK__Comment__Service__403A8C7D");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Comment__UserId__37A5467C");
+                    .HasConstraintName("FK__Comment__UserId__412EB0B6");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -134,23 +146,27 @@ namespace CatDogLoverManagement.Repository.Models
 
                 entity.Property(e => e.TypeService).HasMaxLength(1);
 
+                entity.HasOne(d => d.Animal)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.AnimalId)
+                    .HasConstraintName("FK_Order_Animal");
+
                 entity.HasOne(d => d.Buyer)
                     .WithMany(p => p.OrderBuyers)
                     .HasForeignKey(d => d.BuyerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__BuyerId__3D5E1FD2");
-
-                entity.HasOne(d => d.Post)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.PostId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__PostId__3F466844");
+                    .HasConstraintName("FK__Order__BuyerId__4222D4EF");
 
                 entity.HasOne(d => d.Seller)
                     .WithMany(p => p.OrderSellers)
                     .HasForeignKey(d => d.SellerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Order__SellerId__3E52440B");
+                    .HasConstraintName("FK__Order__SellerId__4316F928");
+
+                entity.HasOne(d => d.Service)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.ServiceId)
+                    .HasConstraintName("FK_Order_Service");
             });
 
             modelBuilder.Entity<Service>(entity =>
@@ -182,13 +198,11 @@ namespace CatDogLoverManagement.Repository.Models
 
                 entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.Time).HasMaxLength(50);
-
                 entity.HasOne(d => d.Service)
                     .WithMany(p => p.TimeFrames)
                     .HasForeignKey(d => d.ServiceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__TimeFrame__Servi__46E78A0C");
+                    .HasConstraintName("FK__TimeFrame__Servi__45F365D3");
             });
 
             modelBuilder.Entity<Transaction>(entity =>
@@ -201,7 +215,7 @@ namespace CatDogLoverManagement.Repository.Models
                     .WithMany(p => p.Transactions)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Transacti__Order__4316F928");
+                    .HasConstraintName("FK__Transacti__Order__46E78A0C");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -222,13 +236,13 @@ namespace CatDogLoverManagement.Repository.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__User__RoleId__286302EC");
+                    .HasConstraintName("FK__User__RoleId__47DBAE45");
             });
 
             modelBuilder.Entity<UserRole>(entity =>
             {
                 entity.HasKey(e => e.RoleId)
-                    .HasName("PK__UserRole__8AFACE1A703DD820");
+                    .HasName("PK__UserRole__8AFACE1A4C785470");
 
                 entity.ToTable("UserRole");
 

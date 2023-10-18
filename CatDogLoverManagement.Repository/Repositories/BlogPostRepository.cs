@@ -8,15 +8,12 @@ using System.Threading.Tasks;
 
 namespace CatDogLoverManagement.Repository.Repositories
 {
-    
+
     public class BlogPostRepository : IBlogPostRepository
     {
-        private readonly CatDogLoveManagementContext catDogLoveManagementContext;
+        private readonly CatDogLoveManagementContext catDogLoveManagementContext = new();
 
-        public BlogPostRepository(CatDogLoveManagementContext catDogLoveManagementContext)
-        {
-            this.catDogLoveManagementContext = catDogLoveManagementContext;
-        }
+
         public async Task<BlogPost> AddAsync(BlogPost blogPost)
         {
             await catDogLoveManagementContext.BlogPosts.AddAsync(blogPost);
@@ -27,7 +24,7 @@ namespace CatDogLoverManagement.Repository.Repositories
         public async Task<bool> DeleteAsync(Guid id)
         {
             var existingBlog = await catDogLoveManagementContext.BlogPosts.FindAsync(id);
-            if(existingBlog != null)
+            if (existingBlog != null)
             {
                 catDogLoveManagementContext.BlogPosts.Remove(existingBlog);
                 await catDogLoveManagementContext.SaveChangesAsync();
@@ -39,8 +36,8 @@ namespace CatDogLoverManagement.Repository.Repositories
 
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
-          return await catDogLoveManagementContext.BlogPosts.ToListAsync();
-          
+            return await catDogLoveManagementContext.BlogPosts.ToListAsync();
+
         }
 
         public async Task<BlogPost> GetAsync(Guid id)

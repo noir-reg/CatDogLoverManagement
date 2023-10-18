@@ -14,6 +14,9 @@ namespace CatDogLoverManagement.Pages.Post
 
         [BindProperty]
         public BlogPost BlogPost { get; set; }
+
+        [BindProperty]
+        public IFormFile FeaturedImage { get; set; }
         public EditModel(IBlogPostRepository blogPostRepository)
         {
             this.blogPostRepository = blogPostRepository;
@@ -23,9 +26,9 @@ namespace CatDogLoverManagement.Pages.Post
             BlogPost = await blogPostRepository.GetAsync(id);
         }
 
-        public async  Task<IActionResult> OnPostEdit()
+        public async Task<IActionResult> OnPostEdit()
         {
-            try 
+            try
             {
                 await blogPostRepository.UpdateAsync(BlogPost);
                 ViewData["Notification"] = new Notification
@@ -33,8 +36,8 @@ namespace CatDogLoverManagement.Pages.Post
                     Message = "Record updated successfully!",
                     type = Repository.Models.Enums.NotificationType.Success
                 };
-            } 
-            catch(Exception ex) 
+            }
+            catch (Exception ex)
             {
                 await blogPostRepository.UpdateAsync(BlogPost);
                 ViewData["Notification"] = new Notification
@@ -43,14 +46,14 @@ namespace CatDogLoverManagement.Pages.Post
                     type = Repository.Models.Enums.NotificationType.Error
                 };
             }
-            
+
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostDelete()
         {
-          var deleted = await blogPostRepository.DeleteAsync(BlogPost.PostId);
+            var deleted = await blogPostRepository.DeleteAsync(BlogPost.PostId);
             if (deleted)
             {
                 var notification = new Notification
@@ -63,7 +66,7 @@ namespace CatDogLoverManagement.Pages.Post
 
                 return RedirectToPage("/post/list");
             }
-               
+
             return Page();
         }
     }

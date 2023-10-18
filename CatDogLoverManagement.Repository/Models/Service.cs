@@ -9,6 +9,7 @@ namespace CatDogLoverManagement.Repository.Models
         {
             BlogPosts = new HashSet<BlogPost>();
             Comments = new HashSet<Comment>();
+            Orders = new HashSet<Order>();
             TimeFrames = new HashSet<TimeFrame>();
         }
 
@@ -25,6 +26,7 @@ namespace CatDogLoverManagement.Repository.Models
 
         public virtual ICollection<BlogPost> BlogPosts { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<TimeFrame> TimeFrames { get; set; }
     }
 }

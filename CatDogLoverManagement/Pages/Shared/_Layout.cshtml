@@ -7,28 +7,31 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CatDogLoverManagement.styles.css" asp-append-version="true" />
+
+    <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">CatDogLoverManagement</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-area="" asp-page="/index">catdoglovermanagement</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarsupportedcontent"
+                        aria-expanded="false" aria-label="toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-page="/index">Home</a>
                         </li>
                         
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                               aria-expanded="false" id="navbarDropdownPost">
-                                BlogPost
+                               aria-expanded="false" id="navbardropdownpost">
+                                Blogpost
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownPost">
+                            <ul class="dropdown-menu" aria-labelledby="navbardropdownpost">
                                 <li>
                                     <a class="dropdown-item" href="/post/add">Add Post</a>
                                 </li>
@@ -36,10 +39,13 @@
                                     <a class="dropdown-item" href="/post/list">List Blog Post</a>
                                 </li>
                             </ul>
-                            <!--End-->
+                            <!--end-->
                         </li>
-
                     </ul>
+                    <div>
+                        <a href="/login" class="btn bg-light text-dark me-3">Login</a>
+                        <a href="/register" class="btn bg-light text-dark me-3">Register</a>
+                    </div>
                 </div>
             </div>
         </nav>

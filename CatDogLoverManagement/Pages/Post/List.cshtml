@@ -8,35 +8,35 @@
     </div>
 </div>
 
-<partial name="_Notification" >
+<partial name="_Notification">
 
-@if(Model.BlogPosts != null && Model.BlogPosts.Any())
-{
-    <div class="container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <td>PostId</td>
-                    <td>Title</td>
-                    <td> </td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var blogPost in Model.BlogPosts)
-                {
+    @if (Model.BlogPosts != null && Model.BlogPosts.Any())
+    {
+        <div class="container">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>@blogPost.PostId</td>
-                        <td>@blogPost.Title</td>
-                        <td><a href="/post/Edit/@blogPost.PostId">View</a></td>
+                        <td>PostId</td>
+                        <td>Title</td>
+                        <td> </td>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-}
-else
-{
-    <div>
-        <p>No Blog Posts Were Found!.</p>
-    </div>
-}
+                </thead>
+                <tbody>
+                    @foreach (var blogPost in Model.BlogPosts)
+                    {
+                        <tr>
+                            <td>@blogPost.PostId</td>
+                            <td>@blogPost.Title</td>
+                            <td><a href="/post/Edit/@blogPost.PostId">View</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div>
+            <p>No Blog Posts Were Found!.</p>
+        </div>
+    }

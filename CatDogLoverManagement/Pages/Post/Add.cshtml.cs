@@ -16,17 +16,19 @@ namespace CatDogLoverManagement.Pages.Post
         [BindProperty]
         public AddBlogPost AddBlogPostRequest { get; set; }
 
+        [BindProperty]
+        public IFormFile FeaturedImage { get; set; }
 
-      public AddModel(IBlogPostRepository blogPostRepository)
+        public AddModel(IBlogPostRepository blogPostRepository)
         {
             this.blogPostRepository = blogPostRepository;
-        } 
+        }
         public void OnGet()
         {
-            
+
         }
 
-       public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost()
         {
             var blogPost = new BlogPost()
             {
@@ -40,7 +42,7 @@ namespace CatDogLoverManagement.Pages.Post
                 AnimalId = AddBlogPostRequest.AnimalId,
                 ServiceId = AddBlogPostRequest.ServiceId,
             };
-           await blogPostRepository.AddAsync(blogPost);
+            await blogPostRepository.AddAsync(blogPost);
 
             var notification = new Notification
             {
@@ -52,7 +54,7 @@ namespace CatDogLoverManagement.Pages.Post
 
             return RedirectToPage("/post/list");
 
-            
+
         }
     }
 }

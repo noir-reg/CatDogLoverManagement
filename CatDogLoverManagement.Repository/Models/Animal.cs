@@ -8,6 +8,7 @@ namespace CatDogLoverManagement.Repository.Models
         public Animal()
         {
             BlogPosts = new HashSet<BlogPost>();
+            Orders = new HashSet<Order>();
         }
 
         public Guid AnimalId { get; set; }
@@ -18,5 +19,6 @@ namespace CatDogLoverManagement.Repository.Models
         public int Age { get; set; }
 
         public virtual ICollection<BlogPost> BlogPosts { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

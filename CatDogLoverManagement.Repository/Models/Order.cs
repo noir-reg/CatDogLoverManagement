@@ -19,11 +19,13 @@ namespace CatDogLoverManagement.Repository.Models
         public string TypeService { get; set; } = null!;
         public Guid BuyerId { get; set; }
         public Guid SellerId { get; set; }
-        public Guid PostId { get; set; }
+        public Guid? AnimalId { get; set; }
+        public Guid? ServiceId { get; set; }
 
+        public virtual Animal? Animal { get; set; }
         public virtual User Buyer { get; set; } = null!;
-        public virtual BlogPost Post { get; set; } = null!;
         public virtual User Seller { get; set; } = null!;
+        public virtual Service? Service { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }
