@@ -35,6 +35,16 @@ namespace CatDogLoverManagement.Repository.Models
                 optionsBuilder.UseSqlServer(GetConnectionString());
             }
         }
+        private string GetConnectionString()
+        {
+            IConfiguration config = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true, true)
+            .Build();
+            var strConn = config["ConnectionStrings:CatDogLoverManagementDb"];
+
+            return strConn;
+        }
 
         private string GetConnectionString()
         {
