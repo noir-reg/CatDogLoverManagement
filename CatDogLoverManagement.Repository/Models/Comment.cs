@@ -11,9 +11,8 @@ namespace CatDogLoverManagement.Repository.Models
         public bool Ischeck { get; set; }
         public Guid UserId { get; set; }
         public Guid PostId { get; set; }
-       
+
         public virtual BlogPost Post { get; set; } = null!;
-        
         public virtual User User { get; set; } = null!;
     }
 }

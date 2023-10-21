@@ -39,7 +39,7 @@ namespace CatDogLoverManagement.Pages.Post
         {   if (string.IsNullOrEmpty(VolunteerId))
                 return BadRequest("You haven't logined");
             var result = await commentRepository.AddAsync(Message, PostId, VolunteerId);
-            return Page(); 
+            return RedirectToPage("SellOrGivePosts"); 
         }
     }
 }

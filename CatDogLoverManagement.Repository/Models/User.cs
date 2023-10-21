@@ -17,7 +17,7 @@ namespace CatDogLoverManagement.Repository.Models
         public string Username { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public string Phonenumber { get; set; }        
+        public string Phonenumber { get; set; } = null!;
         public Guid RoleId { get; set; }
 
         public virtual UserRole Role { get; set; } = null!;

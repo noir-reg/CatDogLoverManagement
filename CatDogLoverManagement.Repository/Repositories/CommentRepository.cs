@@ -13,14 +13,16 @@ public class CommentRepository : ICommentRepository
     private readonly CatDogLoveManagementContext catDogLoveManagementContext = new();
     public async Task<bool> AddAsync(string message, string postId, string volunteerId)
     {
-        await catDogLoveManagementContext.AddAsync(new Comment
+         catDogLoveManagementContext.Comments.Add(new Comment
         {
             CommentId = Guid.NewGuid(),
             PostId = Guid.Parse(postId),
             UserId = Guid.Parse(volunteerId),
             CommentMessage = message,
             CreatedDate= DateTime.Now,
-            Ischeck = false
+            Ischeck = false,
+            
+
         });
         var result=await catDogLoveManagementContext.SaveChangesAsync();
         if(result>0)
