@@ -10,8 +10,8 @@ namespace CatDogLoverManagement.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly IBlogPostRepository blogPostRepository;
 
-        
-        public List<BlogPost> Blogs { get; set; }
+
+        public IEnumerable<BlogPost> Blogs { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, IBlogPostRepository blogPostRepository)
         {
@@ -21,14 +21,11 @@ namespace CatDogLoverManagement.Pages
 
         public async Task<IActionResult> OnGet()
         {
-           Blogs = (await blogPostRepository.GetAllAsync()).ToList();
+            
+            Blogs = await blogPostRepository.Get10NewestPostReviewAsync();
             return Page();
         }
 
-        public async Task<IActionResult> OnGetLogout()
-        {
-            HttpContext.Session.Remove("username");
-            return Page();
-        }
+       
     }
 }

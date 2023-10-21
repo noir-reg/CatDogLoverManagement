@@ -23,24 +23,50 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-page="/Home">Home</a>
                         </li>
-                        
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                aria-expanded="false" id="navbardropdownpost">
                                 Blogpost
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbardropdownpost">
+
                                 <li>
-                                    <a class="dropdown-item" href="/post/add">Add Post</a>
+                                    <a class="dropdown-item" href="/post/AddSellOrGivePost">Add Sell/Give Post</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="/post/list">List Blog Post</a>
+                                    <a class="dropdown-item" href="/post/AddServicePost">Add Service Post</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/post/ServicePosts">View Service Posts</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/post/SellOrGivePosts">View Sell/Give Posts</a>
+                                </li>
+
+                            </ul>
+                            <!--end-->
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false" id="navbardropdownpost">
+                                My Blogpost
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbardropdownpost">
+                                <li>
+                                    <a class="dropdown-item" href="/post/MyServicePosts">Service Posts</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/post/MySellOrGivePosts">Sell/Give Posts</a>
                                 </li>
                             </ul>
                             <!--end-->
                         </li>
+
+
                     </ul>
                     <div>
                         <a href="/login" class="btn bg-light text-dark me-3">Login</a>

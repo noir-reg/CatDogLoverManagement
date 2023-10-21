@@ -1,0 +1,74 @@
+﻿@page
+@model CatDogLoverManagement.Pages.NewFolder.serviceModel
+
+@{
+    ViewData["Title"] = "service";
+}
+
+<h1>service</h1>
+
+<h4>Service</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Service.ServiceName" class="control-label"></label>
+                <input asp-for="Service.ServiceName" class="form-control" />
+                <span asp-validation-for="Service.ServiceName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.Address" class="control-label"></label>
+                <input asp-for="Service.Address" class="form-control" />
+                <span asp-validation-for="Service.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.Price" class="control-label"></label>
+                <input asp-for="Service.Price" class="form-control" />
+                <span asp-validation-for="Service.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.Description" class="control-label"></label>
+                <input asp-for="Service.Description" class="form-control" />
+                <span asp-validation-for="Service.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.CreatedDate" class="control-label"></label>
+                <input asp-for="Service.CreatedDate" class="form-control" />
+                <span asp-validation-for="Service.CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.OpenDate" class="control-label"></label>
+                <input asp-for="Service.OpenDate" class="form-control" />
+                <span asp-validation-for="Service.OpenDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.Status" class="control-label"></label>
+                <input asp-for="Service.Status" class="form-control" />
+                <span asp-validation-for="Service.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.Note" class="control-label"></label>
+                <input asp-for="Service.Note" class="form-control" />
+                <span asp-validation-for="Service.Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.Image" class="control-label"></label>
+                <input asp-for="Service.Image" class="form-control" />
+                <span asp-validation-for="Service.Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

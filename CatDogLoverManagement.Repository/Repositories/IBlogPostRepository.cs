@@ -1,4 +1,5 @@
 ﻿using CatDogLoverManagement.Repository.Models;
+using CatDogLoverManagement.Repository.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,14 @@ namespace CatDogLoverManagement.Repository.Repositories
 {
     public interface IBlogPostRepository
     {
-        Task<IEnumerable<BlogPost>> GetAllAsync();
-
+        Task<IEnumerable<BlogPost>> Get10NewestPostReviewAsync();
         Task<BlogPost> GetAsync(Guid id);
-        Task<BlogPost> GetAsync(string image);
-        Task<BlogPost> AddAsync(BlogPost blogPost);
-        Task<BlogPost> UpdateAsync(BlogPost blogPost);
-
+        Task<IEnumerable<ServicePostDTO>> GetAllServicePostAsync();
+        Task<IEnumerable<ServicePostDTO>> GetAllServicePostAsync(string id);
+        Task<IEnumerable<SellOrGivePostDTO>> GetAllSellPostAsync(string id);
+        Task<IEnumerable<SellOrGivePostDTO>> GetAllSellPostAsync();
+        Task<bool> AddAsync(string id, AddAnimal animal, AddService service, AddTimeFrame timeFrame, AddBlogPost blogPost);
+        Task<bool> UpdateAsync(BlogPost blogPost);
         Task<bool> DeleteAsync(Guid id);
 
     }

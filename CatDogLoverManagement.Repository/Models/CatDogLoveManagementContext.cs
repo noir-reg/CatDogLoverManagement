@@ -45,18 +45,6 @@ namespace CatDogLoverManagement.Repository.Models
 
             return strConn;
         }
-
-        private string GetConnectionString()
-        {
-            IConfiguration config = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true)
-            .Build();
-            var strConn = config["ConnectionStrings:CatDogLoverManagementDb"];
-
-            return strConn;
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Animal>(entity =>
@@ -124,12 +112,6 @@ namespace CatDogLoverManagement.Repository.Models
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Comment__PostId__3F466844");
-
-                entity.HasOne(d => d.Service)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.ServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Comment__Service__403A8C7D");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Comments)

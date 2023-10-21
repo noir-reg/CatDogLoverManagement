@@ -1,0 +1,60 @@
+﻿@page
+@model CatDogLoverManagement.Pages.NewFolder.animallistModel
+
+@{
+    ViewData["Title"] = "animallist";
+}
+
+<h1>animallist</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Animal[0].AnimalName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Animal[0].AnimalType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Animal[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Animal[0].Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Animal[0].Age)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Animal) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnimalName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnimalType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.AnimalId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.AnimalId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.AnimalId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

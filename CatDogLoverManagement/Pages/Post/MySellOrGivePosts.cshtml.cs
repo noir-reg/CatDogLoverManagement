@@ -8,23 +8,22 @@ using System.Text.Json;
 
 namespace CatDogLoverManagement.Pages.Post
 {
-    public class ListModel : PageModel
+    public class MySellList : PageModel
     {
         private readonly IBlogPostRepository blogPostRepository;
 
-        public List<BlogPost> BlogPosts { get; set; }
-        public ListModel(IBlogPostRepository blogPostRepository)
+        public IEnumerable<SellOrGivePostDTO> BlogPosts { get; set; }
+        public MySellList(IBlogPostRepository blogPostRepository)
         {
             this.blogPostRepository = blogPostRepository;
         }
         public async Task OnGet()
         {
-            var notificationJson = (string)TempData["Notification"];
-            if (notificationJson != null)
-            {
-                ViewData["Notification"] = JsonSerializer.Deserialize<Notification>(notificationJson);
+            var id= HttpContext.Session.GetString("userId");
+            if (!string.IsNullOrEmpty(id)) {
+                BlogPosts = await blogPostRepository.GetAllSellPostAsync(id);
             }
-            BlogPosts = (await blogPostRepository.GetAllAsync())?.ToList();
+            
         }
     }
 }

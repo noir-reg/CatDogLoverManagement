@@ -15,19 +15,23 @@ namespace CatDogLoverManagement.Pages
 
         [BindProperty]
         public Login LoginViewModel { get; set; }
-        
+
 
         public LoginModel(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
         }
-            
-        
+
+
         public void OnGet()
         {
-            
-        }
 
+        }
+        public IActionResult OnGetLogout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToPage("Home");
+        }
         public async Task<IActionResult> OnPost(string ReturnUrl)
         {
             var result = await userRepository.LoginAsync(LoginViewModel.Username, LoginViewModel.Password);
@@ -39,7 +43,9 @@ namespace CatDogLoverManagement.Pages
 
             HttpContext.Session.SetString("username", LoginViewModel.Username);
 
-            return RedirectToPage("Welcome");
+            HttpContext.Session.SetString("userId", result.UserId.ToString());
+
+            return RedirectToPage("Home");
 
             //var signInResult = await signInManager.PasswordSignInAsync(
             //  LoginViewModel.Username, LoginViewModel.Password, false, false);

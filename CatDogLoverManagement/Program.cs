@@ -1,3 +1,4 @@
+using CatDogLoverManagement.Pages.Post;
 using CatDogLoverManagement.Repository;
 using CatDogLoverManagement.Repository.Models;
 using CatDogLoverManagement.Repository.Repositories;
@@ -14,7 +15,7 @@ namespace CatDogLoverManagement
 
             //Add services to the container.
             builder.Services.AddRazorPages();
-            
+
             //API Image 
             builder.Services.AddControllers();
 
@@ -23,9 +24,14 @@ namespace CatDogLoverManagement
             //    builder.Configuration.GetConnectionString("CatDogLoverManagementDb")));
 
             //CRUD Repository
-           builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
-           builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IImageRepository, ImageRepositoryCloudinary>();
+            builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+            builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+            builder.Services.AddScoped<ITimeFrameRepository, TimeFrameRepository>();
+            builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
             //Login
             //builder.Services.AddIdentity<IdentityUser, IdentityRole>()

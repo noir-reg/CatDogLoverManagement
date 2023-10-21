@@ -11,12 +11,12 @@
 
 <partial name="_Notification" />
 
-@if(Model.BlogPost != null)
+@if(Model.BlogPost != null&&Model.Animal!=null)
 {
     <div>
         <div class="container">
             <form method="post">
-                <div class="mb-3">
+                <div class="mb-3" style="display:none">
                     <label for="id" class="form-label">Post Id</label>
                     <input type="text" class="form-control" id="id" asp-for="BlogPost.PostId" readonly />
                 </div>
@@ -34,7 +34,7 @@
                     <input type="text" class="form-control" id="price" asp-for="BlogPost.Price" />
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3" style="display:none">
                     <label for="createdDate" class="form-label">CreatedDate</label>
                     <input type="date" class="form-control" id="createdDate" asp-for="BlogPost.CreatedDate" />
                 </div>
@@ -59,32 +59,54 @@
                     <input type="text" class="form-control" id="image" asp-for="BlogPost.Image" />
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3" style="display:none">
                     <label for="status" class="form-label">Status</label>
                     <input type="text" class="form-control" id="status" asp-for="BlogPost.Status" />
                 </div>
 
                 <div class="mb-3">
+                    <label for="status" class="form-label">Type</label>                                                      
+                    <input type="text" class="form-control" id="type" asp-for="Animal.AnimalType" />     
+                </div>
+                <div class="mb-3" >
+                    <label for="status" class="form-label">Age</label>
+                    <input type="text" class="form-control" id="age" asp-for="Animal.Age" />
+
+                </div>
+                <div class="mb-3" >
+                    <label for="status" class="form-label">Gender</label>
+                    <input type="text" class="form-control" id="gender" asp-for="Animal.Gender" />
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" asp-for="Animal.AnimalName" />
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Animal Description</label>
+                    <input type="text" class="form-control" id="animaldescription" asp-for="Animal.Description" />
+                </div>
+               <div class="mb-3" style="display:none">
                     <label for="userId" class="form-label">UserID</label>
                     <input type="text" class="form-control" id="userId" asp-for="BlogPost.UserId" readonly />
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3" style="display:none">
                     <label for="animalId" class="form-label">AnimalID</label>
                     <input type="text" class="form-control" id="animalId" asp-for="BlogPost.AnimalId" readonly />
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3" style="display:none">
                     <label for="service" class="form-label">ServiceId</label>
                     <input type="text" class="form-control" id="serviceId" asp-for="BlogPost.ServiceId" readonly />
-                </div>
+                </div> 
 
                 <div class="mb-3 d-flex justify-content-between">
-                    <button class="btn btn-primary" type="submit" asp-page-handler="Edit">Submit</button>
+                    <button class="btn btn-primary" type="submit" asp-page="EditSellOrGivePost" asp-page-handler="Edit">Submit</button>
 
-                    <button class="btn btn-danger" type="submit" asp-page-handler="Delete">Delete</button>
+                    <button class="btn btn-danger" type="submit" asp-page="EditSellOrGivePost" asp-page-handler="Delete">Delete</button>
                 </div>
             </form>
+            
         </div>
     </div>
 }

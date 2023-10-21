@@ -7,16 +7,19 @@ using System.Threading.Tasks;
 
 namespace CatDogLoverManagement.Repository.Models.ViewModels
 {
-    public class AddBlogPost
+    public class AddAnimal
     {
         [Required]
-        public string Title { get; set; }
+        public string AnimalName { get; set; } = null!;
+        [Required]
+        public string AnimalType { get; set; } = null!;
         [Required]
         public string Description { get; set; } = null!;
         [Required]
-        public decimal Price { get; set; }
+        public string Gender { get; set; } = null!;
         [Required]
-        public string Image { get; set; } = null!;
+        public int Age { get; set; }
     }
-}
 
+    
+}

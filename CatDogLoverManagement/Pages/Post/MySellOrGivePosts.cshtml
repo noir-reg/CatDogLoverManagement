@@ -1,0 +1,88 @@
+﻿@page
+@model CatDogLoverManagement.Pages.Post.MySellList
+@{
+}
+
+<partial name="_Notification">
+
+    @if (Model.BlogPosts != null && Model.BlogPosts.Any())
+    {
+        @foreach (var blog in Model.BlogPosts)
+        {
+            <div>
+                <div class="container">
+                    <form method="post">
+                        <div class="mb-3" style="display:none">
+                            <label for="id" class="form-label">Post Id</label>
+                            @blog.PostId"/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title:</label>
+                            @blog.Title
+                        </div>
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Status:</label>
+                            @blog.Status
+                        </div>
+                        <div class="mb-3">
+                            <label for="createdDate" class="form-label">Created Date:</label>
+                            @blog.CreatedDate
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description:</label>
+                            @blog.Description
+                        </div>
+
+                        
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image</label>
+                            <img src="@blog.Image" style="width:300px;" />
+                        </div>
+                        <div class="mb-3" style="display:none">
+                            <label for="userId" class="form-label">UserID</label>
+                            <input type="text" class="form-control" id="userId" asp-for="@blog.UserId" />
+                        </div>
+                        <div class="mb-3" style="display:none">
+                            <label for="animalId" class="form-label">AnimalID</label>
+                            <input type="text" class="form-control" id="animalId" asp-for="@blog.AnimalId" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Type:</label>
+                            @blog.AnimalType
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Name:</label>
+                            @blog.AnimalName
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Gender:</label>
+                            @blog.Gender
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Age:</label>
+                            @blog.Age
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Animal Description:</label>
+                            @blog.AnimalDescription
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price:</label>
+                            @blog.Price
+                        </div>
+                        <div class="mb-3 d-flex justify-content-between">
+
+                            <a href="EditSellOrGivePost/@blog.PostId">Modify</a>
+                           
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+    <div>
+        <p>No Blog Posts Were Found!.</p>
+    </div>
+    }

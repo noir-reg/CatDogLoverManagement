@@ -1,0 +1,54 @@
+﻿@page
+@model CatDogLoverManagement.Pages.NewFolder.animalModel
+
+@{
+    ViewData["Title"] = "animal";
+}
+
+<h1>animal</h1>
+
+<h4>Animal</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Animal.AnimalName" class="control-label"></label>
+                <input asp-for="Animal.AnimalName" class="form-control" />
+                <span asp-validation-for="Animal.AnimalName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Animal.AnimalType" class="control-label"></label>
+                <input asp-for="Animal.AnimalType" class="form-control" />
+                <span asp-validation-for="Animal.AnimalType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Animal.Description" class="control-label"></label>
+                <input asp-for="Animal.Description" class="form-control" />
+                <span asp-validation-for="Animal.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Animal.Gender" class="control-label"></label>
+                <input asp-for="Animal.Gender" class="form-control" />
+                <span asp-validation-for="Animal.Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Animal.Age" class="control-label"></label>
+                <input asp-for="Animal.Age" class="form-control" />
+                <span asp-validation-for="Animal.Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

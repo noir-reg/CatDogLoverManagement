@@ -13,9 +13,14 @@ namespace CatDogLoverManagement.Repository.Repositories
         private readonly CatDogLoveManagementContext catDogLoveManagementContext = new();
         public async Task<User> AddAsync(User user)
         {
-            await catDogLoveManagementContext.Users.AddAsync(user);
-            await catDogLoveManagementContext.SaveChangesAsync();
-            return user;
+            var check = await catDogLoveManagementContext.Users.Where(x => x.Username == user.Username).FirstOrDefaultAsync();
+            if (check==null)
+            {
+                await catDogLoveManagementContext.Users.AddAsync(user);
+                await catDogLoveManagementContext.SaveChangesAsync();
+                return user;
+            }
+            return null;
         }
 
         public Task<bool> DeleteAsync(Guid id)
