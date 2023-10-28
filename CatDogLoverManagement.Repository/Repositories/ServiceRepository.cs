@@ -1,4 +1,5 @@
 ﻿using CatDogLoverManagement.Repository.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,9 @@ namespace CatDogLoverManagement.Repository.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Service> GetAsync(Guid id)
+        public async Task<Service> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await catDogLoveManagementContext.Services.FirstOrDefaultAsync(c => c.ServiceId == id);
         }
 
         public async Task<bool> UpdateAsync(Service service)
@@ -32,7 +33,6 @@ namespace CatDogLoverManagement.Repository.Repositories
                 existingService.Description = service.Description;
                 existingService.OpenDate = service.OpenDate;
                 existingService .Note = service.Note;
-
             }
             var result = await catDogLoveManagementContext.SaveChangesAsync();
             if (result > 0)

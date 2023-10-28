@@ -35,7 +35,7 @@ namespace CatDogLoverManagement.Repository.Repositories
 
         public async Task<User> LoginAsync(string username, string password)
         {
-            return await catDogLoveManagementContext.Users.FirstOrDefaultAsync(x => x.Username == username && x.Password == password);
+            return await catDogLoveManagementContext.Users.Include(c => c.Role).FirstOrDefaultAsync(x => x.Username == username && x.Password == password);
         }
 
         public Task<User> UpdateAsync(User user)

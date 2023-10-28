@@ -109,7 +109,6 @@ namespace CatDogLoverManagement.Repository.Repositories
                 }
             }
 
-
             return false;
         }
 

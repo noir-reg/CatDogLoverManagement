@@ -33,7 +33,6 @@ namespace CatDogLoverManagement.Pages
                 Password = RegisterViewModel.Password,
                 Phonenumber = RegisterViewModel.Phonenumber,
                 RoleId = await roleRepository.GetRoleId(Role.user.ToString())
-
             };
 
             var result = await userRepository.AddAsync(user);

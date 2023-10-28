@@ -44,6 +44,7 @@ namespace CatDogLoverManagement.Pages
             HttpContext.Session.SetString("username", LoginViewModel.Username);
 
             HttpContext.Session.SetString("userId", result.UserId.ToString());
+            HttpContext.Session.SetString("Role", result.Role.RoleName);
 
             return RedirectToPage("Home");
 

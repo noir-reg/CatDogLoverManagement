@@ -9,7 +9,6 @@ namespace CatDogLoverManagement.Repository.Models
         public Guid ServiceId { get; set; }
         public TimeSpan? From { get; set; }
         public TimeSpan? To { get; set; }
-
         public virtual Service Service { get; set; } = null!;
     }
 }

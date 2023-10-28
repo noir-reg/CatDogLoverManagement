@@ -29,9 +29,9 @@ namespace CatDogLoverManagement.Pages.Post
             this.timeFrameRepository = timeFrameRepository;
 
         }
-        public async Task OnGet(string id)
+        public async Task OnGet(Guid id)
         {
-            BlogPost = await blogPostRepository.GetAsync(Guid.Parse(id));
+            BlogPost = await blogPostRepository.GetAsync(id);
             if (BlogPost.ServiceId != null)
                 Service = await serviceRepository.GetAsync((Guid)BlogPost.ServiceId);
             if (Service != null)

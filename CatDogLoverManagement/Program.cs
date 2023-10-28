@@ -40,6 +40,7 @@ namespace CatDogLoverManagement
             // Use session
             builder.Services.AddSession();
             builder.Services.AddMvc();
+            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 

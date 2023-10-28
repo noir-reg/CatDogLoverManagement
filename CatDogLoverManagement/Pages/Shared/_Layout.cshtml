@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -68,10 +72,19 @@
 
 
                     </ul>
-                    <div>
-                        <a href="/login" class="btn bg-light text-dark me-3">Login</a>
-                        <a href="/register" class="btn bg-light text-dark me-3">Register</a>
-                    </div>
+                    @if (HttpContextAccessor.HttpContext.Session.GetString("userId") == null)
+                    {
+                        <div>
+                            <a href="/login" class="btn bg-light text-dark me-3">Login</a>
+                            <a href="/register" class="btn bg-light text-dark me-3">Register</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <a asp-page="Login" asp-page-handler="Logout" class="btn btn-dark">LogOut</a>
+                        </div>
+                    }
                 </div>
             </div>
         </nav>
