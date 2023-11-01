@@ -6,7 +6,7 @@
 {
     @foreach (var blog in Model.BlogPosts)
     {
-        <div>
+        <div onclick="toggleContent('@blog.PostId')">
             <div class="container">
                 <form method="post" action="EditServicePost/@blog.PostId">
                     <div class="mb-3" style="display:none">
@@ -26,56 +26,58 @@
                         <label for="createdDate" class="form-label">Created Date:</label>
                         @blog.CreatedDate
                     </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description:</label>
-                        @blog.Description
-                    </div>
+                    <div class="content" id=@blog.PostId>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description:</label>
+                            @blog.Description
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Image</label>
-                        <img src="@blog.Image" style="width:300px;" />
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image</label>
+                            <img src="@blog.Image" style="width:300px;" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Name:</label>
+                            @blog.ServiceName
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Note:</label>
+                            @blog.ServiceNote
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Address:</label>
+                            @blog.Address
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Open Date:</label>
+                            @blog.OpenDate
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">From:</label>
+                            @blog.From
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">To:</label>
+                            @blog.To
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price:</label>
+                            @blog.Price
+                        </div>
                     </div>
                     <div class="mb-3" style="display:none">
                         <label for="userId" class="form-label">UserID</label>
-                        <input type="text" class="form-control" id="userId" asp-for="@blog.UserId" />
+                        <input type="hidden" class="form-control" id="userId" asp-for="@blog.UserId" />
                     </div>
                     <div class="mb-3" style="display:none">
                         <label for="animalId" class="form-label">ServiceID</label>
-                        <input type="text" class="form-control" id="serviceId" asp-for="@blog.ServiceId" />
+                        <input type="hidden" class="form-control" id="serviceId" asp-for="@blog.ServiceId" />
                     </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Name:</label>
-                        @blog.ServiceName
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Note:</label>
-                        @blog.ServiceNote
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Address:</label>
-                        @blog.Address
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Open Date:</label>
-                        @blog.OpenDate
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">From:</label>
-                        @blog.From
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">To:</label>
-                        @blog.To
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Price:</label>
-                        @blog.Price
-                    </div>
-
                     <div class="mb-3 d-flex justify-content-between">
                         <a href="EditServicePost/@blog.PostId">Modify</a>
                     </div>
                 </form>
+                <hr style="height: 2px; margin: 10px 0; background-color: black;" />
             </div>
         </div>
     }
@@ -87,3 +89,22 @@ else
         <p>No Blog Posts Were Found!.</p>
     </div>
 }
+<style>
+    .content {
+        display: none;
+    }
+</style>
+
+
+<script>
+    function toggleContent(id) {
+        var content = document.getElementById(id);
+
+        if (content.style.display == "none") {
+            content.style.display = "block";
+
+        } else {
+            content.style.display = "none";
+        }
+    }
+</script>

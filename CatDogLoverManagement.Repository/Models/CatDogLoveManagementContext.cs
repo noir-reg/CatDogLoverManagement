@@ -135,9 +135,6 @@ namespace CatDogLoverManagement.Repository.Models
                 entity.Property(e => e.Price).HasColumnType("money");
 
                 entity.Property(e => e.Status).HasMaxLength(50);
-
-                entity.Property(e => e.TypeService).HasMaxLength(1);
-
                 entity.HasOne(d => d.Animal)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.AnimalId)

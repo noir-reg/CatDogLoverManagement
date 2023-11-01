@@ -11,7 +11,7 @@
 
 <partial name="_Notification" />
 
-@if(Model.BlogPost != null&&Model.Animal!=null)
+@if (Model.BlogPost != null && Model.Animal != null)
 {
     <div>
         <div class="container">
@@ -30,6 +30,13 @@
                 </div>
 
                 <div class="mb-3">
+                    <div>
+                        <label for="option1">Sell</label>
+                        <input type="radio" id="option1" name="options" value="sell" onClick="myFunction()">
+
+                        <label for="option2">Give</label>
+                        <input type="radio" id="option2" name="options" value="give" onClick="myFunction()">
+                    </div>
                     <label for="price" class="form-label">Price</label>
                     <input type="text" class="form-control" id="price" asp-for="BlogPost.Price" />
                 </div>
@@ -43,7 +50,7 @@
                     <label for="featuredImageUpload" class="form-label">Featured Image Upload</label>
                     <input type="file" id="featuredImageUpload" asp-for="FeaturedImage" />
 
-                    @if(Model.BlogPost.Image != null)
+                    @if (Model.BlogPost.Image != null)
                     {
                         <img src="" id="featuredImageDisplay" style="width:300px;" />
                     }
@@ -51,10 +58,10 @@
                     {
                         <img src="" id="featuredImageDisplay" style="display:none; width:300px;" />
                     }
-                    
+
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3" style="display:none">
                     <label for="image" class="form-label">Image</label>
                     <input type="text" class="form-control" id="image" asp-for="BlogPost.Image" />
                 </div>
@@ -65,17 +72,27 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="status" class="form-label">Type</label>                                                      
-                    <input type="text" class="form-control" id="type" asp-for="Animal.AnimalType" />     
+                    <label for="status" class="form-label">Type</label>
+                    <div>
+                        <select asp-for="Animal.AnimalType">
+                            <option value="Cat">Cat</option>
+                            <option value="Dog">Dog</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="mb-3" >
-                    <label for="status" class="form-label">Age</label>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Age (month)</label>
                     <input type="text" class="form-control" id="age" asp-for="Animal.Age" />
 
                 </div>
-                <div class="mb-3" >
+                <div class="mb-3">
                     <label for="status" class="form-label">Gender</label>
-                    <input type="text" class="form-control" id="gender" asp-for="Animal.Gender" />
+                    <div>
+                        <select asp-for="Animal.Gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Name</label>
@@ -83,9 +100,9 @@
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Animal Description</label>
-                    <input type="text" class="form-control" id="animaldescription" asp-for="Animal.Description" />
+                    <textarea type="text" class="form-control" id="animaldescription" asp-for="Animal.Description" ></textarea>
                 </div>
-               <div class="mb-3" style="display:none">
+                <div class="mb-3" style="display:none">
                     <label for="userId" class="form-label">UserID</label>
                     <input type="text" class="form-control" id="userId" asp-for="BlogPost.UserId" readonly />
                 </div>
@@ -98,7 +115,7 @@
                 <div class="mb-3" style="display:none">
                     <label for="service" class="form-label">ServiceId</label>
                     <input type="text" class="form-control" id="serviceId" asp-for="BlogPost.ServiceId" readonly />
-                </div> 
+                </div>
 
                 <div class="mb-3 d-flex justify-content-between">
                     <button class="btn btn-primary" type="submit" asp-page="EditSellOrGivePost" asp-page-handler="Edit">Submit</button>
@@ -106,7 +123,7 @@
                     <button class="btn btn-danger" type="submit" asp-page="EditSellOrGivePost" asp-page-handler="Delete">Delete</button>
                 </div>
             </form>
-            
+
         </div>
     </div>
 }
@@ -147,6 +164,20 @@ else
                 });
         }
         featuredImageUploadElement.addEventListener('change', uploadfeaturedImage);
+        function myFunction() {
+            var radios = document.getElementsByName("options");
+            var price = document.getElementById("price");
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[1].checked) {
+                    price.value = 0;
+                    price.disabled = true;
+                } else {
+                    price.disabled = false;
+                    price.value = "";
+                }
+            }
+
+        }
 
     </script>
 }

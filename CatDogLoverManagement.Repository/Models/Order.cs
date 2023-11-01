@@ -11,14 +11,14 @@ namespace CatDogLoverManagement.Repository.Models
         }
 
         public Guid OrderId { get; set; }
-        public DateTime OrderDate { get; set; }
-        public DateTime BookedDate { get; set; }
-        public DateTime BookedTime { get; set; }
-        public string Status { get; set; } = null!;
-        public decimal Price { get; set; }
-        public string TypeService { get; set; } = null!;
-        public Guid BuyerId { get; set; }
-        public Guid SellerId { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public DateTime? BookedDate { get; set; }
+        public DateTime? BookedTime { get; set; }
+        public string? Status { get; set; } = null!;
+        public decimal? Price { get; set; }
+         
+        public Guid? BuyerId { get; set; }
+        public Guid? SellerId { get; set; }
         public Guid? AnimalId { get; set; }
         public Guid? ServiceId { get; set; }
 
