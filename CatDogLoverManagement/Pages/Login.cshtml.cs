@@ -6,12 +6,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using CatDogLoverManagement.Repository.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Text.Json;
+using Microsoft.VisualBasic;
 
 namespace CatDogLoverManagement.Pages
 {
     public class LoginModel : PageModel
     {
         private readonly IUserRepository userRepository;
+        public string Msg { get; set; }
 
         [BindProperty]
         public Login LoginViewModel { get; set; }
@@ -34,12 +37,13 @@ namespace CatDogLoverManagement.Pages
         }
         public async Task<IActionResult> OnPost(string ReturnUrl)
         {
-            var result = await userRepository.LoginAsync(LoginViewModel.Username, LoginViewModel.Password);
+            var result = await userRepository.LoginAsync(LoginViewModel.Username.Trim(), LoginViewModel.Password.Trim());
             if (result == null)
             {
                 ModelState.AddModelError(string.Empty, "Invalid username or password");
                 return Page();
             }
+
 
             HttpContext.Session.SetString("username", LoginViewModel.Username);
 
@@ -48,28 +52,36 @@ namespace CatDogLoverManagement.Pages
 
             return RedirectToPage("Home");
 
-            //var signInResult = await signInManager.PasswordSignInAsync(
-            //  LoginViewModel.Username, LoginViewModel.Password, false, false);
 
-            //if (signInResult.Succeeded)
-            //{
-            //    if (!string.IsNullOrWhiteSpace(ReturnUrl))
+            // var result = await userRepository.GetAccount(LoginViewModel.Username.Trim(), LoginViewModel.Password.Trim());
+            // if(result == null)
+            // {
+
+            //     Msg = "Account is not found";
+            //     return Page();
+            //}
+
+            // if (result.UserId == 00000000-0000-0000-0000-000000000000)
             //    {
-            //        return RedirectToPage(ReturnUrl);
+            //         string jsonString = JsonSerializer.Serialize(result);
+            //         HttpContext.Session.SetString("account", jsonString);
+            //          return RedirectToPage("/Admin/AccessPostList");
             //    }
+            //  else
+            //     {
+            //     string jsonString = JsonSerializer.Serialize(result);
+            //     HttpContext.Session.SetString("account", jsonString);
 
-            //    return RedirectToPage("Index");
-            //}
-            //else
-            //{
-            //    ViewData["Notification"] = new Notification
-            //    {
-            //        type = Repository.Models.Enums.NotificationType.Error,
-            //        Message = "Unable to Login"
-            //    };
+            //     return RedirectToPage("/Post/servicePosts");
+            //      }
 
-            //    return Page();
-            //}
+
+
+
+
+            return Page();
+
+
         }
 
     }

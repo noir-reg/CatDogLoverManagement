@@ -1,0 +1,47 @@
+﻿@page
+@model CatDogLoverManagement.Pages.Admin.AccessPostListModel
+@{
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>List BlogPost</h1>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Post ID</td>
+                <td>Title</td>
+                <td>Status</td>
+                <td> </td>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var blogPost in Model.BlogPosts)
+            {
+                <tr>
+                    <td>@blogPost.PostId</td>
+                    <td>@blogPost.Title</td>
+                    <td>@blogPost.Status</td>
+
+                    @if (blogPost.ServiceId != null)
+                    {
+                        <td>@blogPost.ServiceId</td>
+                        <td><a href="/admin/EditService/@blogPost.PostId">View</a></td>
+                    }
+                    @if (blogPost.AnimalId != null)
+                    {
+                        <td>@blogPost.AnimalId</td>
+                        <td><a href="/admin/EditAnimal/@blogPost.PostId">View</a></td>
+                    }
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

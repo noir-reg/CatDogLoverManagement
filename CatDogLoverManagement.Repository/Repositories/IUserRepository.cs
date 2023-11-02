@@ -1,4 +1,5 @@
 ﻿using CatDogLoverManagement.Repository.Models;
+using CatDogLoverManagement.Repository.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace CatDogLoverManagement.Repository.Repositories
         Task<User> UpdateAsync(User user);
         Task<bool> DeleteAsync(Guid id);
         Task<User> LoginAsync(string username, string password);
+        Task<AccountDTO> GetAccount(string username, string password);
     }
 }

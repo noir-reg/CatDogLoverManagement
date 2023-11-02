@@ -1,5 +1,7 @@
 ﻿using CatDogLoverManagement.Repository.Models;
+using CatDogLoverManagement.Repository.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +30,35 @@ namespace CatDogLoverManagement.Repository.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<AccountDTO> GetAccount(string username, string password)
+        {
+            var user = await catDogLoveManagementContext.Users.Where(x => x.Username.Equals(username) && x.Password == password).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                IConfiguration config = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", true, true)
+                    .Build();
+                var adminUsername = config["AdminAccount:userName"];
+                var adminPassword = config["AdminAccount:passWord"];
+                
+                if(adminUsername.Equals(username) && adminPassword.Equals(password))
+                {
+                    return new AccountDTO { Username = adminUsername, Password = adminPassword };
+                }
+                return null;
+            }
+            return new AccountDTO
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email,
+                Password = user.Password,
+                Phonenumber = user.Phonenumber,
+                RoleId = user.RoleId,
+            };
+        }
+
         public Task<User> GetAsync(Guid id)
         {
             throw new NotImplementedException();
@@ -42,5 +73,7 @@ namespace CatDogLoverManagement.Repository.Repositories
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }
