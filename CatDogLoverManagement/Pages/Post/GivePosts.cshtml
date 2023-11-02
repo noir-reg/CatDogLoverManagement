@@ -1,0 +1,52 @@
+﻿@page
+@model CatDogLoverManagement.Pages.Post.GivePostsModel
+@{
+}
+@if (Model.BlogPosts != null && Model.BlogPosts.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Created Date
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.BlogPosts)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+
+                    <td>
+                        <a href="Comments/@item.PostId">View comments</a>
+                    </td>
+                </tr>
+            }
+
+
+
+        </tbody>
+    </table>
+}
+else
+{
+    <h1>Empty</h1>
+}
