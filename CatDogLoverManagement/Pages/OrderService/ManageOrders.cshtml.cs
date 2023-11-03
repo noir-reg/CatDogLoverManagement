@@ -55,6 +55,7 @@ namespace CatDogLoverManagement.Pages.OrderService
             bool result  = await orderServiceRepository.UpdateAsync(order);
             if (result)
             {
+                TempData["success"] = "Approved order successfully";
                 Order = await orderServiceRepository.GetAllOrderedAsync(null, userId);
             }
             Order = await orderServiceRepository.GetAllOrderedAsync(null, userId);

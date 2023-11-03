@@ -58,7 +58,7 @@
                             @if (item.ServiceModel != null)
                             {
                             <h5>Service</h5>
-                            <button class="active">@item.From - @item.To</button>
+                            <div class="badge bg-danger p-2" >@item.From - @item.To</div>
                             }
                             else
                             {
@@ -92,7 +92,7 @@
                             }
                             else if (item.Status.Equals("Waiting"))
                             {
-                            <button class="badge bg-secondary" type="submit">Approve</button>
+                            <button class="badge bg-info p-2" type="submit">Approve</button>
                             }
                             else if (item.Status.Equals("Approved"))
                             {

@@ -10,13 +10,20 @@ using System.Threading.Tasks;
 namespace CatDogLoverManagement.Repository.Repositories
 {
     public class TimeFrameRepository : ITimeFrameRepository
-    {  private readonly CatDogLoveManagementContext context=new();
-        
+    {
+        private readonly CatDogLoveManagementContext context = new();
+
 
         public async Task<TimeFrame> GetAsync(Guid id)
         {
-            var time= await context.TimeFrames.Where(x=>x.ServiceId==id).FirstOrDefaultAsync();
+            var time = await context.TimeFrames.Where(x => x.ServiceId == id).FirstOrDefaultAsync();
             return time;
+        }
+
+        public async Task<List<TimeFrame>> GetListTimeFrameByServiceId(Guid serviceId)
+        {
+            var listTime = await context.TimeFrames.Where(x => x.ServiceId == serviceId).ToListAsync();
+            return listTime;
         }
 
         public async Task<TimeFrame> GetTimeFrameByIdAsync(Guid id)
@@ -31,12 +38,26 @@ namespace CatDogLoverManagement.Repository.Repositories
 
             if (existingTimeFrame != null)
             {
-                existingTimeFrame.From=timeFrame.From;
-                existingTimeFrame.To=timeFrame.To;
+                existingTimeFrame.From = timeFrame.From;
+                existingTimeFrame.To = timeFrame.To;
             }
             var result = await context.SaveChangesAsync();
             if (result > 0)
                 return true;
+            return false;
+        }
+
+        public async Task<bool> UpdateRangeAync(List<TimeFrame> listTime)
+        {
+            if (listTime.Count > 0)
+            {
+                context.TimeFrames.UpdateRange(listTime);
+                var result = context.SaveChanges();
+                if(result == listTime.Count)
+                {
+                    return true;
+                }
+            }
             return false;
         }
     }

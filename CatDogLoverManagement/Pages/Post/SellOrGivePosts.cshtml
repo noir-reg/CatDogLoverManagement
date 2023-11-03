@@ -12,112 +12,113 @@
 }
 <partial name="_Notification">
 
-    @if (Model.BlogPosts != null && Model.BlogPosts.Any())
-    {
-        @foreach (var blog in Model.BlogPosts)
-        {
-            <div>
-                <div class="container">
-
-                    <div>
-                        @if (!string.IsNullOrEmpty(id))
-                        {
-                            if (id.Equals(blog.UserId.ToString()))
-                            {
-                                <h5>Your Post</h5>
-                            }
-                        }
-                    </div>
-
-                    <form method="post">
-                        <div class="mb-3" style="display:none">
-                            <label for="id" class="form-label">Post Id</label>
-                            <input type="text" class="form-control" id="userId" asp-for="@blog.PostId" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title:</label>
-                            @blog.Title
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description:</label>
-                            @blog.Description
-                        </div>
-                        <div class="mb-3">
-                            <label for="createdDate" class="form-label">Created Date:</label>
-                            @blog.CreatedDate
-                        </div>
-                        <div class="mb-3">
-                            <label for="image" class="form-label">Image</label>
-                            <img src="@blog.Image" style="width:300px;" />
-                        </div>
-                        <div class="mb-3" style="display:none">
-                            <label for="userId" class="form-label">UserID</label>
-                            <input type="hidden" class="form-control" id="userId" asp-for="@blog.UserId" />
-                        </div>
-                        <div class="mb-3" style="display:none">
-                            <label for="animalId" class="form-label">AnimalID</label>
-                            <input type="hidden" class="form-control" id="userId" asp-for="@blog.AnimalId" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="type" class="form-label">Type:</label>
-                            @blog.AnimalType
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name:</label>
-                            @blog.AnimalName
-                        </div>
-                        <div class="mb-3">
-                            <label for="gender" class="form-label">Gender:</label>
-                            @blog.Gender
-                        </div>
-                        <div class="mb-3">
-                            <label for="age" class="form-label">Age (month):</label>
-                            @blog.Age
-                        </div>
-                        <div class="mb-3">
-                            <label for="animaldescription" class="form-label">Animal Description:</label>
-                            @blog.AnimalDescription
-                        </div>
-                        <div class="mb-3">
-                            <label for="price" class="form-label">Price:</label>
-                            @blog.Price
-                            @if (@blog.Price == (Decimal)0)
-                            {
-                                <span>(You can comment to get a chance to receive this give a way)</span>
-                            }
-                        </div>
-                        @if (@blog.Price > (Decimal)0)
-                        {
-                            @if (!string.IsNullOrEmpty(id))
-                            {
-                                if (!id.Equals(blog.UserId.ToString()))
-                                {
-                                    <div class="mb-3 d-flex justify-content-between">
-                                        <button class="btn btn-danger" type="submit" asp-page-handler="Order">Order</button>
-                                    </div>
-                                }
-                            }
-                        }
-                    </form>
-                    <div id="comment">
-                        <form method="post">
-                            <div class="mb-3">
-                                <label class="form-label">Comment</label>
-                                <input type="text" class="form-control" asp-for="Message" />
-                                <input type="hidden" value="@blog.PostId" class="form-control" asp-for="PostId" />
-                                <input type="hidden" value="@id" class="form-control" asp-for="VolunteerId" />
-                                <button class="btn btn-danger" type="submit" asp-page-handler="AddComment">Ok</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        }
-
-    }
-    else
+@if (Model.BlogPosts != null && Model.BlogPosts.Any())
+{
+    @foreach (var blog in Model.BlogPosts)
     {
         <div>
-            <p>No Blog Posts Were Found!.</p>
+            <div class="container">
+
+                <div>
+                    @if (!string.IsNullOrEmpty(id))
+                    {
+                        if (id.Equals(blog.UserId.ToString()))
+                        {
+                            <h5>Your Post</h5>
+                        }
+                    }
+                </div>
+
+                <form method="post">
+                    <div class="mb-3" style="display:none">
+                        <label for="id" class="form-label">Post Id</label>
+                        <input type="text" class="form-control" id="userId" asp-for="@blog.PostId" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title:</label>
+                        @blog.Title
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description:</label>
+                        @blog.Description
+                    </div>
+                    <div class="mb-3">
+                        <label for="createdDate" class="form-label">Created Date:</label>
+                        @blog.CreatedDate
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image</label>
+                        <img src="@blog.Image" style="width:300px;" />
+                    </div>
+                    <div class="mb-3" style="display:none">
+                        <label for="userId" class="form-label">UserID</label>
+                        <input type="hidden" class="form-control" id="userId" asp-for="@blog.UserId" />
+                    </div>
+                    <div class="mb-3" style="display:none">
+                        <label for="animalId" class="form-label">AnimalID</label>
+                        <input type="hidden" class="form-control" id="userId" asp-for="@blog.AnimalId" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type:</label>
+                        @blog.AnimalType
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name:</label>
+                        @blog.AnimalName
+                    </div>
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">Gender:</label>
+                        @blog.Gender
+                    </div>
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Age (month):</label>
+                        @blog.Age
+                    </div>
+                    <div class="mb-3">
+                        <label for="animaldescription" class="form-label">Animal Description:</label>
+                        @blog.AnimalDescription
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price:</label>
+                        @blog.Price
+                        @if (@blog.Price == (Decimal)0)
+                        {
+                            <span>(You can comment to get a chance to receive this give a way)</span>
+                        }
+                    </div>
+                    @if (@blog.Price > (Decimal)0)
+                    {
+                        @if (!string.IsNullOrEmpty(id))
+                        {
+                            if (!id.Equals(blog.UserId.ToString()))
+                            {
+                                <div class="mb-3 d-flex justify-content-between">
+                                    <button class="btn btn-danger" type="submit" asp-page-handler="Order">Order</button>
+                                </div>
+                            }
+                        }
+                    }
+                </form>
+                <div id="comment">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Comment</label>
+                            <input type="text" class="form-control" asp-for="Message" />
+                            <input type="hidden" value="@blog.PostId" class="form-control" asp-for="PostId" />
+                            <input type="hidden" value="@id" class="form-control" asp-for="VolunteerId" />
+                            <button class="btn btn-danger" type="submit" asp-page-handler="AddComment">Ok</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     }
+
+}
+else
+{
+    <div>
+        <p>No Blog Posts Were Found!.</p>
+    </div>
+}
+    

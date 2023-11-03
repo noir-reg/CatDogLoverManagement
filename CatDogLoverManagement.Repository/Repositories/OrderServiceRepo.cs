@@ -1,4 +1,5 @@
 ﻿using CatDogLoverManagement.Repository.Models;
+using CatDogLoverManagement.Repository.Models.Enums;
 using CatDogLoverManagement.Repository.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -30,7 +31,7 @@ namespace CatDogLoverManagement.Repository.Repositories
                     OrderDate = DateTime.Now,
                     BookedDate = service.OpenDate,
                     BookedTime = timeFrame.From + ";" + timeFrame.To,
-                    Status = "Success",
+                    Status = OrderStatusConst.WAITING,
                     Price = (decimal)(service.Price != null ? service.Price : 0),
                     BuyerId = Guid.Parse(bookerId),
                     SellerId = Guid.Parse(sellerId),

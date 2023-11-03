@@ -18,7 +18,7 @@ namespace CatDogLoverManagement.Pages.Post
         [BindProperty]
         public Service Service { get; set; }
         [BindProperty]
-        public TimeFrame TimeFrame { get; set; }
+        public List<TimeFrame> AddTimeFrameRequest { get; set; }
         public IFormFile FeaturedImage { get; set; }
         public EditServicePostModel(IBlogPostRepository blogPostRepository, IAnimalRepository animalRepository,
             IServiceRepository serviceRepository, ITimeFrameRepository timeFrameRepository)
@@ -36,7 +36,7 @@ namespace CatDogLoverManagement.Pages.Post
                 Service = await serviceRepository.GetAsync((Guid)BlogPost.ServiceId);
             if (Service != null)
             {
-                TimeFrame = await timeFrameRepository.GetAsync(Service.ServiceId);
+                AddTimeFrameRequest = await timeFrameRepository.GetListTimeFrameByServiceId(Service.ServiceId);
             }
         }
 
@@ -44,9 +44,29 @@ namespace CatDogLoverManagement.Pages.Post
         {
             try
             {
+                List<TimeFrame> listTimeDTO = new List<TimeFrame>();
+                if(AddTimeFrameRequest.Count > 0)
+                {
+                    foreach (var timeFrame in AddTimeFrameRequest)
+                    {
+                        if (timeFrame.From != null && timeFrame.To != null)
+                        {
+                            listTimeDTO.Add(timeFrame);
+                        }
+                    }
+                }
+                if(listTimeDTO.Count == 0)
+                {
+                    TempData["error"] = "Please choose time";
+                    return Page();
+                }
                 await blogPostRepository.UpdateAsync(BlogPost);
-                await timeFrameRepository.UpdateAsync(TimeFrame);
-                await serviceRepository.UpdateAsync(Service);
+                await timeFrameRepository.UpdateRangeAync(listTimeDTO);
+                var result  = await serviceRepository.UpdateAsync(Service);
+                if (result)
+                {
+                    TempData["success"] = "Update service successfully";
+                }
                 ViewData["Notification"] = new Notification
                 {
                     Message = "Record updated successfully!",

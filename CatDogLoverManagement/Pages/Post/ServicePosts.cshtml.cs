@@ -56,11 +56,19 @@ namespace CatDogLoverManagement.Pages.Post
             }
             if (SelectedTimeFrame == null)
             {
-                ModelState.AddModelError("SelectedTimeFrame", "Please select a time frame.");
+                TempData["error"] = "Please choose time";
                 return RedirectToPage("ServicePosts");
             }
             var timeFrame = await timeFrameRepository.GetTimeFrameByIdAsync(Guid.Parse(SelectedTimeFrame));
-            await orderServiceRepository.AddOrderServiceAsync(userId, OrderService.SellerId.ToString(), OrderService.ServiceId.ToString(), timeFrame);
+            var result = await orderServiceRepository.AddOrderServiceAsync(userId, OrderService.SellerId.ToString(), OrderService.ServiceId.ToString(), timeFrame);
+            if (result)
+            {
+                TempData["success"] = " Order successfully";
+            }
+            else
+            {
+                TempData["error"] = " Order Failure!";
+            }
             return RedirectToPage("ServicePosts");
         }
 

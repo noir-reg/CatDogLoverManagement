@@ -58,7 +58,7 @@
                             @if (item.ServiceModel != null)
                             {
                             <h5>Service</h5>
-                            <button class="active">@item.From - @item.To</button>
+                            <div class="badge bg-danger p-2" >@item.From - @item.To</div>
                             }
                             else
                             {
@@ -89,7 +89,7 @@
                     <td>
                             @if (item.Status.Equals("Success"))
                             {
-                            <span class="badge bg-primary">Đã Thanh Toán</span>
+                            <span class="badge bg-dark">Đã Thanh Toán</span>
                             }
                             else if (item.Status.Equals("Waiting"))
                             {
@@ -97,7 +97,7 @@
                             }
                             else if (item.Status.Equals("Approved"))
                             {
-                            <button class="badge bg-primary" type="submit">Thanh toán</button>
+                            <button class="badge bg-primary p-2" type="submit">Thanh toán</button>
                             }
                     </td>
                 </tr>

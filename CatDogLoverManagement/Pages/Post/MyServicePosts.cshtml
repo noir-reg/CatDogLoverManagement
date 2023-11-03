@@ -2,89 +2,97 @@
 @model CatDogLoverManagement.Pages.Post.MyServicePostModel
 @{
 }
-@if (Model.BlogPosts != null && Model.BlogPosts.Any())
+
+@if (Model.BlogPosts.Count() > 0)
 {
-    @foreach (var blog in Model.BlogPosts)
-    {
-        <div onclick="toggleContent('@blog.PostId')">
-            <div class="container">
-                <form method="post" action="EditServicePost/@blog.PostId">
-                    <div class="mb-3" style="display:none">
-                        <label for="id" class="form-label">Post Id</label>
-                        <input type="text" class="form-control" id="userId" asp-for="@blog.PostId" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title:</label>
-                        @blog.Title
-                    </div>
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Status:</label>
-                        @blog.Status
-                    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model =>  model.BlogPosts.First().Image)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model =>  model.BlogPosts.First().Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model =>  model.BlogPosts.First().ServiceName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model =>  model.BlogPosts.First().Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model =>  model.BlogPosts.First().OpenDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model =>  model.BlogPosts.First().CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model =>  model.BlogPosts.First().Status)
+                </th>
+                <th>
+                    Time Frame
+                </th>
+                <th>
 
-                    <div class="mb-3">
-                        <label for="createdDate" class="form-label">Created Date:</label>
-                        @blog.CreatedDate
-                    </div>
-                    <div class="content" id=@blog.PostId>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description:</label>
-                            @blog.Description
-                        </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <form method="post" asp-page-handler="DeleteService">
+                @foreach (var item in Model.BlogPosts)
+                {
+                <tr>
+                    <input type="hidden" value="@item.PostId" asp-for="BlogPostsItemId">
+                    <td>
+                        <img src="@item.Image" width="100px" height="100px">
+                    </td>
+                    <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                            @Html.DisplayFor(modelItem => item.ServiceName)
+                    </td>
+                    <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                            @item.OpenDate.ToString("MM/dd/yyyy")
+                    </td>
+                    <td>
+                            @item.CreatedDate.ToString("MM/dd/yyyy")
+                    </td>
+                    <td>
+                            @if (item.Status.Equals("Success"))
+                            {
+                            <span class="badge bg-primary">@Html.DisplayFor(modelItem => item.Status)</span>
+                            }
+                            else if (item.Status.Equals("Waiting"))
+                            {
+                            <span class="badge bg-danger">@Html.DisplayFor(modelItem => item.Status)</span>
+                            }
+                            else if (item.Status.Equals("Approved"))
+                            {
+                            <span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Status)</span>
+                            }
+                    </td>
+                    <td>
+                            @foreach (var timeFrame in item.TimeFrames)
+                            {
+                            <div class="badge bg-danger p-1">@timeFrame.From - @timeFrame.To</div>
+                            }
+                    </td>
+                    <td>
+                        <a href="EditServicePost/@item.PostId" style="text-decoration: none;">
+                            <button type="button" class="bg-primary text-white">Edit</button>
+                        </a>
+                        <button class="badge bg-danger p-2 mt-2" type="submit">Delete</button>
 
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Image</label>
-                        <img src="@blog.Image" style="width:300px;" />
-                    </div>
-                    <div class="mb-3" style="display:none">
-                        <label for="userId" class="form-label">UserID</label>
-                        <input type="text" class="form-control" id="userId" asp-for="@blog.UserId" />
-                    </div>
-                    <div class="mb-3" style="display:none">
-                        <label for="animalId" class="form-label">ServiceID</label>
-                        <input type="text" class="form-control" id="serviceId" asp-for="@blog.ServiceId" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Name:</label>
-                        @blog.ServiceName
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Note:</label>
-                        @blog.ServiceNote
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Address:</label>
-                        @blog.Address
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Open Date:</label>
-                        @blog.OpenDate
-                    </div>
-                    @foreach (var timeframe in blog.TimeFrames)
-                    {
-                        <div class="mb-3">
-                            <label for="price" class="form-label">From:</label>
-                            @timeframe.From
-                        </div>
-                        <div class="mb-3">
-                            <label for="price" class="form-label">To:</label>
-                            @timeframe.To
-                        </div>
-                    }
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Price:</label>
-                        @blog.Price
-                    </div>
-
-                    <div class="mb-3 d-flex justify-content-between">
-                        <a href="EditServicePost/@blog.PostId">Modify</a>
-                    </div>
-                </form>
-                <hr style="height: 2px; margin: 10px 0; background-color: black;" />
-            </div>
-        </div>
-    }
-
+                    </td>
+                </tr>
+                }
+            </form>
+        </tbody>
+    </table>
 }
 else
 {
@@ -92,6 +100,8 @@ else
         <p>No Blog Posts Were Found!.</p>
     </div>
 }
+
+
 <style>
     .content {
         display: none;

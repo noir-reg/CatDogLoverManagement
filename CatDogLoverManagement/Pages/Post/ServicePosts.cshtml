@@ -12,99 +12,99 @@
 }
 <partial name="_Notification">
 
-    @if (Model.BlogPosts != null && Model.BlogPosts.Any())
-    {
-            @foreach (var blog in Model.BlogPosts)
-            {
-                <div>
-                    <div class="container">
-                        <div>
-                            @if (!string.IsNullOrEmpty(id))
-                            {
-                                if (id.Equals(blog.UserId.ToString()))
-                                {
-                                    <h5>Your Post</h5>
-                                }
-                            }
-                        </div>
-                        <form method="post">
-                            <div class="card mt-3">
-                                <div class="row no-gutters">
-                                    <div class="col-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">@blog.Title</h5>
-                                            <p class="card-text">@blog.Description</p>
-                                            <ul class="list-group list-group-flush">
-                                                <input type="hidden" value="@blog.ServiceId" asp-for="OrderService.ServiceId">
-                                                <input type="hidden" value="@blog.UserId" asp-for="OrderService.SellerId">
-                                                <li class="list-group-item"><strong>Created Date:</strong> @blog.CreatedDate</li>
-                                                <li class="list-group-item"><strong>Service Name:</strong> @blog.ServiceName</li>
-                                                <li class="list-group-item"><strong>Service Note:</strong> @blog.ServiceNote</li>
-                                                <li class="list-group-item"><strong>Address:</strong> @blog.Address</li>
-                                                <li class="list-group-item"><strong>Price:</strong> @blog.Price</li>
-                                                <li class="list-group-item"><strong>Open Date:</strong> @blog.OpenDate</li>
-                                            </ul>
-                                            @if (!string.IsNullOrEmpty(id) && !id.Equals(blog.UserId.ToString()))
-                                            {
-                                                <div class="card-footer">
-                                                    <button class="btn btn-danger" asp-page-handler="">Pick Time</button>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <img src="https://bihaku.vn/wp-content/uploads/2020/10/cho-pug-mat-xe.jpg" class="card-img" alt="@blog.Title">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @foreach (var time in blog.TimeFrames)
-                                    {
-                                        <label class="m-3 col" style="display: flex">
-                                            <input type="radio" name="SelectedTimeFrame" value="@time.Id" asp-for="SelectedTimeFrame" >
-                                            @time.From - @time.To
-                                        </label>
-                                    }
-                                </div>
-                                <span asp-validation-for="SelectedTimeFrame" class="text-danger"></span>
-
-                                <button type="submit" class="btn btn-danger">Book</button>
-                            </div>
-                        </form>
-                        <div id="comment">
-                            @foreach (var comment in blog.Comments!)
-                            {
-                                <div class="row">
-                                    <div class="col-3">
-                                        <h5 class="comment-name">@comment.Username</h5>
-                                    </div>
-                                    <div class="col-5">
-                                        <div>
-                                            @comment.CommentMessage
-                                        </div>
-                                        <div>
-                                            @comment.CreatedDate
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            <form method="post">
-                                <div class="mb-3">
-                                    <label class="form-label">Comment</label>
-                                    <input type="text" class="form-control" asp-for="Message" />
-                                    <input type="hidden" value="@blog.PostId" class="form-control" asp-for="PostId" />
-                                    <input type="hidden" value="@id" class="form-control" asp-for="VolunteerId" />
-                                    <button class="btn btn-danger" type="submit" asp-page-handler="AddComment">Ok</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            }
-    }
-    else
+@if (Model.BlogPosts != null && Model.BlogPosts.Any())
+{
+    @foreach (var blog in Model.BlogPosts)
     {
         <div>
-            <p>No Blog Posts Were Found!.</p>
+            <div class="container">
+                <div>
+                    @if (!string.IsNullOrEmpty(id))
+                    {
+                        if (id.Equals(blog.UserId.ToString()))
+                        {
+                            <h5>Your Post</h5>
+                        }
+                    }
+                </div>
+                <form method="post">
+                    <div class="card mt-3">
+                        <div class="row no-gutters">
+                            <div class="col-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">@blog.Title</h5>
+                                    <p class="card-text">@blog.Description</p>
+                                    <ul class="list-group list-group-flush">
+                                        <input type="hidden" value="@blog.ServiceId" asp-for="OrderService.ServiceId">
+                                        <input type="hidden" value="@blog.UserId" asp-for="OrderService.SellerId">
+                                        <li class="list-group-item"><strong>Created Date:</strong> @blog.CreatedDate</li>
+                                        <li class="list-group-item"><strong>Service Name:</strong> @blog.ServiceName</li>
+                                        <li class="list-group-item"><strong>Service Note:</strong> @blog.ServiceNote</li>
+                                        <li class="list-group-item"><strong>Address:</strong> @blog.Address</li>
+                                        <li class="list-group-item"><strong>Price:</strong> @blog.Price</li>
+                                        <li class="list-group-item"><strong>Open Date:</strong> @blog.OpenDate</li>
+                                    </ul>
+                                    @* @if (!string.IsNullOrEmpty(id) && !id.Equals(blog.UserId.ToString()))
+                            {
+                            <div class="card-footer">
+                            <button class="btn btn-danger" asp-page-handler="">Pick Time</button>
+                            </div>
+                            } *@
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <img src="https://bihaku.vn/wp-content/uploads/2020/10/cho-pug-mat-xe.jpg" class="card-img" alt="@blog.Title">
+                            </div>
+                        </div>
+                        <div class="row">
+                            @foreach (var time in blog.TimeFrames)
+                            {
+                                <label class="m-3 col" style="display: flex">
+                                    <input type="radio" name="SelectedTimeFrame" value="@time.Id" asp-for="SelectedTimeFrame">
+                                    @time.From - @time.To
+                                </label>
+                            }
+                        </div>
+                        <span asp-validation-for="SelectedTimeFrame" class="text-danger"></span>
+
+                        <button type="submit" class="btn btn-danger">Book</button>
+                    </div>
+                </form>
+                <div id="comment">
+                    @foreach (var comment in blog.Comments!)
+                    {
+                        <div class="row">
+                            <div class="col-3">
+                                <h5 class="comment-name">@comment.Username</h5>
+                            </div>
+                            <div class="col-5">
+                                <div>
+                                    @comment.CommentMessage
+                                </div>
+                                <div>
+                                    @comment.CreatedDate
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Comment</label>
+                            <input type="text" class="form-control" asp-for="Message" />
+                            <input type="hidden" value="@blog.PostId" class="form-control" asp-for="PostId" />
+                            <input type="hidden" value="@id" class="form-control" asp-for="VolunteerId" />
+                            <button class="btn btn-danger" type="submit" asp-page-handler="AddComment">Ok</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     }
+}
+else
+{
+    <div>
+        <p>No Blog Posts Were Found!.</p>
+    </div>
+}
 

@@ -51,19 +51,30 @@ namespace CatDogLoverManagement.Pages.Post
             {
                 if (AddTimeFrameRequest.Count > 0)
                 {
-                    var result = await blogPostRepository.AddServiceContainListTimeAsync(userId,AddServiceRequest, AddTimeFrameRequest, AddBlogPostRequest);
-                    if (result)
+                    List<AddTimeFrame> timeFramesTemp = new List<AddTimeFrame>();
+                    foreach (var timeFrame in AddTimeFrameRequest)
                     {
-                        return RedirectToPage("MyServicePosts");
+                        if (timeFrame.From != null && timeFrame.To != null)
+                        {
+                            timeFramesTemp.Add(timeFrame);
+                        }
                     }
-
-                    var notification = new Notification
+                    if (timeFramesTemp.Count > 0)
                     {
-                        type = Repository.Models.Enums.NotificationType.Success,
-                        Message = "New blog created!"
-                    };
-                    TempData["Notification"] = JsonSerializer.Serialize(notification);
+                        var result = await blogPostRepository.AddServiceContainListTimeAsync(userId, AddServiceRequest, timeFramesTemp, AddBlogPostRequest);
+                        if (result)
+                        {
+                            TempData["success"] = "Create service successfully";
+                            return RedirectToPage("MyServicePosts");
+                        }
 
+                        var notification = new Notification
+                        {
+                            type = Repository.Models.Enums.NotificationType.Success,
+                            Message = "New blog created!"
+                        };
+                        TempData["Notification"] = JsonSerializer.Serialize(notification);
+                    }
                 }
             }
             return Page();
