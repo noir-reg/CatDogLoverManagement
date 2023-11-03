@@ -388,5 +388,48 @@ namespace CatDogLoverManagement.Repository.Repositories
             var animalId=(Guid) await catDogLoveManagementContext.BlogPosts.Where(x=>x.PostId==Guid.Parse(id)).Select(x=>x.AnimalId).FirstOrDefaultAsync();
             return animalId;
         }
+
+        public async Task<bool> UpdateAdminAsync(BlogPost blogPost)
+        {
+            var existingPost = await catDogLoveManagementContext.BlogPosts.FindAsync(blogPost.PostId);
+
+            if (existingPost != null)
+            {
+                existingPost.Description = blogPost.Description;
+                existingPost.Title = blogPost.Title;
+                existingPost.Image = blogPost.Image;
+                existingPost.Price = blogPost.Price;
+                existingPost.Status = blogPost.Status;
+                var result = await catDogLoveManagementContext.SaveChangesAsync();
+                if (result > 0)
+                {
+
+
+                    if (existingPost.ServiceId != null)
+                    {
+                        Service service = await catDogLoveManagementContext.Services.FindAsync(existingPost.ServiceId);
+                        if (service != null)
+                        {
+                            service.Price = blogPost.Price;
+                            var rs = await catDogLoveManagementContext.SaveChangesAsync();
+                            if (rs > 0)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+
+
+
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<IEnumerable<BlogPost>> GetAllAsync()
+        {
+            return await catDogLoveManagementContext.BlogPosts.ToListAsync();
+        }
     }
 }
