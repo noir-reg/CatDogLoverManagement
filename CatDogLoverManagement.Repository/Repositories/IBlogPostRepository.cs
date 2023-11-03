@@ -17,6 +17,7 @@ namespace CatDogLoverManagement.Repository.Repositories
         Task<IEnumerable<SellOrGivePostDTO>> GetAllSellPostAsync(string id);
         Task<IEnumerable<SellOrGivePostDTO>> GetAllSellPostAsync();
         Task<bool> AddAsync(string id, AddAnimal animal, AddService service, AddTimeFrame timeFrame, AddBlogPost blogPost);
+        Task<bool> AddServiceContainListTimeAsync(string userId, AddService service, List<AddTimeFrame> timeFrames, AddBlogPost blogPost);
         Task<bool> UpdateAsync(BlogPost blogPost);
         Task<bool> DeleteAsync(Guid id);
 

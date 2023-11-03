@@ -49,7 +49,7 @@
                 <label asp-for="AddServiceRequest.Address" class="control-label">Address</label>
                 <input asp-for="AddServiceRequest.Address" class="form-control" />
                 <span asp-validation-for="AddServiceRequest.Address" class="text-danger"></span>
-            </div>            
+            </div>
             <div class="form-group">
                 <label asp-for="AddServiceRequest.Description" class="control-label">Service Description</label>
                 <input asp-for="AddServiceRequest.Description" class="form-control" />
@@ -66,17 +66,63 @@
                 <span asp-validation-for="AddServiceRequest.Note" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AddTimeFrameRequest.From" class="control-label">From</label>
-                <input type="time" asp-for="AddTimeFrameRequest.From" class="form-control" />
-                <span asp-validation-for="AddTimeFrameRequest.From" class="text-danger"></span>
+                <div id="TimeFrame" class="row">
+                    <div class="col-6">
+                        <label asp-for="AddTimeFrameRequest[0].From" class="control-label">From</label>
+                        <input type="time" asp-for="AddTimeFrameRequest[0].From" name="AddTimeFrameRequest[0].From" class="form-control" />
+                        <span asp-validation-for="AddTimeFrameRequest[0].From" class="text-danger"></span>
+                    </div>
+                    <div class="col-6">
+                        <label asp-for="AddTimeFrameRequest[0].To" class="control-label">To</label>
+                        <input type="time" asp-for="AddTimeFrameRequest[0].To" name="AddTimeFrameRequest[0].To" class="form-control" />
+                        <span asp-validation-for="AddTimeFrameRequest[0].To" class="text-danger"></span>
+                    </div>
+                </div>
+                <div id="TimeFrame1" class="row" style="display: none">
+                    <div class="col-6">
+                        <label asp-for="AddTimeFrameRequest[1].From" class="control-label">From</label>
+                        <input type="time" asp-for="AddTimeFrameRequest[1].From" name="AddTimeFrameRequest[1].From" class="form-control" />
+                        <span asp-validation-for="AddTimeFrameRequest[1].From" class="text-danger"></span>
+                    </div>
+                    <div class="col-6">
+                        <label asp-for="AddTimeFrameRequest[1].To" class="control-label">To</label>
+                        <input type="time" asp-for="AddTimeFrameRequest[1].To" name="AddTimeFrameRequest[1].To" class="form-control" />
+                        <span asp-validation-for="AddTimeFrameRequest[1].To" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div id="TimeFrame2" class="row" style="display: none">
+                    <div class="col-6">
+                        <label asp-for="AddTimeFrameRequest[2].From" class="control-label">From</label>
+                        <input type="time" asp-for="AddTimeFrameRequest[2].From" name="AddTimeFrameRequest[2].From" class="form-control" />
+                        <span asp-validation-for="AddTimeFrameRequest[2].From" class="text-danger"></span>
+                    </div>
+                    <div class="col-6">
+                        <label asp-for="AddTimeFrameRequest[2].To" class="control-label">To</label>
+                        <input type="time" asp-for="AddTimeFrameRequest[2].To" name="AddTimeFrameRequest[2].To" class="form-control" />
+                        <span asp-validation-for="AddTimeFrameRequest[2].To" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div id="TimeFrame3" class="row" style="display: none">
+                    <div class="col-6">
+                        <label asp-for="AddTimeFrameRequest[3].From" class="control-label">From</label>
+                        <input type="time" asp-for="AddTimeFrameRequest[3].From" name="AddTimeFrameRequest[3].From" class="form-control" />
+                        <span asp-validation-for="AddTimeFrameRequest[3].From" class="text-danger"></span>
+                    </div>
+                    <div class="col-6">
+                        <label asp-for="AddTimeFrameRequest[3].To" class="control-label">To</label>
+                        <input type="time" asp-for="AddTimeFrameRequest[3].To" name="AddTimeFrameRequest[3].To" class="form-control" />
+                        <span asp-validation-for="AddTimeFrameRequest[3].To" class="text-danger"></span>
+                    </div>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="AddTimeFrameRequest.To" class="control-label">To</label>
-                <input type="time" asp-for="AddTimeFrameRequest.To" class="form-control" />
-                <span asp-validation-for="AddTimeFrameRequest.To" class="text-danger"></span>
+            <div class="m-3">
+                <button id="moreButton" class="btn btn-secondary" type="button">More</button>
             </div>
             <div class="mb-3">
-                <button class="btn btn-primary" type="submit" >Submit</button>
+                <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </form>
     </div>
@@ -92,7 +138,7 @@
         const image = document.getElementById('image');
         const featuredImageDisplay = document.getElementById('featuredImageDisplay');
 
-        async function uploadfeaturedImage(e) {
+        async function uploadFeaturedImage(e) {
             console.log(e.target.files[0]);
 
             let data = new FormData();
@@ -111,7 +157,22 @@
                     featuredImageDisplay.src = result.link;
                 });
         }
-        featuredImageUploadElement.addEventListener('change', uploadfeaturedImage);
+        featuredImageUploadElement.addEventListener('change', uploadFeaturedImage);
 
+        var currentFrame = 0; // Initialize the current frame index
+
+        document.getElementById("moreButton").addEventListener("click", function () {
+            currentFrame++; // Increment the frame index
+            var currentFrameDiv = document.getElementById("TimeFrame" + currentFrame);
+            if (currentFrameDiv) {
+                currentFrameDiv.style.display = "flex";
+            }
+
+            if (currentFrame >= 3) {
+                // Hide the "More" button when all TimeFrame divs are displayed
+                document.getElementById("moreButton").style.display = "none";
+            }
+
+        });
     </script>
 }

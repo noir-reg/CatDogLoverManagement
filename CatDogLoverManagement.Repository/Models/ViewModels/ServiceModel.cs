@@ -17,6 +17,6 @@ namespace CatDogLoverManagement.Repository.Models.ViewModels
         public DateTime OpenDate { get; set; }
         public string Status { get; set; } = null!;
         public string Note { get; set; } = null!;
-        public string Image { get; set; } = null!;
+        public string? Image { get; set; }
     }
 }

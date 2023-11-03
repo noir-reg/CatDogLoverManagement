@@ -59,14 +59,17 @@
                         <label for="price" class="form-label">Open Date:</label>
                         @blog.OpenDate
                     </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">From:</label>
-                        @blog.From
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">To:</label>
-                        @blog.To
-                    </div>
+                    @foreach (var timeframe in blog.TimeFrames)
+                    {
+                        <div class="mb-3">
+                            <label for="price" class="form-label">From:</label>
+                            @timeframe.From
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">To:</label>
+                            @timeframe.To
+                        </div>
+                    }
                     <div class="mb-3">
                         <label for="price" class="form-label">Price:</label>
                         @blog.Price

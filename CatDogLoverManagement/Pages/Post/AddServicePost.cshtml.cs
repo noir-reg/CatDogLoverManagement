@@ -4,6 +4,7 @@ using CatDogLoverManagement.Repository.Models.ViewModels;
 using CatDogLoverManagement.Repository.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
@@ -20,8 +21,9 @@ namespace CatDogLoverManagement.Pages.Post
         public AddBlogPost AddBlogPostRequest { get; set; }
         [BindProperty]
         public AddService AddServiceRequest { get; set; }
+
         [BindProperty]
-        public AddTimeFrame AddTimeFrameRequest { get; set; }
+        public List<AddTimeFrame> AddTimeFrameRequest { get; set; }
 
         [BindProperty]
         public IFormFile? FeaturedImage { get; set; }
@@ -47,27 +49,23 @@ namespace CatDogLoverManagement.Pages.Post
 
             if (ModelState.IsValid)
             {
-
-                var result = await blogPostRepository.AddAsync(userId, null, AddServiceRequest, AddTimeFrameRequest, AddBlogPostRequest);
-                if (result)
+                if (AddTimeFrameRequest.Count > 0)
                 {
-                    return RedirectToPage("MyServicePosts");
+                    var result = await blogPostRepository.AddServiceContainListTimeAsync(userId,AddServiceRequest, AddTimeFrameRequest, AddBlogPostRequest);
+                    if (result)
+                    {
+                        return RedirectToPage("MyServicePosts");
+                    }
+
+                    var notification = new Notification
+                    {
+                        type = Repository.Models.Enums.NotificationType.Success,
+                        Message = "New blog created!"
+                    };
+                    TempData["Notification"] = JsonSerializer.Serialize(notification);
+
                 }
-
-                var notification = new Notification
-                {
-                    type = Repository.Models.Enums.NotificationType.Success,
-                    Message = "New blog created!"
-                };
-
-                TempData["Notification"] = JsonSerializer.Serialize(notification);
-
-
-
             }
-
-
-
             return Page();
         }
     }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +24,11 @@ namespace CatDogLoverManagement.Repository.Models.ViewModels
         public DateTime OpenDate { get; set; }
         public string Status { get; set; } = null!;
         public Guid Id { get; set; }
-        public TimeSpan? From { get; set; }
-        public TimeSpan? To { get; set; }
+        /*public TimeSpan? From { get; set; }
+        public TimeSpan? To { get; set; }*/
+
+        public ICollection<TimeFrame> TimeFrames = new Collection<TimeFrame>();
+
+        public ICollection<CommentDTO>? Comments = new Collection<CommentDTO>();
     }
 }

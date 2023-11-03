@@ -49,7 +49,6 @@
                                 <li>
                                     <a class="dropdown-item" href="/post/SellOrGivePosts">View Sell/Give Posts</a>
                                 </li>
-
                             </ul>
                             <!--end-->
                         </li>
@@ -81,8 +80,14 @@
                     }
                     else
                     {
+                        <div class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/OrderService/ManageOrders">Manage Orders</a>
+                        </div>
+                        <div class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/OrderService/MyCart">My Cart</a>
+                        </div>
                         <div>
-                            <a asp-page="Login" asp-page-handler="Logout" class="btn btn-dark">LogOut</a>
+                            <a asp-page="/Login" asp-page-handler="Logout" class="btn btn-dark">LogOut</a>
                         </div>
                     }
                 </div>

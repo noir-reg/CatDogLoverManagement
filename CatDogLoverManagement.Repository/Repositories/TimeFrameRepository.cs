@@ -19,6 +19,12 @@ namespace CatDogLoverManagement.Repository.Repositories
             return time;
         }
 
+        public async Task<TimeFrame> GetTimeFrameByIdAsync(Guid id)
+        {
+            var time = await context.TimeFrames.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return time;
+        }
+
         public async Task<bool> UpdateAsync(TimeFrame timeFrame)
         {
             var existingTimeFrame = await context.TimeFrames.FindAsync(timeFrame.Id);

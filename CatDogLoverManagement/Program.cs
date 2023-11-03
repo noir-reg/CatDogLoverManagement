@@ -1,6 +1,7 @@
 using CatDogLoverManagement.Pages.Post;
 using CatDogLoverManagement.Repository;
 using CatDogLoverManagement.Repository.Models;
+using CatDogLoverManagement.Repository.Models.ViewModels;
 using CatDogLoverManagement.Repository.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ namespace CatDogLoverManagement
             builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
             builder.Services.AddScoped<ITimeFrameRepository, TimeFrameRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+            builder.Services.AddScoped<IOrderServiceRepo, OrderServiceRepo>();
 
             //Login
             //builder.Services.AddIdentity<IdentityUser, IdentityRole>()
@@ -41,6 +43,7 @@ namespace CatDogLoverManagement
             builder.Services.AddSession();
             builder.Services.AddMvc();
             builder.Services.AddHttpContextAccessor();
+            builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("StripeSettings"));
 
             var app = builder.Build();
 

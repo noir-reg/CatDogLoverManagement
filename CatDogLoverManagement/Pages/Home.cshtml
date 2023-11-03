@@ -6,7 +6,7 @@
 
 @{
     var userName = HttpContext.Session.GetString("username");
-     
+
     if (!string.IsNullOrEmpty(userName))
     {
         <div><h4>Welcome @userName</h4></div>
@@ -30,30 +30,46 @@
     </div>
 </div>
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-6">
+    <div class="row">
 
-            <h2 class="mb-5 display-3"> Blogs</h2>
-            @if (Model.Blogs != null && Model.Blogs.Any())
+        <h2 class="mb-5 display-3"> Blogs</h2>
+        @if (Model.Blogs != null && Model.Blogs.Any())
+        {
+            @foreach (var blog in Model.Blogs)
             {
-                @foreach (var blog in Model.Blogs)
-                {
-                    <div class="mb-5 bg-light box-shadow">
-                        <img src="@blog.Image" alt="@blog.Title" class="mb-2 d-block img-fluid" />
-                        <div class="px-4 py-4">
-                            <h2 class="mb-2">@blog.Title</h2>
-                            <p>
-                                Date Published : @blog.CreatedDate.ToShortDateString()
-                            </p>
-                            <p class="mb-2">@blog.Price</p>
-                        </div>
-                    </div>
-                }
-            }
+                <div class="col-4 m-2 bg-light box-shadow">
+                    <img src="https://bihaku.vn/wp-content/uploads/2020/10/cho-pug-mat-xe.jpg" alt="@blog.Title" class="mb-2 d-block img-fluid" />
+                    <div class="px-4 py-4 row">
+                        <h4 class="mb-2">@blog.Title</h4>
+                        @if (blog.Price == 0)
+                        {
+                            <p class="mb-2">Gift</p>
+                        }
+                        else
+                        {
+                            <div class="col-8">
+                                <p class="mb-2">@blog.Price.ToString("F0")</p>
+                            </div>
 
-        </div>
+                            <div class="col-4">
+                                <button type="button" class="btn btn-danger">Order Now</button>
+                            </div>
+                        }
+                        <p>
+                            Date Published: @blog.CreatedDate.ToShortDateString()
+                        </p>
+                    </div>
+                </div>
+            }
+        }
     </div>
 </div>
 
+<script>
+    function redirectToEditPage(postId) {
+        var url = './post/EditServicePost/' + postId;
+        window.location.href = url;
+    }
+</script>
 
 

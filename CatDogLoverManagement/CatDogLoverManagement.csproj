@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.22" />
+    <PackageReference Include="Stripe.net" Version="43.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,6 +4,7 @@ using CatDogLoverManagement.Repository.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -112,6 +113,69 @@ namespace CatDogLoverManagement.Repository.Repositories
             return false;
         }
 
+        public async Task<bool> AddServiceContainListTimeAsync(string userId, AddService service, List<AddTimeFrame> timeFrames, AddBlogPost blogPost)
+        {
+            if (service != null)
+            {
+                var serviceModel = new Service
+                {
+                    ServiceId = Guid.NewGuid(),
+                    ServiceName = service.ServiceName,
+                    Address = service.Address,
+                    //   Price = (decimal)service.Price,
+                    Description = service.Description,
+                    CreatedDate = DateTime.Now,
+                    OpenDate = service.OpenDate,
+                    Status = "Ok",
+                    Note = service.Note,
+                    //  Image = service.Image,
+                };
+                await catDogLoveManagementContext.Services.AddAsync(serviceModel);
+                var rs2 = await catDogLoveManagementContext.SaveChangesAsync();
+                if (rs2 > 0)
+                {
+                    var servicelId = serviceModel.ServiceId;
+                    var blogModel = new BlogPost
+                    {
+                        PostId = Guid.NewGuid(),
+                        Price = blogPost.Price,
+                        Title = blogPost.Title,
+                        Description = serviceModel.Description,
+                        ServiceId = servicelId,
+                        UserId = Guid.Parse(userId),
+                        CreatedDate = DateTime.Now,
+                        Status = BlogPostStatus.Processing.ToString(),
+                        Image = blogPost.Image,
+                    };
+                    await catDogLoveManagementContext.BlogPosts.AddAsync(blogModel);
+                    var check2 = await catDogLoveManagementContext.SaveChangesAsync();
+                    if (check2 > 0)
+                    {
+                        var ser = await catDogLoveManagementContext.Services.Where(x => x.ServiceId == blogModel.ServiceId).FirstOrDefaultAsync();
+                        ser.Price = blogModel.Price;
+                        ser.Image = blogModel.Image;
+                        await catDogLoveManagementContext.SaveChangesAsync();
+
+                        foreach (var timeFrame in timeFrames)
+                        {
+                            await catDogLoveManagementContext.TimeFrames.AddAsync(new TimeFrame
+                            {
+                                Id = Guid.NewGuid(),
+                                ServiceId = serviceModel.ServiceId,
+                                From = timeFrame.From,
+                                To = timeFrame.To,
+                            });
+                        }
+                        var result = await catDogLoveManagementContext.SaveChangesAsync();
+                        if (result > 0)
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
         public async Task<bool> DeleteAsync(Guid id)
         {
             var existingPost = await catDogLoveManagementContext.BlogPosts.FindAsync(id);
@@ -149,50 +213,87 @@ namespace CatDogLoverManagement.Repository.Repositories
         }
         public async Task<IEnumerable<ServicePostDTO>> GetAllServicePostAsync()
         {
-            var result = await catDogLoveManagementContext.BlogPosts.Where(x => x.Status == BlogPostStatus.Approved.ToString() && x.ServiceId != null).Include(x => x.Service).ThenInclude(x => x.TimeFrames).Select(x => new ServicePostDTO
-            {
-                PostId = x.PostId,
-                Title = x.Title,
-                Description = x.Description,
-                Price = x.Price,
-                CreatedDate = x.CreatedDate,
-                Image = x.Image,
-                UserId = x.UserId,
-                ServiceId = x.ServiceId,
-                ServiceName = x.Service.ServiceName,
-                Address = x.Service.Address,
-                ServiceNote = x.Service.Description,
-                OpenDate = x.Service.OpenDate,
-                Status = x.Status
-                ,
-                Id = x.Service.TimeFrames.FirstOrDefault().Id,
-                From = x.Service.TimeFrames.FirstOrDefault().From,
-                To = x.Service.TimeFrames.FirstOrDefault().To
-            }).OrderByDescending(x => x.CreatedDate).ToListAsync();
+            var posts = await catDogLoveManagementContext.BlogPosts
+                .Where(x => x.Status == BlogPostStatus.Approved.ToString() && x.ServiceId != null)
+                .Include(x => x.Service)
+                .ToListAsync(); // Retrieve the data from the database
+
+            var result = posts
+                .Select(async x => new ServicePostDTO
+                {
+                    PostId = x.PostId,
+                    Title = x.Title,
+                    Description = x.Description,
+                    Price = x.Price,
+                    CreatedDate = x.CreatedDate,
+                    Image = x.Image,
+                    UserId = x.UserId,
+                    ServiceId = x.ServiceId,
+                    ServiceName = x.Service.ServiceName,
+                    Address = x.Service.Address,
+                    ServiceNote = x.Service.Description,
+                    OpenDate = x.Service.OpenDate,
+                    Status = x.Status,
+                    TimeFrames = catDogLoveManagementContext.TimeFrames.Where(t => t.ServiceId == x.ServiceId).ToList(),
+                    Comments = (await Task.WhenAll(ConvertCommentToDTO(catDogLoveManagementContext.Comments.Where(y => y.PostId == x.PostId).ToList())))
+                        .SelectMany(commentArray => commentArray)
+                        .ToList(),
+                })
+                .Select(x => x.Result) // Await each task and project
+                .OrderByDescending(x => x.CreatedDate)
+                .ToList(); // Perform the projection on the client side
+
             return result;
         }
+
+
+        private async Task<ICollection<CommentDTO>> ConvertCommentToDTO(List<Comment> comments)
+        {
+            var result = new Collection<CommentDTO>();
+            foreach (var comment in comments)
+            {
+                CommentDTO tmp = new()
+                {
+                    CommentId = comment.CommentId,
+                    CommentMessage = comment.CommentMessage,
+                    CreatedDate = comment.CreatedDate,
+                    Ischeck = comment.Ischeck,
+                    PostId = comment.PostId,
+                    UserId = comment.UserId,
+                    Username = (await catDogLoveManagementContext.Users.FirstOrDefaultAsync(c => c.UserId == comment.UserId)).Username,
+                };
+                result.Add(tmp);
+            }
+            return result;
+        }
+
         public async Task<IEnumerable<ServicePostDTO>> GetAllServicePostAsync(string id)
         {
-            var result = await catDogLoveManagementContext.BlogPosts.Where(x => x.UserId != null && x.UserId == Guid.Parse(id) && !x.Status.Equals(BlogPostStatus.Unavailable.ToString()) && x.ServiceId != null).Include(x => x.Service).ThenInclude(x => x.TimeFrames).Select(x => new ServicePostDTO
-            {
-                PostId = x.PostId,
-                Title = x.Title,
-                Description = x.Description,
-                Price = x.Price,
-                CreatedDate = x.CreatedDate,
-                Image = x.Image,
-                UserId = x.UserId,
-                ServiceId = x.ServiceId,
-                ServiceName = x.Service.ServiceName,
-                Address = x.Service.Address,
-                ServiceNote = x.Service.Description,
-                OpenDate = x.Service.OpenDate,
-                Status = x.Status
-                ,
-                Id = x.Service.TimeFrames.FirstOrDefault().Id,
-                From = x.Service.TimeFrames.FirstOrDefault().From,
-                To = x.Service.TimeFrames.FirstOrDefault().To
-            }).OrderByDescending(x => x.CreatedDate).ToListAsync();
+            var result = await catDogLoveManagementContext.BlogPosts
+                .Where(x => x.UserId != null && x.UserId == Guid.Parse(id) && !x.Status.Equals(BlogPostStatus.Unavailable.ToString()) && x.ServiceId != null)
+                .Include(x => x.Service)
+                .Select(x => new ServicePostDTO
+                {
+                    PostId = x.PostId,
+                    Title = x.Title,
+                    Description = x.Description,
+                    Price = x.Price,
+                    CreatedDate = x.CreatedDate,
+                    Image = x.Image,
+                    UserId = x.UserId,
+                    ServiceId = x.ServiceId,
+                    ServiceName = x.Service.ServiceName,
+                    Address = x.Service.Address,
+                    ServiceNote = x.Service.Description,
+                    OpenDate = x.Service.OpenDate,
+                    Status = x.Status,
+                    Id = x.Service.TimeFrames.FirstOrDefault().Id,
+                    /*From = x.Service.TimeFrames.FirstOrDefault().From,
+                    To = x.Service.TimeFrames.FirstOrDefault().To*/
+                    TimeFrames = (ICollection<TimeFrame>)x.Service.TimeFrames
+                    .Where(tf => tf.ServiceId == x.ServiceId) // Filter TimeFrames by ServiceId
+                    .ToList(),
+                }).OrderByDescending(x => x.CreatedDate).ToListAsync();
             return result;
         }
         public async Task<IEnumerable<SellOrGivePostDTO>> GetAllSellPostAsync(string id)
@@ -214,7 +315,7 @@ namespace CatDogLoverManagement.Repository.Repositories
                 AnimalDescription = x.Animal.Description,
                 Status = x.Status,
                 Age = x.Animal.Age
-            }).OrderByDescending(x=>x.CreatedDate).ToListAsync();
+            }).OrderByDescending(x => x.CreatedDate).ToListAsync();
             return result;
         }
         public async Task<BlogPost> GetAsync(Guid id)
@@ -264,5 +365,6 @@ namespace CatDogLoverManagement.Repository.Repositories
             var result = await catDogLoveManagementContext.BlogPosts.OrderByDescending(x => x.CreatedDate).Take(10).ToListAsync();
             return result;
         }
+
     }
 }

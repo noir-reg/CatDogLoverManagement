@@ -37,7 +37,6 @@ namespace CatDogLoverManagement.Pages.Post
             if (Service != null)
             {
                 TimeFrame = await timeFrameRepository.GetAsync(Service.ServiceId);
-
             }
         }
 
