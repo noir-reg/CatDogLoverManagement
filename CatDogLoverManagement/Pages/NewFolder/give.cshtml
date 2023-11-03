@@ -1,0 +1,84 @@
+﻿@page
+@model CatDogLoverManagement.Pages.NewFolder.giveModel
+
+@{
+    ViewData["Title"] = "give";
+}
+
+<h1>give</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogPost[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogPost[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogPost[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogPost[0].CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogPost[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogPost[0].Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogPost[0].Animal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogPost[0].Service)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogPost[0].User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.BlogPost) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Animal.AnimalName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Service.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Email)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.PostId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.PostId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.PostId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

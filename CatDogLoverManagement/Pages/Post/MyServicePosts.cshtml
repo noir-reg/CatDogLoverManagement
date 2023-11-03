@@ -6,7 +6,7 @@
 {
     @foreach (var blog in Model.BlogPosts)
     {
-        <div>
+        <div onclick="toggleContent('@blog.PostId')">
             <div class="container">
                 <form method="post" action="EditServicePost/@blog.PostId">
                     <div class="mb-3" style="display:none">
@@ -26,10 +26,11 @@
                         <label for="createdDate" class="form-label">Created Date:</label>
                         @blog.CreatedDate
                     </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description:</label>
-                        @blog.Description
-                    </div>
+                    <div class="content" id=@blog.PostId>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description:</label>
+                            @blog.Description
+                        </div>
 
                     <div class="mb-3">
                         <label for="image" class="form-label">Image</label>
@@ -79,6 +80,7 @@
                         <a href="EditServicePost/@blog.PostId">Modify</a>
                     </div>
                 </form>
+                <hr style="height: 2px; margin: 10px 0; background-color: black;" />
             </div>
         </div>
     }
@@ -90,3 +92,22 @@ else
         <p>No Blog Posts Were Found!.</p>
     </div>
 }
+<style>
+    .content {
+        display: none;
+    }
+</style>
+
+
+<script>
+    function toggleContent(id) {
+        var content = document.getElementById(id);
+
+        if (content.style.display == "none") {
+            content.style.display = "block";
+
+        } else {
+            content.style.display = "none";
+        }
+    }
+</script>

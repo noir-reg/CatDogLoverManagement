@@ -33,6 +33,7 @@ namespace CatDogLoverManagement
             builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
             builder.Services.AddScoped<ITimeFrameRepository, TimeFrameRepository>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IOrderServiceRepo, OrderServiceRepo>();
 
             //Login

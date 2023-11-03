@@ -1,0 +1,44 @@
+﻿@page "{id:Guid}"
+@model CatDogLoverManagement.Pages.Post.CommentsModel
+@{
+}
+@if (Model.Comments != null && Model.Comments.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <td>
+                    Message
+                </td>
+                <td>
+                    Created Date
+                </td>
+                <td>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comment in Model.Comments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => comment.CommentMessage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => comment.CreatedDate)
+                    </td>
+                    <td>
+                        <form asp-action="Post">
+                            <input type="hidden" value="@comment.UserId" name="UserId" />
+                            <input type="hidden" value="@comment.PostId" name="PostId" />
+                            <input type="hidden" value="@comment.CommentId" name="CommentId" />
+                            <button id="give" type="submit" onclick="return confirm('Are you sure?')">Give</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+ 

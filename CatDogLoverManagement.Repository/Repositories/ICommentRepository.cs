@@ -10,5 +10,7 @@ namespace CatDogLoverManagement.Repository.Repositories;
 public interface ICommentRepository
 {
     Task<bool> AddAsync(string message,string postId,string volunteerId);
+    Task<IEnumerable<Comment>>GetAllGivePostComment(string id);
+    Task<bool> UpdateCommentStatus(string id);
 }
 

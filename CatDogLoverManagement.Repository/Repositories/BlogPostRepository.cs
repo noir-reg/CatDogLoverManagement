@@ -366,5 +366,27 @@ namespace CatDogLoverManagement.Repository.Repositories
             return result;
         }
 
+        public async Task<IEnumerable<BlogPost>> GetAllGivePostAsync(string id)
+        {
+            var list = await catDogLoveManagementContext.BlogPosts
+         .Where(x => x.Price == (Decimal)0
+             && x.AnimalId != null
+             && x.UserId == Guid.Parse(id)
+             && x.Status.Equals(BlogPostStatus.Approved.ToString()))
+         .ToListAsync();
+
+            var postsWithApprovedComments = await catDogLoveManagementContext.Comments
+                .Where(x => x.Ischeck)
+                .Select(x => x.PostId)
+                .ToListAsync();
+
+            return list.Where(x => !postsWithApprovedComments.Contains(x.PostId));
+        }
+
+        public async Task<Guid> GetAnimalId(string id)
+        {
+            var animalId=(Guid) await catDogLoveManagementContext.BlogPosts.Where(x=>x.PostId==Guid.Parse(id)).Select(x=>x.AnimalId).FirstOrDefaultAsync();
+            return animalId;
+        }
     }
 }

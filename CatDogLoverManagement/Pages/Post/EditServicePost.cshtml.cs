@@ -80,7 +80,7 @@ namespace CatDogLoverManagement.Pages.Post
 
                 TempData["Notification"] = JsonSerializer.Serialize(notification);
 
-                return RedirectToPage("MySellOrGivePosts");
+                return RedirectToPage("MyServicePosts");
             }
 
             return Page();

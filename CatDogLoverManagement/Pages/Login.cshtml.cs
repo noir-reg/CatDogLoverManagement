@@ -30,7 +30,7 @@ namespace CatDogLoverManagement.Pages
         public IActionResult OnGetLogout()
         {
             HttpContext.Session.Clear();
-            return RedirectToPage("Home");
+            return RedirectToPage("./Home");
         }
         public async Task<IActionResult> OnPost(string ReturnUrl)
         {

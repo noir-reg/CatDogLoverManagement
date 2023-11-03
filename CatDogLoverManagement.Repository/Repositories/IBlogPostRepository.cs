@@ -20,6 +20,7 @@ namespace CatDogLoverManagement.Repository.Repositories
         Task<bool> AddServiceContainListTimeAsync(string userId, AddService service, List<AddTimeFrame> timeFrames, AddBlogPost blogPost);
         Task<bool> UpdateAsync(BlogPost blogPost);
         Task<bool> DeleteAsync(Guid id);
-
+        Task<IEnumerable<BlogPost>> GetAllGivePostAsync(string id);
+        Task<Guid> GetAnimalId(string id);
     }
 }
