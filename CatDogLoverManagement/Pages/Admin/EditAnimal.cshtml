@@ -1,0 +1,124 @@
+﻿@page "{id:Guid}"
+@model CatDogLoverManagement.Pages.Admin.EditAnimalModel
+@{
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div>
+        <h1>Edit Animal Post</h1>
+    </div>
+</div>
+
+<partial name="_Notification" />
+
+@if (Model.BlogPost != null)
+{
+    <div>
+        <div class="container">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="id" class="form-label">Post Id</label>
+                    <input type="text" class="form-control" id="id" asp-for="BlogPost.PostId" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" asp-for="BlogPost.Title" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" asp-for="BlogPost.Description" readonly></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="price" asp-for="BlogPost.Price" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="createdDate" class="form-label">CreatedDate</label>
+                    <input type="date" class="form-control" id="createdDate" asp-for="BlogPost.CreatedDate" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="featuredImageUpload" class="form-label">Featured Image Upload</label>
+                    <input type="file" id="featuredImageUpload" asp-for="FeaturedImage" />
+
+                    @if (Model.BlogPost.Image != null)
+                    {
+                        <img src="" id="featuredImageDisplay" style="width:300px;" />
+                    }
+                    else
+                    {
+                        <img src="" id="featuredImageDisplay" style="display:none; width:300px;" />
+                    }
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="text" class="form-control" id="image" asp-for="BlogPost.Image" readonly />
+                </div>    
+                <div class="form-group">
+                    <label asp-for="BlogPost.Status" class="control-label">Status</label>
+                    <div>
+                        <select asp-for="BlogPost.Status">
+                            <option value="Processing">Processing</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Unavailable">Unavailable</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="BlogPost.Status" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="type" class="form-label">Type</label>
+                    <input type="text" class="form-control" id="type" asp-for="Animal.AnimalType" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="age" class="form-label">Age</label>
+                    <input type="text" class="form-control" id="age" asp-for="Animal.Age" readonly />
+
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <input type="text" class="form-control" id="gender" asp-for="Animal.Gender" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" asp-for="Animal.AnimalName" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="animaldescription" class="form-label">Animal Description</label>
+                    <input type="text" class="form-control" id="animaldescription" asp-for="Animal.Description" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="animalId" class="form-label">AnimalID</label>
+                    <input type="text" class="form-control" id="animalId" asp-for="BlogPost.AnimalId" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="service" class="form-label">ServiceId</label>
+                    <input type="text" class="form-control" id="serviceId" asp-for="BlogPost.ServiceId" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="userId" class="form-label">UserID</label>
+                    <input type="text" class="form-control" id="userId" asp-for="BlogPost.UserId" readonly />
+                </div>
+
+                <div class="mb-3 d-flex justify-content-between">
+                    <button class="btn btn-primary" type="submit" asp-page="EditAnimal" asp-page-handler="Edit">Submit</button>
+
+                    <button class="btn btn-danger" type="submit" asp-page="EditAnimal" asp-page-handler="Delete">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <p>Blog Post Not Found!</p>
+    </div>
+}
