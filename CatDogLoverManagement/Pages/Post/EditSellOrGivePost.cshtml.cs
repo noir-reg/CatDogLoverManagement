@@ -43,20 +43,11 @@ namespace CatDogLoverManagement.Pages.Post
             {
                 await blogPostRepository.UpdateAsync(BlogPost);
                 await animalRepository.UpdateAsync(Animal);
-                ViewData["Notification"] = new Notification
-                {
-                    Message = "Record updated successfully!",
-                    type = Repository.Models.Enums.NotificationType.Success
-                };
+                TempData["success"] = "Update successfully";
             }
             catch (Exception ex)
             {
-                await blogPostRepository.UpdateAsync(BlogPost);
-                ViewData["Notification"] = new Notification
-                {
-                    Message = "Something went wrong!",
-                    type = Repository.Models.Enums.NotificationType.Error
-                };
+               
             }
 
 
@@ -68,13 +59,7 @@ namespace CatDogLoverManagement.Pages.Post
             var deleted = await blogPostRepository.DeleteAsync(BlogPost.PostId);
             if (deleted)
             {
-                var notification = new Notification
-                {
-                    type = Repository.Models.Enums.NotificationType.Success,
-                    Message = "Blog was deleted Successfully"
-                };
-
-                TempData["Notification"] = JsonSerializer.Serialize(notification);
+                TempData["success"] = "Delete successfully";
 
                 return RedirectToPage("MySellOrGivePosts");
             }

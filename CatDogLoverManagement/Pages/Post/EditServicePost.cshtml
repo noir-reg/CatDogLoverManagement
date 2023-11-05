@@ -90,73 +90,180 @@
                 </div>
 
                 <div class="form-group">
-                    <div id="TimeFrame" class="row">
-                        <div class="col-6">
-                            <div style="display : none">
-                                <input type="hidden" asp-for="AddTimeFrameRequest[0].Id" name="AddTimeFrameRequest[0].Id" class="form-control" />
-                                <input type="hidden" asp-for="AddTimeFrameRequest[0].ServiceId" name="AddTimeFrameRequest[0].ServiceId" class="form-control" />
+                    @if (Model.AddTimeFrameRequest.Count == 4)
+                    {
+                        <div id="TimeFrame" class="row">
+                            <div class="col-6">
+                                <div style="display : none">
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[0].Id" name="AddTimeFrameRequest[0].Id" class="form-control" />
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[0].ServiceId" name="AddTimeFrameRequest[0].ServiceId" class="form-control" />
+                                </div>
+                                <label asp-for="AddTimeFrameRequest[0].From" class="control-label">From</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[0].From" name="AddTimeFrameRequest[0].From" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[0].From" class="text-danger"></span>
                             </div>
-                            <label asp-for="AddTimeFrameRequest[0].From" class="control-label">From</label>
-                            <input type="time" asp-for="AddTimeFrameRequest[0].From" name="AddTimeFrameRequest[0].From" class="form-control" />
-                            <span asp-validation-for="AddTimeFrameRequest[0].From" class="text-danger"></span>
-                        </div>
-                        <div class="col-6">
-                            <label asp-for="AddTimeFrameRequest[0].To" class="control-label">To</label>
-                            <input type="time" asp-for="AddTimeFrameRequest[0].To" name="AddTimeFrameRequest[0].To" class="form-control" />
-                            <span asp-validation-for="AddTimeFrameRequest[0].To" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="TimeFrame1" class="row">
-                        <div class="col-6">
-                            <div style="display : none">
-                                <input type="hidden" asp-for="AddTimeFrameRequest[1].Id" name="AddTimeFrameRequest[1].Id" class="form-control" />
-                                <input type="hidden" asp-for="AddTimeFrameRequest[1].ServiceId" name="AddTimeFrameRequest[1].ServiceId" class="form-control" />
+                            <div class="col-6">
+                                <label asp-for="AddTimeFrameRequest[0].To" class="control-label">To</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[0].To" name="AddTimeFrameRequest[0].To" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[0].To" class="text-danger"></span>
                             </div>
-                            <label asp-for="AddTimeFrameRequest[1].From" class="control-label">From</label>
-                            <input type="time" asp-for="AddTimeFrameRequest[1].From" name="AddTimeFrameRequest[1].From" class="form-control" />
-                            <span asp-validation-for="AddTimeFrameRequest[1].From" class="text-danger"></span>
                         </div>
-                        <div class="col-6">
-                            <label asp-for="AddTimeFrameRequest[1].To" class="control-label">To</label>
-                            <input type="time" asp-for="AddTimeFrameRequest[1].To" name="AddTimeFrameRequest[1].To" class="form-control" />
-                            <span asp-validation-for="AddTimeFrameRequest[1].To" class="text-danger"></span>
+                        <div id="TimeFrame1" class="row">
+                            <div class="col-6">
+                                <div style="display : none">
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[1].Id" name="AddTimeFrameRequest[1].Id" class="form-control" />
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[1].ServiceId" name="AddTimeFrameRequest[1].ServiceId" class="form-control" />
+                                </div>
+                                <label asp-for="AddTimeFrameRequest[1].From" class="control-label">From</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[1].From" name="AddTimeFrameRequest[1].From" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[1].From" class="text-danger"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="AddTimeFrameRequest[1].To" class="control-label">To</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[1].To" name="AddTimeFrameRequest[1].To" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[1].To" class="text-danger"></span>
+                            </div>
                         </div>
-                    </div>
+                        <div id="TimeFrame2" class="row">
+                            <div class="col-6">
+                                <div style="display : none">
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[2].Id" name="AddTimeFrameRequest[2].Id" class="form-control" />
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[2].ServiceId" name="AddTimeFrameRequest[2].ServiceId" class="form-control" />
+                                </div>
+                                <label asp-for="AddTimeFrameRequest[2].From" class="control-label">From</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[2].From" name="AddTimeFrameRequest[2].From" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[2].From" class="text-danger"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="AddTimeFrameRequest[2].To" class="control-label">To</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[2].To" name="AddTimeFrameRequest[2].To" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[2].To" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div id="TimeFrame3" class="row">
+                            <div class="col-6">
+                                <div style="display : none">
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[3].Id" name="AddTimeFrameRequest[3].Id" class="form-control" />
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[3].ServiceId" name="AddTimeFrameRequest[3].ServiceId" class="form-control" />
+                                </div>
+                                <label asp-for="AddTimeFrameRequest[3].From" class="control-label">From</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[3].From" name="AddTimeFrameRequest[3].From" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[3].From" class="text-danger"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="AddTimeFrameRequest[3].To" class="control-label">To</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[3].To" name="AddTimeFrameRequest[3].To" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[3].To" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
 
-                    <div id="TimeFrame2" class="row">
-                        <div class="col-6">
-                            <div style="display : none">
-                                <input type="hidden" asp-for="AddTimeFrameRequest[2].Id" name="AddTimeFrameRequest[2].Id" class="form-control" />
-                                <input type="hidden" asp-for="AddTimeFrameRequest[2].ServiceId" name="AddTimeFrameRequest[2].ServiceId" class="form-control" />
+                    @if (Model.AddTimeFrameRequest.Count == 3)
+                    {
+                        <div id="TimeFrame" class="row">
+                            <div class="col-6">
+                                <div style="display : none">
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[0].Id" name="AddTimeFrameRequest[0].Id" class="form-control" />
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[0].ServiceId" name="AddTimeFrameRequest[0].ServiceId" class="form-control" />
+                                </div>
+                                <label asp-for="AddTimeFrameRequest[0].From" class="control-label">From</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[0].From" name="AddTimeFrameRequest[0].From" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[0].From" class="text-danger"></span>
                             </div>
-                            <label asp-for="AddTimeFrameRequest[2].From" class="control-label">From</label>
-                            <input type="time" asp-for="AddTimeFrameRequest[2].From" name="AddTimeFrameRequest[2].From" class="form-control" />
-                            <span asp-validation-for="AddTimeFrameRequest[2].From" class="text-danger"></span>
-                        </div>
-                        <div class="col-6">
-                            <label asp-for="AddTimeFrameRequest[2].To" class="control-label">To</label>
-                            <input type="time" asp-for="AddTimeFrameRequest[2].To" name="AddTimeFrameRequest[2].To" class="form-control" />
-                            <span asp-validation-for="AddTimeFrameRequest[2].To" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div id="TimeFrame3" class="row">
-                        <div class="col-6">
-                            <div style="display : none">
-                                <input type="hidden" asp-for="AddTimeFrameRequest[3].Id" name="AddTimeFrameRequest[3].Id" class="form-control" />
-                                <input type="hidden" asp-for="AddTimeFrameRequest[3].ServiceId" name="AddTimeFrameRequest[3].ServiceId" class="form-control" />
+                            <div class="col-6">
+                                <label asp-for="AddTimeFrameRequest[0].To" class="control-label">To</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[0].To" name="AddTimeFrameRequest[0].To" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[0].To" class="text-danger"></span>
                             </div>
-                            <label asp-for="AddTimeFrameRequest[3].From" class="control-label">From</label>
-                            <input type="time" asp-for="AddTimeFrameRequest[3].From" name="AddTimeFrameRequest[3].From" class="form-control" />
-                            <span asp-validation-for="AddTimeFrameRequest[3].From" class="text-danger"></span>
                         </div>
-                        <div class="col-6">
-                            <label asp-for="AddTimeFrameRequest[3].To" class="control-label">To</label>
-                            <input type="time" asp-for="AddTimeFrameRequest[3].To" name="AddTimeFrameRequest[3].To" class="form-control" />
-                            <span asp-validation-for="AddTimeFrameRequest[3].To" class="text-danger"></span>
+                        <div id="TimeFrame1" class="row">
+                            <div class="col-6">
+                                <div style="display : none">
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[1].Id" name="AddTimeFrameRequest[1].Id" class="form-control" />
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[1].ServiceId" name="AddTimeFrameRequest[1].ServiceId" class="form-control" />
+                                </div>
+                                <label asp-for="AddTimeFrameRequest[1].From" class="control-label">From</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[1].From" name="AddTimeFrameRequest[1].From" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[1].From" class="text-danger"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="AddTimeFrameRequest[1].To" class="control-label">To</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[1].To" name="AddTimeFrameRequest[1].To" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[1].To" class="text-danger"></span>
+                            </div>
                         </div>
-                    </div>
+                        <div id="TimeFrame2" class="row">
+                            <div class="col-6">
+                                <div style="display : none">
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[2].Id" name="AddTimeFrameRequest[2].Id" class="form-control" />
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[2].ServiceId" name="AddTimeFrameRequest[2].ServiceId" class="form-control" />
+                                </div>
+                                <label asp-for="AddTimeFrameRequest[2].From" class="control-label">From</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[2].From" name="AddTimeFrameRequest[2].From" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[2].From" class="text-danger"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="AddTimeFrameRequest[2].To" class="control-label">To</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[2].To" name="AddTimeFrameRequest[2].To" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[2].To" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
 
+                    @if (Model.AddTimeFrameRequest.Count == 2)
+                    {
+                        <div id="TimeFrame" class="row">
+                            <div class="col-6">
+                                <div style="display : none">
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[0].Id" name="AddTimeFrameRequest[0].Id" class="form-control" />
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[0].ServiceId" name="AddTimeFrameRequest[0].ServiceId" class="form-control" />
+                                </div>
+                                <label asp-for="AddTimeFrameRequest[0].From" class="control-label">From</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[0].From" name="AddTimeFrameRequest[0].From" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[0].From" class="text-danger"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="AddTimeFrameRequest[0].To" class="control-label">To</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[0].To" name="AddTimeFrameRequest[0].To" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[0].To" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div id="TimeFrame1" class="row">
+                            <div class="col-6">
+                                <div style="display : none">
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[1].Id" name="AddTimeFrameRequest[1].Id" class="form-control" />
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[1].ServiceId" name="AddTimeFrameRequest[1].ServiceId" class="form-control" />
+                                </div>
+                                <label asp-for="AddTimeFrameRequest[1].From" class="control-label">From</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[1].From" name="AddTimeFrameRequest[1].From" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[1].From" class="text-danger"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="AddTimeFrameRequest[1].To" class="control-label">To</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[1].To" name="AddTimeFrameRequest[1].To" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[1].To" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.AddTimeFrameRequest.Count == 1)
+                    {
+                        <div id="TimeFrame" class="row">
+                            <div class="col-6">
+                                <div style="display : none">
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[0].Id" name="AddTimeFrameRequest[0].Id" class="form-control" />
+                                    <input type="hidden" asp-for="AddTimeFrameRequest[0].ServiceId" name="AddTimeFrameRequest[0].ServiceId" class="form-control" />
+                                </div>
+                                <label asp-for="AddTimeFrameRequest[0].From" class="control-label">From</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[0].From" name="AddTimeFrameRequest[0].From" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[0].From" class="text-danger"></span>
+                            </div>
+                            <div class="col-6">
+                                <label asp-for="AddTimeFrameRequest[0].To" class="control-label">To</label>
+                                <input type="time" asp-for="AddTimeFrameRequest[0].To" name="AddTimeFrameRequest[0].To" class="form-control" />
+                                <span asp-validation-for="AddTimeFrameRequest[0].To" class="text-danger"></span>
+                            </div>
+                        </div>
+                    }
                 </div>
                 <div class="mb-3 d-flex justify-content-between">
                     <button class="btn btn-primary" type="submit" asp-page="EditServicePost" asp-page-handler="Edit">Submit</button>
@@ -177,9 +284,9 @@ else
 
 @section Scripts{
     <script>
-        var editor = new FroalaEditor('#description', {
-            imageUploadURL: '/api/images'
-        });
+        // var editor = new FroalaEditor('#description', {
+        //     imageUploadURL: '/api/images'
+        // });
 
         const featuredImageUploadElement = document.getElementById('featuredImageUpload');
         const image = document.getElementById('image');

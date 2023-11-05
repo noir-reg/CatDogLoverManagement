@@ -38,7 +38,7 @@
             @foreach (var blog in Model.Blogs)
             {
                 <div class="col-4 m-2 bg-light box-shadow">
-                    <img src="https://bihaku.vn/wp-content/uploads/2020/10/cho-pug-mat-xe.jpg" alt="@blog.Title" class="mb-2 d-block img-fluid" />
+                    <img src="@blog.Image" alt="@blog.Title" class="mb-2 d-block img-fluid" />
                     <div class="px-4 py-4 row">
                         <h4 class="mb-2">@blog.Title</h4>
                         @if (blog.Price == 0)
@@ -51,9 +51,7 @@
                                 <p class="mb-2">@blog.Price.ToString("F0")</p>
                             </div>
 
-                            <div class="col-4">
-                                <button type="button" class="btn btn-danger">Order Now</button>
-                            </div>
+                           
                         }
                         <p>
                             Date Published: @blog.CreatedDate.ToShortDateString()

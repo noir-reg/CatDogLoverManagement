@@ -1,4 +1,5 @@
 ﻿using CatDogLoverManagement.Repository.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,8 @@ namespace CatDogLoverManagement.Repository.Repositories
         }
         public async Task<Animal> GetAsync(Guid id)
         {
-            return await catDogLoveManagementContext.Animals.FindAsync(id);
+             var animal=await catDogLoveManagementContext.Animals.FirstOrDefaultAsync(x => x.AnimalId == id);
+            return animal;
         }
         public async Task<bool> UpdateAsync(Animal animal)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,6 @@ namespace CatDogLoverManagement.Repository.Models.ViewModels
         public string AnimalDescription { get; set; } = null!;
         public string Gender { get; set; } = null!;
         public int Age { get; set; }
-
+        public ICollection<CommentDTO>? Comments = new Collection<CommentDTO>();
     }
 }

@@ -19,6 +19,7 @@ namespace CatDogLoverManagement.Pages.Post
         public Service Service { get; set; }
         [BindProperty]
         public List<TimeFrame> AddTimeFrameRequest { get; set; }
+        [BindProperty]
         public IFormFile FeaturedImage { get; set; }
         public EditServicePostModel(IBlogPostRepository blogPostRepository, IAnimalRepository animalRepository,
             IServiceRepository serviceRepository, ITimeFrameRepository timeFrameRepository)

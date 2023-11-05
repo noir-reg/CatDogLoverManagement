@@ -77,10 +77,11 @@ namespace CatDogLoverManagement.Repository.Repositories
             foreach (var order in list)
             {
                 if (order != null)
-                {
-                    string[] bookTime = order.BookedTime!.Split(';');
-                    if (bookTime.Length >= 2 && order.ServiceId != null)
+                {   
+                    
+                    if (order.ServiceId != null)
                     {
+                        string[] bookTime = order.BookedTime!.Split(';');
                         BlogPost blogPost = await catDogLoveManagementContext.BlogPosts.FirstOrDefaultAsync(b => b.ServiceId == order.ServiceId);
                         Service service = await catDogLoveManagementContext.Services.FirstOrDefaultAsync(s => s.ServiceId == order.ServiceId);
                         viewOrderService = new()
@@ -121,9 +122,9 @@ namespace CatDogLoverManagement.Repository.Repositories
                             BuyerName = (await catDogLoveManagementContext.Users.FirstOrDefaultAsync(c => c.UserId == order.BuyerId)).Username,
                             SellerName = (await catDogLoveManagementContext.Users.FirstOrDefaultAsync(c => c.UserId == order.SellerId)).Username,
                             OrderDate = (DateTime)order.OrderDate,
-                            BookedDate = order.BookedDate,
-                            From = TimeSpan.Parse(bookTime[0]),
-                            To = TimeSpan.Parse(bookTime[1]),
+                            BookedDate = null,
+                            From = null,
+                            To = null,
                             Status = order.Status,
                             Price = (decimal)order.Price,
                             Image = blogPost!.Image,

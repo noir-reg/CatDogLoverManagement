@@ -10,7 +10,7 @@
         @foreach (var blog in Model.BlogPosts)
         {
             <div onclick="toggleContent('@blog.PostId')">
-                <div class="container">
+                <div class="container" id="body">
                     <form method="post">
                         <div class="mb-3" style="display:none">
                             <label for="id" class="form-label">Post Id</label>
@@ -34,8 +34,8 @@
                                 @blog.Description
                             </div>
                             <div class="mb-3">
-                                <label for="image" class="form-label">Image</label>
-                                <img src="@blog.Image" style="width:300px;" />
+                                <label for="image" class="form-label"></label>
+                                <img src="@blog.Image" style="width:300px;height:300px" />
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label">Type:</label>
@@ -50,7 +50,7 @@
                                 @blog.Gender
                             </div>
                             <div class="mb-3">
-                                <label for="price" class="form-label">Age:</label>
+                                <label for="price" class="form-label">Age (month):</label>
                                 @blog.Age
                             </div>
                             <div class="mb-3">
@@ -71,7 +71,7 @@
                             <input type="hidden" class="form-control" id="animalId" asp-for="@blog.AnimalId" />
                         </div>
                         <div class="mb-3 d-flex justify-content-between">
-                            <a href="EditSellOrGivePost/@blog.PostId">Modify</a>
+                            <a class="button" style="text-decoration:none" href="EditSellOrGivePost/@blog.PostId">Modify</a>
                         </div>
                     </form>
                     <hr style ="height: 2px; margin: 10px 0; background-color: black;" />
@@ -88,9 +88,66 @@
         </div>
     }
     <style>
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color:white;
+            border-radius: 5px;
+            border: none;
+            transition: all 0.5s;
+        }
+
+            .button:hover {
+                background-color: silver;
+            }
+
+       
         .content {
             display: none;
         }
+
+        #body {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #f8f9fa;
+        }
+
+            #body .form-label {
+                font-weight: bold;
+                color: #343a40;
+            }
+
+            #body .mb-3 {
+                margin-bottom: 1rem !important;
+            }
+
+            #body a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+                #body a:hover {
+                    color: #0056b3;
+                    text-decoration: underline;
+                }
+
+            #body img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            #body hr {
+                border: none;
+                border-top: 2px solid #000;
+                margin: 10px 0;
+            }
+
     </style>
 
 

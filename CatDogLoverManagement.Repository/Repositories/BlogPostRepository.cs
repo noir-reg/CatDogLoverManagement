@@ -189,26 +189,62 @@ namespace CatDogLoverManagement.Repository.Repositories
         }
 
 
+        //public async Task<IEnumerable<SellOrGivePostDTO>> GetAllSellPostAsync()
+        //{
+
+        //    var result = await catDogLoveManagementContext.BlogPosts.Include(x => x.Animal).Where(x => x.Status == BlogPostStatus.Approved.ToString() && x.AnimalId != null).Select(
+        //        x => new SellOrGivePostDTO
+        //    {
+        //        PostId = x.PostId,
+        //        Title = x.Title,
+        //        Description = x.Description,
+        //        Price = x.Price,
+        //        CreatedDate = x.CreatedDate,
+        //        Image = x.Image,
+        //        UserId = x.UserId,
+        //        AnimalId = x.AnimalId,
+        //        AnimalName = x.Animal.AnimalName,
+        //        Gender = x.Animal.Gender,
+        //        AnimalType = x.Animal.AnimalType,
+        //        AnimalDescription = x.Animal.Description,
+        //        Status = x.Status,
+        //        Age = x.Animal.Age,
+        //    }).OrderByDescending(x => x.CreatedDate).ToListAsync();
+        //    return result;
+        //}
+
         public async Task<IEnumerable<SellOrGivePostDTO>> GetAllSellPostAsync()
         {
+            var posts = await catDogLoveManagementContext.BlogPosts
+                .Where(x => x.Status == BlogPostStatus.Approved.ToString() && x.AnimalId != null)
+                .Include(x => x.Animal)
+                .ToListAsync(); // Retrieve the data from the database
 
-            var result = await catDogLoveManagementContext.BlogPosts.Include(x => x.Animal).Where(x => x.Status == BlogPostStatus.Approved.ToString() && x.AnimalId != null).Select(x => new SellOrGivePostDTO
-            {
-                PostId = x.PostId,
-                Title = x.Title,
-                Description = x.Description,
-                Price = x.Price,
-                CreatedDate = x.CreatedDate,
-                Image = x.Image,
-                UserId = x.UserId,
-                AnimalId = x.AnimalId,
-                AnimalName = x.Animal.AnimalName,
-                Gender = x.Animal.Gender,
-                AnimalType = x.Animal.AnimalType,
-                AnimalDescription = x.Animal.Description,
-                Status = x.Status,
-                Age = x.Animal.Age
-            }).OrderByDescending(x => x.CreatedDate).ToListAsync();
+            var result = posts
+                .Select(async x => new SellOrGivePostDTO
+                {
+                    PostId = x.PostId,
+                    Title = x.Title,
+                    Description = x.Description,
+                    Price = x.Price,
+                    CreatedDate = x.CreatedDate,
+                    Image = x.Image,
+                    UserId = x.UserId,
+                    AnimalId = x.AnimalId,
+                    AnimalName = x.Animal.AnimalName,
+                    Gender = x.Animal.Gender,
+                    AnimalType = x.Animal.AnimalType,
+                    AnimalDescription = x.Animal.Description,
+                    Status = x.Status,
+                    Age = x.Animal.Age,
+                    Comments = (await Task.WhenAll(ConvertCommentToDTO(catDogLoveManagementContext.Comments.Where(y => y.PostId == x.PostId).ToList())))
+                        .SelectMany(commentArray => commentArray)
+                        .ToList(),
+                })
+                .Select(x => x.Result) // Await each task and project
+                .OrderByDescending(x => x.CreatedDate)
+                .ToList(); // Perform the projection on the client side
+
             return result;
         }
         public async Task<IEnumerable<ServicePostDTO>> GetAllServicePostAsync()
@@ -385,7 +421,7 @@ namespace CatDogLoverManagement.Repository.Repositories
 
         public async Task<Guid> GetAnimalId(string id)
         {
-            var animalId=(Guid) await catDogLoveManagementContext.BlogPosts.Where(x=>x.PostId==Guid.Parse(id)).Select(x=>x.AnimalId).FirstOrDefaultAsync();
+            var animalId = (Guid)await catDogLoveManagementContext.BlogPosts.Where(x => x.PostId == Guid.Parse(id)).Select(x => x.AnimalId).FirstOrDefaultAsync();
             return animalId;
         }
 

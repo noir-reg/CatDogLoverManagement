@@ -40,9 +40,10 @@
             </tr>
         </thead>
         <tbody>
+            @foreach (var item in Model.Order)
+            {
             <form method="post" asp-page-handler="ApproveOrder">
-                @foreach (var item in Model.Order)
-                {
+               
                 <tr>
                     <input type="hidden" value="@item.OrderId" asp-for="OrderItemId">
                     <td>
@@ -62,7 +63,7 @@
                             }
                             else
                             {
-                            <h5>Animal exchange</h5>
+                            <h5>Sell/Give Animal</h5>
                             }
                     </td>
                     <td>
@@ -100,8 +101,8 @@
                             }
                     </td>
                 </tr>
-                }
-            </form>
+                
+            </form>}
         </tbody>
     </table>
 }

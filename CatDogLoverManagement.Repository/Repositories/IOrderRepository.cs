@@ -8,7 +8,7 @@ namespace CatDogLoverManagement.Repository.Repositories
 {
     public interface IOrderRepository
     {
-        Task<bool> CreateOrderForGivePost(Guid animalId,string giverId, string recieverId);
+        Task<bool> CreateOrderForSellOrGivePost(Guid animalId,string giverId, string recieverId,decimal price);
         
 
         

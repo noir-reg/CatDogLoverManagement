@@ -41,6 +41,7 @@ namespace CatDogLoverManagement.Pages.OrderService
             {
                 return Page();
             }
+            TempData["success"] = "Create successfully";
             return RedirectToPage("./Index");
         }
     }

@@ -34,10 +34,12 @@ namespace CatDogLoverManagement.Pages.Post
             if (!string.IsNullOrEmpty(id))
             {
                 var AnimalId = await blogPostRepository.GetAnimalId(PostId);
-                var result = await orderRepository.CreateOrderForGivePost(AnimalId, id, UserId);
+                var result = await orderRepository.CreateOrderForSellOrGivePost(AnimalId, id, UserId,0);
                 if (result)
                     await commentRepository.UpdateCommentStatus(CommentId);
+                TempData["success"] = "Completed";
             }
+
             return RedirectToPage("GivePosts");
 
         }

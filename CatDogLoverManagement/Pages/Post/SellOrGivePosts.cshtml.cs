@@ -12,7 +12,7 @@ namespace CatDogLoverManagement.Pages.Post
     {
         private readonly IBlogPostRepository blogPostRepository;
         private readonly ICommentRepository commentRepository;
-
+        private readonly IOrderRepository orderRepository;
         public IEnumerable<SellOrGivePostDTO> BlogPosts { get; set; }
         [BindProperty]
         public string Message { get; set; }
@@ -20,11 +20,13 @@ namespace CatDogLoverManagement.Pages.Post
         public string VolunteerId { get; set; }
         [BindProperty]
         public string PostId { get; set; }
-
-        public ListModel(IBlogPostRepository blogPostRepository, ICommentRepository commentRepository)
+        [BindProperty]
+        public Order Order { get; set; }
+        public ListModel(IBlogPostRepository blogPostRepository, ICommentRepository commentRepository, IOrderRepository orderRepository)
         {
             this.blogPostRepository = blogPostRepository;
             this.commentRepository = commentRepository;
+            this.orderRepository = orderRepository;
         }
         public async Task OnGet()
         {
@@ -35,12 +37,34 @@ namespace CatDogLoverManagement.Pages.Post
             }
             BlogPosts = await blogPostRepository.GetAllSellPostAsync();
         }
+        public async Task<IActionResult> OnPost()
+        {
+            var id = HttpContext.Session.GetString("userId");
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                var AnimalId = await blogPostRepository.GetAnimalId(PostId);
+
+                var result = await orderRepository.CreateOrderForSellOrGivePost((Guid)Order.AnimalId, Order.SellerId.ToString(), id, (decimal)Order.Price);
+
+                TempData["success"] = "Order successfully";
+                return RedirectToPage("SellOrGivePosts");
+            }
+
+            return RedirectToPage("/Login");
+
+        }
         public async Task<IActionResult> OnPostAddComment()
         {
             if (string.IsNullOrEmpty(VolunteerId))
-                return BadRequest("You haven't logined");
+                return RedirectToPage("/Login");
+            
             var result = await commentRepository.AddAsync(Message, PostId, VolunteerId);
-            return RedirectToPage("ServicePosts");
+            if (result)
+            {
+                TempData["success"] = "Completed";
+            }
+            return RedirectToPage("SellOrGivePosts");
         }
     }
 }

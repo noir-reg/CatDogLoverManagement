@@ -38,7 +38,7 @@
             </tr>
         </thead>
         <tbody>
-            <form method="post" asp-page-handler="DeleteService">
+            <form method="post" asp-page-handler="Delete">
                 @foreach (var item in Model.BlogPosts)
                 {
                 <tr>
@@ -83,7 +83,8 @@
                     </td>
                     <td>
                         <a href="EditServicePost/@item.PostId" style="text-decoration: none;">
-                            <button type="button" class="bg-primary text-white">Edit</button>
+                             <button type="button" class="bg-primary text-white">Edit</button> 
+                           
                         </a>
                         <button class="badge bg-danger p-2 mt-2" type="submit">Delete</button>
 

@@ -17,7 +17,7 @@
     @foreach (var blog in Model.BlogPosts)
     {
         <div>
-            <div class="container">
+            <div class="container" id="body">
 
                 <div>
                     @if (!string.IsNullOrEmpty(id))
@@ -47,8 +47,8 @@
                         @blog.CreatedDate
                     </div>
                     <div class="mb-3">
-                        <label for="image" class="form-label">Image</label>
-                        <img src="@blog.Image" style="width:300px;" />
+                        <label for="image" class="form-label"></label>
+                        <img src="@blog.Image" style="width:300px; height:300px" />
                     </div>
                     <div class="mb-3" style="display:none">
                         <label for="userId" class="form-label">UserID</label>
@@ -91,15 +91,38 @@
                         @if (!string.IsNullOrEmpty(id))
                         {
                             if (!id.Equals(blog.UserId.ToString()))
-                            {
-                                <div class="mb-3 d-flex justify-content-between">
-                                    <button class="btn btn-danger" type="submit" asp-page-handler="Order">Order</button>
-                                </div>
+                            {   <form method="post">
+                                        <input type="hidden" value="@blog.AnimalId" asp-for="Order.AnimalId">
+                                        <input type="hidden" value="@blog.UserId" asp-for="Order.SellerId">
+                                        <input type="hidden" value="@blog.Price" asp-for="Order.Price">
+                                        <input type="hidden" value="@blog.PostId" asp-for="PostId">
+                                        
+                                        <div class="mb-3 d-flex justify-content-between">
+                                            <button class="btn btn-danger" type="submit">Order</button>
+                                        </div>
+                                </form>
+                                
                             }
                         }
                     }
                 </form>
                 <div id="comment">
+                        @foreach (var comment in blog.Comments!)
+                        {
+                            <div class="row">
+                                <div class="col-3">
+                                    <h5 class="comment-name">@comment.Username</h5>
+                                </div>
+                                <div class="col-5">
+                                    <div>
+                                        @comment.CommentMessage
+                                    </div>
+                                    <div>
+                                        @comment.CreatedDate
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     <form method="post">
                         <div class="mb-3">
                             <label class="form-label">Comment</label>
@@ -121,4 +144,46 @@ else
         <p>No Blog Posts Were Found!.</p>
     </div>
 }
-    
+    <style>
+        .content {
+            display: none;
+        }
+
+        #body {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #f8f9fa;
+        }
+
+            #body .form-label {
+                font-weight: bold;
+                color: #343a40;
+            }
+
+            #body .mb-3 {
+                margin-bottom: 1rem !important;
+            }
+
+            #body a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+                #body a:hover {
+                    color: #0056b3;
+                    text-decoration: underline;
+                }
+
+            #body img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            #body hr {
+                border: none;
+                border-top: 2px solid #000;
+                margin: 10px 0;
+            }
+    </style>

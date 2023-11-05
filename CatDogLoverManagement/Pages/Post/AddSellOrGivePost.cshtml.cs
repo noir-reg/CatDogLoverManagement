@@ -45,6 +45,7 @@ namespace CatDogLoverManagement.Pages.Post
              var result=   await blogPostRepository.AddAsync(userId, AddAnimalRequest, null, null, AddBlogPostRequest);
                 if (result)
                 {
+                    TempData["success"] = "Create successfully";
                     return RedirectToPage("MySellOrGivePosts");
                 }
                 
