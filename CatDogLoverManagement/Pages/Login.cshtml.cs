@@ -33,7 +33,7 @@ namespace CatDogLoverManagement.Pages
             HttpContext.Session.Clear();
             return RedirectToPage("./Home");
         }
-        public async Task<IActionResult> OnPost(string ReturnUrl)
+        public async Task<IActionResult> OnPost(string? ReturnUrl)
         {
             var result = await userRepository.LoginAsync(LoginViewModel.Username, LoginViewModel.Password);
             if (result == null)
@@ -55,7 +55,13 @@ namespace CatDogLoverManagement.Pages
             HttpContext.Session.SetString("userId", result.UserId.ToString());
             HttpContext.Session.SetString("Role", result.Role.RoleName);
 
-            return RedirectToPage("Home");
+                return RedirectToPage("Home");
+            }
+            else
+            {
+                return Page();
+            }
+            
 
             //var signInResult = await signInManager.PasswordSignInAsync(
             //  LoginViewModel.Username, LoginViewModel.Password, false, false);
