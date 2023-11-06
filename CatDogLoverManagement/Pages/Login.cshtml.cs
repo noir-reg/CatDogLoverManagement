@@ -44,8 +44,10 @@ namespace CatDogLoverManagement.Pages
                 .Build();
                 var userName = config["AdminAccount:userName"];
                 var passWord = config["AdminAccount:passWord"];
+                var id= config["AdminAccount:id"];
                 if (userName.Equals(LoginViewModel.Username) && passWord.Equals(LoginViewModel.Password))
                 {
+                    HttpContext.Session.SetString("userId", id);
                     return RedirectToPage("Admin/AccessPostList");
                 }
                 TempData["error"] = "Invalid username or password";
@@ -56,36 +58,8 @@ namespace CatDogLoverManagement.Pages
             HttpContext.Session.SetString("Role", result.Role.RoleName);
 
                 return RedirectToPage("Home");
-            }
-            else
-            {
-                return Page();
-            }
-            
-
-            //var signInResult = await signInManager.PasswordSignInAsync(
-            //  LoginViewModel.Username, LoginViewModel.Password, false, false);
-
-            //if (signInResult.Succeeded)
-            //{
-            //    if (!string.IsNullOrWhiteSpace(ReturnUrl))
-            //    {
-            //        return RedirectToPage(ReturnUrl);
-            //    }
-
-            //    return RedirectToPage("Index");
-            //}
-            //else
-            //{
-            //    ViewData["Notification"] = new Notification
-            //    {
-            //        type = Repository.Models.Enums.NotificationType.Error,
-            //        Message = "Unable to Login"
-            //    };
-
-            //    return Page();
-            //}
+            }          
         }
 
     }
-}
+
