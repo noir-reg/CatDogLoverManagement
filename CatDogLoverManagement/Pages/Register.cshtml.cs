@@ -26,26 +26,34 @@ namespace CatDogLoverManagement.Pages
 
         public async Task<IActionResult> OnPost()
         {
-            var user = new User()
+            if(ModelState.IsValid)
             {
-                Username = RegisterViewModel.Username,
-                Email = RegisterViewModel.Email,
-                Password = RegisterViewModel.Password,
-                Phonenumber = RegisterViewModel.Phonenumber,
-                RoleId = await roleRepository.GetRoleId(Role.user.ToString())
-            };
-
-            var result = await userRepository.AddAsync(user);
-            if (result != null)
-            {
-                ViewData["Notification"] = new Notification
+                var user = new User()
                 {
-                    Message = "Record updated successfully!",
-                    type = Repository.Models.Enums.NotificationType.Success
+                    Username = RegisterViewModel.Username,
+                    Email = RegisterViewModel.Email,
+                    Password = RegisterViewModel.Password,
+                    Phonenumber = RegisterViewModel.Phonenumber,
+                    RoleId = await roleRepository.GetRoleId(Role.user.ToString())
                 };
-                return RedirectToPage("Login");
+
+                var result = await userRepository.AddAsync(user);
+                if (result != null)
+                {
+                    ViewData["Notification"] = new Notification
+                    {
+                        Message = "Record updated successfully!",
+                        type = Repository.Models.Enums.NotificationType.Success
+                    };
+                    return RedirectToPage("Login");
+                }
+                return Page();
             }
-            return Page();
+            else
+            {
+                return Page();
+            }
+            
         }
     }
 }

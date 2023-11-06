@@ -32,21 +32,29 @@ namespace CatDogLoverManagement.Pages
             HttpContext.Session.Clear();
             return RedirectToPage("./Home");
         }
-        public async Task<IActionResult> OnPost(string ReturnUrl)
+        public async Task<IActionResult> OnPost(string? ReturnUrl)
         {
-            var result = await userRepository.LoginAsync(LoginViewModel.Username, LoginViewModel.Password);
-            if (result == null)
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "Invalid username or password");
+                var result = await userRepository.LoginAsync(LoginViewModel.Username, LoginViewModel.Password);
+                if (result == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid username or password");
+                    return Page();
+                }
+
+                HttpContext.Session.SetString("username", LoginViewModel.Username);
+
+                HttpContext.Session.SetString("userId", result.UserId.ToString());
+                HttpContext.Session.SetString("Role", result.Role.RoleName);
+
+                return RedirectToPage("Home");
+            }
+            else
+            {
                 return Page();
             }
-
-            HttpContext.Session.SetString("username", LoginViewModel.Username);
-
-            HttpContext.Session.SetString("userId", result.UserId.ToString());
-            HttpContext.Session.SetString("Role", result.Role.RoleName);
-
-            return RedirectToPage("Home");
+            
 
             //var signInResult = await signInManager.PasswordSignInAsync(
             //  LoginViewModel.Username, LoginViewModel.Password, false, false);

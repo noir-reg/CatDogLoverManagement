@@ -46,6 +46,7 @@ namespace CatDogLoverManagement.Pages.Post
                 return BadRequest("You haven't logined");
             }
 
+            ValidateAddService();
 
             if (ModelState.IsValid)
             {
@@ -78,6 +79,15 @@ namespace CatDogLoverManagement.Pages.Post
                 }
             }
             return Page();
+        }
+
+        private void ValidateAddService()
+        {
+            if (AddServiceRequest.OpenDate.Date < DateTime.Now.Date)
+            {
+                ModelState.AddModelError("AddServiceRequest.OpenDate",
+                    $"OpenDate can only be today's date or a furture date.");
+            }
         }
     }
 }
