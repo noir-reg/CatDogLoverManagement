@@ -36,8 +36,8 @@ namespace CatDogLoverManagement.Pages.OrderService
 
             // Here, you can update the database, set the payment status, or perform any other necessary actions
             var order = await orderServiceRepository.GetByIdAsync(Guid.Parse(orderItemId));
-            //order.Status = OrderStatusConst.SUCCESS;
-            //var result = await orderServiceRepository.UpdateAsync(order);
+            order.Status = OrderStatusConst.SUCCESS;
+            var result = await orderServiceRepository.UpdateAsync(order);
             return Page(); // Return to the original page after handling the payment success
         }
     }
