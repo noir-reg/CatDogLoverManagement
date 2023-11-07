@@ -14,13 +14,13 @@ namespace CatDogLoverManagement.Pages.Post
         private readonly IServiceRepository serviceRepository;
         private readonly ITimeFrameRepository timeFrameRepository;
         [BindProperty]
-        public BlogPost BlogPost { get; set; }
+        public EditBlogPostRequest BlogPost { get; set; }
         [BindProperty]
-        public Service Service { get; set; }
+        public EditService Service { get; set; }
         [BindProperty]
         public List<TimeFrame> AddTimeFrameRequest { get; set; }
         [BindProperty]
-        public IFormFile FeaturedImage { get; set; }
+        public IFormFile? FeaturedImage { get; set; }
         public EditServicePostModel(IBlogPostRepository blogPostRepository, IAnimalRepository animalRepository,
             IServiceRepository serviceRepository, ITimeFrameRepository timeFrameRepository)
         {
@@ -32,60 +32,126 @@ namespace CatDogLoverManagement.Pages.Post
         }
         public async Task OnGet(Guid id)
         {
-            BlogPost = await blogPostRepository.GetAsync(id);
-            if (BlogPost.ServiceId != null)
-                Service = await serviceRepository.GetAsync((Guid)BlogPost.ServiceId);
-            if (Service != null)
+            var blogPostDomainModel = await blogPostRepository.GetAsync(id);
+            if (blogPostDomainModel.ServiceId != null)
             {
-                AddTimeFrameRequest = await timeFrameRepository.GetListTimeFrameByServiceId(Service.ServiceId);
+                BlogPost = new EditBlogPostRequest
+                {
+                    PostId = blogPostDomainModel.PostId,
+                    Title = blogPostDomainModel.Title,
+                    Description = blogPostDomainModel.Description,
+                    Price = blogPostDomainModel.Price,
+                    CreatedDate = blogPostDomainModel.CreatedDate,
+                    Status = blogPostDomainModel.Status,
+                    Image = blogPostDomainModel.Image,
+                    UserId = blogPostDomainModel.UserId,
+                    AnimalId = blogPostDomainModel.AnimalId,
+                    ServiceId = blogPostDomainModel.ServiceId,
+                };
+
+                if(blogPostDomainModel.ServiceId != null)
+                {
+                    var blogServicePostDomainModel = await serviceRepository.GetAsync((Guid)BlogPost.ServiceId);
+                    Service = new EditService
+                    {
+                        ServiceId = blogServicePostDomainModel.ServiceId,
+                        ServiceName = blogServicePostDomainModel.ServiceName,
+                        Address = blogServicePostDomainModel.Address,
+                        Description = blogServicePostDomainModel.Description,
+                        OpenDate = blogServicePostDomainModel.OpenDate,
+                        Note = blogServicePostDomainModel.Note,
+                        Image = blogServicePostDomainModel.Image,
+
+                    };
+
+                    if(blogServicePostDomainModel != null)
+                    {
+                        AddTimeFrameRequest = await timeFrameRepository.GetListTimeFrameByServiceId(Service.ServiceId);
+                    }
+                }
             }
+                
+            
         }
 
         public async Task<IActionResult> OnPostEdit()
         {
-            try
+            ValidateAddService();
+            if (ModelState.IsValid)
             {
-                List<TimeFrame> listTimeDTO = new List<TimeFrame>();
-                if(AddTimeFrameRequest.Count > 0)
+                try
                 {
-                    foreach (var timeFrame in AddTimeFrameRequest)
+                    var blogPostDomainModel = new BlogPost
                     {
-                        if (timeFrame.From != null && timeFrame.To != null)
+                        PostId = BlogPost.PostId,
+                        Title = BlogPost.Title,
+                        Description = BlogPost.Description,
+                        Price = BlogPost.Price,
+                        CreatedDate = BlogPost.CreatedDate,
+                        Status = BlogPost.Status,
+                        Image = BlogPost.Image,
+                        UserId = BlogPost.UserId,
+                        ServiceId = BlogPost.ServiceId,
+                        AnimalId = BlogPost.AnimalId,
+                    };
+
+                    var blogService = new Service
+                    {
+                        ServiceId = Service.ServiceId,
+                        ServiceName = Service.ServiceName,
+                        Address = Service.Address,
+                        Description = Service.Description,
+                        OpenDate = Service.OpenDate,
+                        Note = Service.Note,
+                        Image = Service.Image,
+                    };
+
+                    List<TimeFrame> listTimeDTO = new List<TimeFrame>();
+                    if (AddTimeFrameRequest.Count > 0)
+                    {
+                        foreach (var timeFrame in AddTimeFrameRequest)
                         {
-                            listTimeDTO.Add(timeFrame);
+                            if (timeFrame.From != null && timeFrame.To != null)
+                            {
+                                listTimeDTO.Add(timeFrame);
+                            }
                         }
                     }
+                    if (listTimeDTO.Count == 0)
+                    {
+                        TempData["error"] = "Please choose time";
+                        return Page();
+                    }
+                    await blogPostRepository.UpdateAsync(blogPostDomainModel);
+                    await timeFrameRepository.UpdateRangeAync(listTimeDTO);
+                    var result = await serviceRepository.UpdateAsync(blogService);
+                    if (result)
+                    {
+                        TempData["success"] = "Update service successfully";
+                    }
+                    ViewData["Notification"] = new Notification
+                    {
+                        Message = "Record updated successfully!",
+                        type = Repository.Models.Enums.NotificationType.Success
+                    };
                 }
-                if(listTimeDTO.Count == 0)
+                catch (Exception ex)
                 {
-                    TempData["error"] = "Please choose time";
-                    return Page();
+                    ViewData["Notification"] = new Notification
+                    {
+                        Message = "Something went wrong!",
+                        type = Repository.Models.Enums.NotificationType.Error
+                    };
                 }
-                await blogPostRepository.UpdateAsync(BlogPost);
-                await timeFrameRepository.UpdateRangeAync(listTimeDTO);
-                var result  = await serviceRepository.UpdateAsync(Service);
-                if (result)
-                {
-                    TempData["success"] = "Update service successfully";
-                }
-                ViewData["Notification"] = new Notification
-                {
-                    Message = "Record updated successfully!",
-                    type = Repository.Models.Enums.NotificationType.Success
-                };
+
+
+                return Page();
             }
-            catch (Exception ex)
+            else
             {
-                await blogPostRepository.UpdateAsync(BlogPost);
-                ViewData["Notification"] = new Notification
-                {
-                    Message = "Something went wrong!",
-                    type = Repository.Models.Enums.NotificationType.Error
-                };
+                return Page();
             }
-
-
-            return Page();
+            
         }
 
         public async Task<IActionResult> OnPostDelete()
@@ -105,6 +171,15 @@ namespace CatDogLoverManagement.Pages.Post
             }
 
             return Page();
+        }
+
+        private void ValidateAddService()
+        {
+            if (Service.OpenDate.Date < DateTime.Now.Date)
+            {
+                ModelState.AddModelError("Service.OpenDate",
+                    $"OpenDate can only be today's date or a furture date.");
+            }
         }
     }
 }

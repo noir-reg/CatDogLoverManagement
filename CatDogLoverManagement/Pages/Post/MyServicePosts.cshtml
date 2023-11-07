@@ -3,6 +3,14 @@
 @{
 }
 
+
+
+@{
+    String jsonString = HttpContext.Session.GetString("userId");
+    if (!string.IsNullOrEmpty(jsonString))
+    {
+        if (!jsonString.Equals("4984f0a0-fb04-4759-baad-0682b4f8657f"))
+        {
 @if (Model.BlogPosts.Count() > 0)
 {
     <table class="table">
@@ -66,7 +74,7 @@
                             {
                             <span class="badge bg-primary">@Html.DisplayFor(modelItem => item.Status)</span>
                             }
-                            else if (item.Status.Equals("Waiting"))
+                            else if (item.Status.Equals("Waiting") || item.Status.Equals("Processing"))
                             {
                             <span class="badge bg-danger">@Html.DisplayFor(modelItem => item.Status)</span>
                             }
@@ -102,7 +110,6 @@ else
     </div>
 }
 
-
 <style>
     .content {
         display: none;
@@ -122,3 +129,15 @@ else
         }
     }
 </script>
+
+        }
+        else
+        {
+            <h1>Access Denied</h1>
+        }
+    }
+    else
+    {
+        <h1>Access Denied</h1>
+    }
+}

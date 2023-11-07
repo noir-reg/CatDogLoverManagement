@@ -3,6 +3,12 @@
 @{
 }
 
+@{
+    String jsonString = HttpContext.Session.GetString("userId");
+    if (!string.IsNullOrEmpty(jsonString))
+    {
+        if (!jsonString.Equals("4984f0a0-fb04-4759-baad-0682b4f8657f"))
+        {
 <div class="bg-secondary bg-opacity-10 py-2">
     <div>
         <h1>Add Service Post</h1>
@@ -175,4 +181,15 @@
 
         });
     </script>
+}
+    }
+        else
+        {
+            <h1>Access Denied</h1>
+        }
+    }
+    else
+    {
+        <h1>Access Denied</h1>
+    }
 }

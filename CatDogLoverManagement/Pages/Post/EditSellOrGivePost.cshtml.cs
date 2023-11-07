@@ -15,12 +15,14 @@ namespace CatDogLoverManagement.Pages.Post
         private readonly IAnimalRepository animalRepository;
         private readonly IServiceRepository serviceRepository;
         private readonly ITimeFrameRepository timeFrameRepository;
+
         [BindProperty]
-        public BlogPost BlogPost { get; set; }
+        public EditBlogPostRequest BlogPost { get; set; }
+
         [BindProperty]
-        public Animal Animal { get; set; }
+        public EditAnimal Animal { get; set; }
         [BindProperty]
-        public IFormFile FeaturedImage { get; set; }
+        public IFormFile? FeaturedImage { get; set; }
         public EditModel(IBlogPostRepository blogPostRepository, IAnimalRepository animalRepository,
             IServiceRepository serviceRepository, ITimeFrameRepository timeFrameRepository)
         {
@@ -32,26 +34,94 @@ namespace CatDogLoverManagement.Pages.Post
         }
         public async Task OnGet(string id)
         {
-            BlogPost = await blogPostRepository.GetAsync(Guid.Parse(id));
-            if (BlogPost.AnimalId != null)
-                Animal = await animalRepository.GetAsync((Guid)BlogPost.AnimalId);
-        }
+            var blogPostDomainModel = await blogPostRepository.GetAsync(Guid.Parse(id));
+            if (blogPostDomainModel != null)
+            {
+                BlogPost = new EditBlogPostRequest
+                {
+                    PostId = blogPostDomainModel.PostId,
+                    Title = blogPostDomainModel.Title,
+                    Description = blogPostDomainModel.Description,
+                    Price = blogPostDomainModel.Price,
+                    CreatedDate = blogPostDomainModel.CreatedDate,
+                    Status = blogPostDomainModel.Status,
+                    Image = blogPostDomainModel.Image,
+                    UserId = blogPostDomainModel.UserId,
+                    AnimalId = blogPostDomainModel.AnimalId,
+                    ServiceId = blogPostDomainModel.ServiceId,
+                };
+                if (blogPostDomainModel.AnimalId != null)
+                {
+                    var blogAnimalPostDomainModel = await animalRepository.GetAsync((Guid)BlogPost.AnimalId);
+                    if (blogAnimalPostDomainModel != null)
+                    {
+                        Animal = new EditAnimal
+                        {
+                            AnimalId = blogAnimalPostDomainModel.AnimalId,
+                            AnimalName = blogAnimalPostDomainModel.AnimalName,
+                            AnimalType = blogAnimalPostDomainModel.AnimalType,
+                            Description = blogAnimalPostDomainModel.Description,
+                            Gender = blogAnimalPostDomainModel.Gender,
+                            Age = blogAnimalPostDomainModel.Age,
 
+                        };
+                    }
+                }
+            }
+        }
+            
+        
         public async Task<IActionResult> OnPostEdit()
         {
-            try
+        if(ModelState.IsValid)
             {
-                await blogPostRepository.UpdateAsync(BlogPost);
-                await animalRepository.UpdateAsync(Animal);
-                TempData["success"] = "Update successfully";
+                try
+                {
+
+                    var blogPostDomainModel = new BlogPost
+                    {
+                        PostId = BlogPost.PostId,
+                        Title = BlogPost.Title,
+                        Description = BlogPost.Description,
+                        Price = BlogPost.Price,
+                        CreatedDate = DateTime.Now,
+                        Status = BlogPost.Status,
+                        Image = BlogPost.Image,
+                        UserId = BlogPost.UserId,
+                        ServiceId = BlogPost.ServiceId,
+                        AnimalId = BlogPost.AnimalId,
+
+
+
+                    };
+
+                    var blogAnimal = new Animal
+                    {
+                        AnimalId = Animal.AnimalId,
+                        AnimalName = Animal.AnimalName,
+                        AnimalType = Animal.AnimalType,
+                        Description = Animal.Description,
+                        Gender = Animal.Gender,
+                        Age = Animal.Age,
+                    };
+
+                    await blogPostRepository.UpdateAsync(blogPostDomainModel);
+                    await animalRepository.UpdateAsync(blogAnimal);
+                    TempData["success"] = "Update successfully";
+                }
+                catch (Exception ex)
+                {
+
+                }
+                return Page();
             }
-            catch (Exception ex)
+            else
             {
-               
+                return Page();
             }
 
 
-            return Page();
+            
         }
 
         public async Task<IActionResult> OnPostDelete()
