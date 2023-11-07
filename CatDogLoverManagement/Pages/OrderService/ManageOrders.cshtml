@@ -4,7 +4,12 @@
 @{
     ViewData["Title"] = "ManageOrders";
 }
-
+@{
+    String jsonString = HttpContext.Session.GetString("userId");
+    if (!string.IsNullOrEmpty(jsonString))
+    {
+        if (!jsonString.Equals("4984f0a0-fb04-4759-baad-0682b4f8657f"))
+        {
 <h1>Manage Customer Orders</h1>
 
 @if (Model.Order.Count() > 0)
@@ -121,4 +126,16 @@ else
         </button>
     </a>
 
+}
+
+        }
+        else
+        {
+            <h1>Access Denied</h1>
+        }
+    }
+    else
+    {
+        <h1>Access Denied</h1>
+    }
 }

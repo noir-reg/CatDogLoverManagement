@@ -20,7 +20,7 @@ namespace CatDogLoverManagement.Repository.Models.ViewModels
         [Required]
         public string Gender { get; set; } = null!;
         [Required]
-        [Range(1, 20), DataType(DataType.Currency)]
+        [Range(1, 20)]
         public int Age { get; set; }
     }
 }

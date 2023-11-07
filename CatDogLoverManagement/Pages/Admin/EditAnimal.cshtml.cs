@@ -44,6 +44,7 @@ namespace CatDogLoverManagement.Pages.Admin
             try
             {
                 await blogPostRepository.UpdateAdminAsync(BlogPost);
+                TempData["success"] = "Completed";
                 ViewData["Notification"] = new Notification
                 {
                     Message = "Record updated successfully!",

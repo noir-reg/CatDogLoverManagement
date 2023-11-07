@@ -17,7 +17,7 @@ namespace CatDogLoverManagement.Repository.Models.ViewModels
         [Required]
         public string Description { get; set; } = null!;
         [Required]
-        [Range(0, 5000), DataType(DataType.Currency)]
+        [Range(0, 50000000), DataType(DataType.Currency)]
         //trước dấu "," lấy 18 số, sau dấu "," lấy 2 số
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }

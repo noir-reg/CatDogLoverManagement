@@ -76,8 +76,8 @@ namespace CatDogLoverManagement.Pages.Post
 
         public async Task<IActionResult> OnPostEdit()
         {
-            ValidateAddService();
-            if (ModelState.IsValid)
+            var check = await ValidateAddService();
+           if (check)
             {
                 try
                 {
@@ -143,15 +143,8 @@ namespace CatDogLoverManagement.Pages.Post
                         type = Repository.Models.Enums.NotificationType.Error
                     };
                 }
-
-
-                return Page();
             }
-            else
-            {
-                return Page();
-            }
-            
+                return Page();          
         }
 
         public async Task<IActionResult> OnPostDelete()
@@ -173,13 +166,18 @@ namespace CatDogLoverManagement.Pages.Post
             return Page();
         }
 
-        private void ValidateAddService()
-        {
-            if (Service.OpenDate.Date < DateTime.Now.Date)
+        private async Task<bool> ValidateAddService()
+        {   var result = true;
+            var blogServicePostDomainModel = await serviceRepository.GetAsync(Service.ServiceId);
+
+            var date = blogServicePostDomainModel.OpenDate.Date;
+            if (Service.OpenDate.Date < date)
             {
                 ModelState.AddModelError("Service.OpenDate",
-                    $"OpenDate can only be today's date or a furture date.");
+                    $"New open date can not be earlier than current open date.");
+                result = false;  
             }
+            return result;
         }
     }
 }
