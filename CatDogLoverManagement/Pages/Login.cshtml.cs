@@ -48,7 +48,7 @@ namespace CatDogLoverManagement.Pages
                     var userName = config["AdminAccount:userName"];
                     var passWord = config["AdminAccount:passWord"];
                     var id = config["AdminAccount:id"];
-                    if(userName.Equals(LoginViewModel.Username) && passWord.Equals(LoginViewModel.Password))
+                    if (userName.Equals(LoginViewModel.Username) && passWord.Equals(LoginViewModel.Password))
                     {
                         HttpContext.Session.SetString("userId", id);
                         return RedirectToPage("Admin/AccessPostList");
@@ -61,7 +61,9 @@ namespace CatDogLoverManagement.Pages
                 HttpContext.Session.SetString("userId", result.UserId.ToString());
                 HttpContext.Session.SetString("Role", result.Role.RoleName);
 
-            return RedirectToPage("Home");
+                return RedirectToPage("Home");
+            }
+            return Page();
         }
     }
 }
