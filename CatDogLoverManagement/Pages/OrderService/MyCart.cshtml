@@ -77,7 +77,7 @@
                             {
                             <span class="badge bg-primary">@Html.DisplayFor(modelItem => item.Status)</span>
                             }
-                            else if (item.Status.Equals("Waiting"))
+                            else if (item.Status.Equals("Waiting") || item.Status.Equals("Processing"))
                             {
                             <span class="badge bg-danger">@Html.DisplayFor(modelItem => item.Status)</span>
                             }
@@ -85,21 +85,28 @@
                             {
                             <span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Status)</span>
                             }
+                            else
+                            {
+                            <span class="badge bg-info">@Html.DisplayFor(modelItem => item.Status)</span>
+                            }
                     </td>
                     <td>
                             @if (item.Status.Equals("Success"))
                             {
                             <span class="badge bg-dark">Đã Thanh Toán</span>
                             }
-                            else if (item.Status.Equals("Waiting"))
+                            else if (item.Status.Equals("Waiting") || item.Status.Equals("Processing"))
                             {
                             <span class="badge bg-secondary">Đang chờ</span>
                             }
                             else if (item.Status.Equals("Approved"))
                             {
-                            <button class="badge bg-primary p-2" type="submit">Thanh toán</button>
+                                <button class="badge bg-primary p-2" type="submit">Thanh toán</button>
+                            } else
+                            {
+                            <span class="badge bg-info">Unavailable</span>
                             }
-                    </td>
+                        </td>
                 </tr>
                 }
             </form>
