@@ -9,6 +9,7 @@ using System;
 
 namespace CatDogLoverManagement.Pages
 {
+
     public class LoginModel : PageModel
     {
         private readonly IUserRepository userRepository;
@@ -44,7 +45,7 @@ namespace CatDogLoverManagement.Pages
                 .Build();
                 var userName = config["AdminAccount:userName"];
                 var passWord = config["AdminAccount:passWord"];
-                var id= config["AdminAccount:id"];
+                var id = config["AdminAccount:id"];
                 if (userName.Equals(LoginViewModel.Username) && passWord.Equals(LoginViewModel.Password))
                 {
                     HttpContext.Session.SetString("userId", id);
@@ -57,9 +58,9 @@ namespace CatDogLoverManagement.Pages
             HttpContext.Session.SetString("userId", result.UserId.ToString());
             HttpContext.Session.SetString("Role", result.Role.RoleName);
 
-                return RedirectToPage("Home");
-            }          
+            return RedirectToPage("Home");
         }
-
     }
+}
+
 
