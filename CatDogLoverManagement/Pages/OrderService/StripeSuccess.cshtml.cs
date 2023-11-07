@@ -27,7 +27,7 @@ namespace CatDogLoverManagement.Pages.OrderService
         public async Task<IActionResult> OnGet()
         {
             var orderItemId = TempData["OrderItemId"]?.ToString();
-
+            TempData["success"] = "Payment order successfully";
             if (string.IsNullOrEmpty(orderItemId))
             {
                 // Handle missing or invalid orderItemId
@@ -36,8 +36,16 @@ namespace CatDogLoverManagement.Pages.OrderService
 
             // Here, you can update the database, set the payment status, or perform any other necessary actions
             var order = await orderServiceRepository.GetByIdAsync(Guid.Parse(orderItemId));
-            //order.Status = OrderStatusConst.SUCCESS;
-            //var result = await orderServiceRepository.UpdateAsync(order);
+            order.Status = OrderStatusConst.SUCCESS;
+            var result = await orderServiceRepository.UpdateAsync(order);
+            if (result)
+            {
+                TempData["success"] = "Payment order successfully";
+            } else
+            {
+                TempData["error"] = "Payment order failure";
+                return RedirectToPage("/StripeCancel");
+            }
             return Page(); // Return to the original page after handling the payment success
         }
     }

@@ -80,9 +80,12 @@
                             }
                             else if (item.Status.Equals("Approved"))
                             {
-                            <span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Status)</span>
+                                <span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Status)</span>
+                            } else
+                            {
+                            <span class="badge bg-info">@Html.DisplayFor(modelItem => item.Status)</span>
                             }
-                    </td>
+                        </td>
                     <td>
                             @foreach (var timeFrame in item.TimeFrames)
                             {
@@ -90,12 +93,12 @@
                             }
                     </td>
                     <td>
+                        
                         <a href="EditServicePost/@item.PostId" style="text-decoration: none;">
-                             <button type="button" class="bg-primary text-white">Edit</button> 
-                           
+                             <button type="button" class="bg-primary text-white">Edit</button>                           
                         </a>
                         <button class="badge bg-danger p-2 mt-2" type="submit">Delete</button>
-
+                        
                     </td>
                 </tr>
                 }

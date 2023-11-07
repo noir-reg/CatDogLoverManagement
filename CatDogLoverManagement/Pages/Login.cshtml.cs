@@ -9,17 +9,19 @@ using System;
 
 namespace CatDogLoverManagement.Pages
 {
+
     public class LoginModel : PageModel
     {
         private readonly IUserRepository userRepository;
-
+        readonly private IConfiguration _configuration;
         [BindProperty]
         public Login LoginViewModel { get; set; }
 
 
-        public LoginModel(IUserRepository userRepository)
+        public LoginModel(IUserRepository userRepository, IConfiguration configuration)
         {
             this.userRepository = userRepository;
+            _configuration = configuration;
         }
 
 
@@ -59,37 +61,9 @@ namespace CatDogLoverManagement.Pages
                 HttpContext.Session.SetString("userId", result.UserId.ToString());
                 HttpContext.Session.SetString("Role", result.Role.RoleName);
 
-                return RedirectToPage("Home");
-            }
-            else
-            {
-                return Page();
-            }
-            
-
-            //var signInResult = await signInManager.PasswordSignInAsync(
-            //  LoginViewModel.Username, LoginViewModel.Password, false, false);
-
-            //if (signInResult.Succeeded)
-            //{
-            //    if (!string.IsNullOrWhiteSpace(ReturnUrl))
-            //    {
-            //        return RedirectToPage(ReturnUrl);
-            //    }
-
-            //    return RedirectToPage("Index");
-            //}
-            //else
-            //{
-            //    ViewData["Notification"] = new Notification
-            //    {
-            //        type = Repository.Models.Enums.NotificationType.Error,
-            //        Message = "Unable to Login"
-            //    };
-
-            //    return Page();
-            //}
+            return RedirectToPage("Home");
         }
-
     }
 }
+
+

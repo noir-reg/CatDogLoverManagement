@@ -13,25 +13,25 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model =>  model.Order.First().Image)
+                    Image
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model =>  model.Order.First().Title)
+                    Title
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model =>  model.Order.First().BuyerName)
+                    BuyerName
                 </th>
                 <th>
                     Post Type
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model =>  model.Order.First().Price)
+                    Price
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model =>  model.Order.First().OrderDate)
+                    Order Date
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model =>  model.Order.First().Status)
+                    Status
                 </th>
                 <th>
                     Payment
@@ -41,12 +41,13 @@
         </thead>
         <tbody>
             <form method="post" asp-page-handler="PayOrder">
-                @foreach (var item in Model.Order)
+                @for (int i = 0; i < Model.Order.Count(); i++)
                 {
+                    var item = Model.Order.ElementAt(i);
                 <tr>
                     <input type="hidden" value="@item.OrderId" asp-for="OrderItemId">
                     <td>
-                        <img src="@item.Image" width="100px" height="100px">
+                        <img src="@item.Image" width="200px" height="100px">
                     </td>
                     <td>
                             @Html.DisplayFor(modelItem => item.Title)
@@ -58,7 +59,7 @@
                             @if (item.ServiceModel != null)
                             {
                             <h5>Service</h5>
-                            <div class="badge bg-danger p-2" >@item.From - @item.To</div>
+                            <div class="badge bg-danger p-2">@item.From - @item.To</div>
                             }
                             else
                             {
@@ -77,7 +78,7 @@
                             {
                             <span class="badge bg-primary">@Html.DisplayFor(modelItem => item.Status)</span>
                             }
-                            else if (item.Status.Equals("Waiting"))
+                            else if (item.Status.Equals("Waiting") || item.Status.Equals("Processing"))
                             {
                             <span class="badge bg-danger">@Html.DisplayFor(modelItem => item.Status)</span>
                             }
@@ -85,19 +86,27 @@
                             {
                             <span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Status)</span>
                             }
+                            else
+                            {
+                            <span class="badge bg-info">@Html.DisplayFor(modelItem => item.Status)</span>
+                            }
                     </td>
                     <td>
                             @if (item.Status.Equals("Success"))
                             {
                             <span class="badge bg-dark">Đã Thanh Toán</span>
                             }
-                            else if (item.Status.Equals("Waiting"))
+                            else if (item.Status.Equals("Waiting") || item.Status.Equals("Processing"))
                             {
                             <span class="badge bg-secondary">Đang chờ</span>
                             }
                             else if (item.Status.Equals("Approved"))
                             {
-                            <button class="badge bg-primary p-2" type="submit">Thanh toán</button>
+                            <button class="badge bg-primary p-2" type="button" onclick="submitPayment('@item.OrderId')">Thanh toán</button>
+                            }
+                            else
+                            {
+                            <span class="badge bg-info">Unavailable</span>
                             }
                     </td>
                 </tr>
@@ -115,3 +124,12 @@ else
         </button>
     </a>
 }
+
+<script>
+    function submitPayment(orderId) {
+        // Update the hidden input field with the selected OrderId
+        $('[name="OrderItemId"]').val(orderId);
+        // Submit the form
+        $('form').submit();
+    }
+</script>
