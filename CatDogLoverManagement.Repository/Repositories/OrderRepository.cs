@@ -24,7 +24,7 @@ namespace CatDogLoverManagement.Repository.Repositories
                 AnimalId = animalId,
                 ServiceId = null,
                 Price = price,
-                Status = price>0? "Waiting":"Success"
+                Status = price>0? "Processing":"Success"
             };
             await catDogLoveManagementContext.Orders.AddAsync(order);
             var result = await catDogLoveManagementContext.SaveChangesAsync();
