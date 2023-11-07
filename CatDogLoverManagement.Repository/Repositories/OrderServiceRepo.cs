@@ -147,7 +147,7 @@ namespace CatDogLoverManagement.Repository.Repositories
 
         public async Task<bool> UpdateAsync(Order orderService)
         {
-            catDogLoveManagementContext.Orders.Update(orderService);
+            var order = catDogLoveManagementContext.Orders.Update(orderService);
             return catDogLoveManagementContext.SaveChanges() > 0;
         }
 

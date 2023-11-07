@@ -16,7 +16,6 @@ namespace CatDogLoverManagement.Repository.Models
         public string? BookedTime { get; set; }
         public string? Status { get; set; } = null!;
         public decimal? Price { get; set; }
-         
         public Guid? BuyerId { get; set; }
         public Guid? SellerId { get; set; }
         public Guid? AnimalId { get; set; }

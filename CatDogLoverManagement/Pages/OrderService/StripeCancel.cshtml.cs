@@ -35,6 +35,7 @@ namespace CatDogLoverManagement.Pages.OrderService
         public async Task<IActionResult> OnGet()
         {
             var orderItemId = TempData["OrderItemId"]?.ToString();
+            TempData["error"] = "Payment order failure";
 
             if (string.IsNullOrEmpty(orderItemId))
             {

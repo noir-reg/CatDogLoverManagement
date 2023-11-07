@@ -86,8 +86,8 @@ namespace CatDogLoverManagement.Pages.OrderService
 
             // Store the OrderItemId in session or TempData so that you can access it in the Stripe webhook handler
             TempData["OrderItemId"] = OrderItemId.ToString();
-            TempData["success"] = "Payment order successfully";
             return Redirect(session.Url);
         }
     }
 }
+
