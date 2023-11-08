@@ -4,7 +4,23 @@
 @{
     ViewData["Title"] = "StripeCancel";
 }
+@{
+    String jsonString = HttpContext.Session.GetString("userId");
+    if (!string.IsNullOrEmpty(jsonString))
+    {
+        if (!jsonString.Equals("4984f0a0-fb04-4759-baad-0682b4f8657f"))
+        {
+            <h1>Thanh toán thất bại!</h1>
+            <img src="~/images/multiply.png" width="200px" height="200px" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
 
-<h1>Thanh toán thất bại!</h1>
-<img src="~/images/multiply.png" width="200px" height="200px" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
-
+        }
+        else
+        {
+            <h1>Access Denied</h1>
+        }
+    }
+    else
+    {
+        <h1>Access Denied</h1>
+    }
+}

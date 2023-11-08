@@ -48,10 +48,10 @@ namespace CatDogLoverManagement.Pages.Post
 
             ValidateAddService();
 
-            if (ModelState.IsValid)
-            {
+           
                 if (AddTimeFrameRequest.Count > 0)
                 {
+                    
                     List<AddTimeFrame> timeFramesTemp = new List<AddTimeFrame>();
                     foreach (var timeFrame in AddTimeFrameRequest)
                     {
@@ -77,7 +77,7 @@ namespace CatDogLoverManagement.Pages.Post
                         TempData["Notification"] = JsonSerializer.Serialize(notification);
                     }
                 }
-            }
+            
             return Page();
         }
 

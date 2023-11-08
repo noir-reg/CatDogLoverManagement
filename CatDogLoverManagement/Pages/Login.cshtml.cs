@@ -36,29 +36,34 @@ namespace CatDogLoverManagement.Pages
         }
         public async Task<IActionResult> OnPost(string? ReturnUrl)
         {
-            var result = await userRepository.LoginAsync(LoginViewModel.Username, LoginViewModel.Password);
-            if (result == null)
+            if (ModelState.IsValid)
             {
-                IConfiguration config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
-                var userName = config["AdminAccount:userName"];
-                var passWord = config["AdminAccount:passWord"];
-                var id = config["AdminAccount:id"];
-                if (userName.Equals(LoginViewModel.Username) && passWord.Equals(LoginViewModel.Password))
+                var result = await userRepository.LoginAsync(LoginViewModel.Username, LoginViewModel.Password);
+                if (result == null)
                 {
-                    HttpContext.Session.SetString("userId", id);
-                    return RedirectToPage("Admin/AccessPostList");
+                    IConfiguration config = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", true, true)
+                     .Build();
+                    var userName = config["AdminAccount:userName"];
+                    var passWord = config["AdminAccount:passWord"];
+                    var id = config["AdminAccount:id"];
+                    if (userName.Equals(LoginViewModel.Username) && passWord.Equals(LoginViewModel.Password))
+                    {
+                        HttpContext.Session.SetString("userId", id);
+                        return RedirectToPage("Admin/AccessPostList");
+                    }
+                    TempData["error"] = "Invalid username or password";
+                    return Page();
                 }
-                TempData["error"] = "Invalid username or password";
-                return Page();
-            }
-            HttpContext.Session.SetString("username", LoginViewModel.Username);
-            HttpContext.Session.SetString("userId", result.UserId.ToString());
-            HttpContext.Session.SetString("Role", result.Role.RoleName);
 
-            return RedirectToPage("Home");
+                HttpContext.Session.SetString("username", LoginViewModel.Username);
+                HttpContext.Session.SetString("userId", result.UserId.ToString());
+                HttpContext.Session.SetString("Role", result.Role.RoleName);
+
+                return RedirectToPage("Home");
+            }
+            return Page();
         }
     }
 }

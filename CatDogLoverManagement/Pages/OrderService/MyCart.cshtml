@@ -4,132 +4,149 @@
 @{
     ViewData["Title"] = "MyCart";
 }
+@{
+    String jsonString = HttpContext.Session.GetString("userId");
+    if (!string.IsNullOrEmpty(jsonString))
+    {
+        if (!jsonString.Equals("4984f0a0-fb04-4759-baad-0682b4f8657f"))
+        {
+            <h1>My Cart</h1>
 
-<h1>My Cart</h1>
+            @if (Model.Order.Count() > 0)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Image
+                            </th>
+                            <th>
+                                Title
+                            </th>
+                            <th>
+                                BuyerName
+                            </th>
+                            <th>
+                                Post Type
+                            </th>
+                            <th>
+                                Price
+                            </th>
+                            <th>
+                                Order Date
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Payment
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <form method="post" asp-page-handler="PayOrder">
+                            @for (int i = 0; i < Model.Order.Count(); i++)
+                            {
+                                var item = Model.Order.ElementAt(i);
+                            <tr>
+                                <input type="hidden" value="@item.OrderId" asp-for="OrderItemId">
+                                <td>
+                                    <img src="@item.Image" width="200px" height="100px">
+                                </td>
+                                <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                        @Html.DisplayFor(modelItem => item.BuyerName)
+                                </td>
+                                <td>
+                                        @if (item.ServiceModel != null)
+                                        {
+                                        <h5>Service</h5>
+                                        <div class="badge bg-danger p-2">@item.From - @item.To</div>
+                                        }
+                                        else
+                                        {
+                                        <h5>Sell/Give Animal</h5>
+                                        }
+                                </td>
+                                <td>
+                                        @Html.DisplayFor(modelItem => item.Price)
+                                    <input type="hidden" value="@item.Price" asp-for="Price">
+                                </td>
+                                <td>
+                                        @item.OrderDate.ToString("MM/dd/yyyy")
+                                </td>
+                                <td>
+                                        @if (item.Status.Equals("Success"))
+                                        {
+                                        <span class="badge bg-primary">@Html.DisplayFor(modelItem => item.Status)</span>
+                                        }
+                                        else if (item.Status.Equals("Waiting") || item.Status.Equals("Processing"))
+                                        {
+                                        <span class="badge bg-danger">@Html.DisplayFor(modelItem => item.Status)</span>
+                                        }
+                                        else if (item.Status.Equals("Approved"))
+                                        {
+                                        <span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Status)</span>
+                                        }
+                                        else
+                                        {
+                                        <span class="badge bg-info">@Html.DisplayFor(modelItem => item.Status)</span>
+                                        }
+                                </td>
+                                <td>
+                                        @if (item.Status.Equals("Success"))
+                                        {
+                                        <span class="badge bg-dark">Đã Thanh Toán</span>
+                                        }
+                                        else if (item.Status.Equals("Waiting") || item.Status.Equals("Processing"))
+                                        {
+                                        <span class="badge bg-secondary">Đang chờ</span>
+                                        }
+                                        else if (item.Status.Equals("Approved"))
+                                        {
+                                        <button class="badge bg-primary p-2" type="button" onclick="submitPayment('@item.OrderId')">Thanh toán</button>
+                                        }
+                                        else
+                                        {
+                                        <span class="badge bg-info">Unavailable</span>
+                                        }
+                                </td>
+                            </tr>
+                            }
+                        </form>
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h2>Do not have any order item yet!</h2>
+                <a asp-page="../Home">
+                    <button>
+                        <img src="~/images/order-now.png" width="200px" height="200px" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
+                    </button>
+                </a>
+            }
 
-@if (Model.Order.Count() > 0)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Image
-                </th>
-                <th>
-                    Title
-                </th>
-                <th>
-                    BuyerName
-                </th>
-                <th>
-                    Post Type
-                </th>
-                <th>
-                    Price
-                </th>
-                <th>
-                    Order Date
-                </th>
-                <th>
-                    Status
-                </th>
-                <th>
-                    Payment
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <form method="post" asp-page-handler="PayOrder">
-                @for (int i = 0; i < Model.Order.Count(); i++)
-                {
-                    var item = Model.Order.ElementAt(i);
-                <tr>
-                    <input type="hidden" value="@item.OrderId" asp-for="OrderItemId">
-                    <td>
-                        <img src="@item.Image" width="200px" height="100px">
-                    </td>
-                    <td>
-                            @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                            @Html.DisplayFor(modelItem => item.BuyerName)
-                    </td>
-                    <td>
-                            @if (item.ServiceModel != null)
-                            {
-                            <h5>Service</h5>
-                            <div class="badge bg-danger p-2">@item.From - @item.To</div>
-                            }
-                            else
-                            {
-                            <h5>Sell/Give Animal</h5>
-                            }
-                    </td>
-                    <td>
-                            @Html.DisplayFor(modelItem => item.Price)
-                        <input type="hidden" value="@item.Price" asp-for="Price">
-                    </td>
-                    <td>
-                            @item.OrderDate.ToString("MM/dd/yyyy")
-                    </td>
-                    <td>
-                            @if (item.Status.Equals("Success"))
-                            {
-                            <span class="badge bg-primary">@Html.DisplayFor(modelItem => item.Status)</span>
-                            }
-                            else if (item.Status.Equals("Waiting") || item.Status.Equals("Processing"))
-                            {
-                            <span class="badge bg-danger">@Html.DisplayFor(modelItem => item.Status)</span>
-                            }
-                            else if (item.Status.Equals("Approved"))
-                            {
-                            <span class="badge bg-secondary">@Html.DisplayFor(modelItem => item.Status)</span>
-                            }
-                            else
-                            {
-                            <span class="badge bg-info">@Html.DisplayFor(modelItem => item.Status)</span>
-                            }
-                    </td>
-                    <td>
-                            @if (item.Status.Equals("Success"))
-                            {
-                            <span class="badge bg-dark">Đã Thanh Toán</span>
-                            }
-                            else if (item.Status.Equals("Waiting") || item.Status.Equals("Processing"))
-                            {
-                            <span class="badge bg-secondary">Đang chờ</span>
-                            }
-                            else if (item.Status.Equals("Approved"))
-                            {
-                            <button class="badge bg-primary p-2" type="button" onclick="submitPayment('@item.OrderId')">Thanh toán</button>
-                            }
-                            else
-                            {
-                            <span class="badge bg-info">Unavailable</span>
-                            }
-                    </td>
-                </tr>
+            <script>
+                function submitPayment(orderId) {
+                    // Update the hidden input field with the selected OrderId
+                    $('[name="OrderItemId"]').val(orderId);
+                    // Submit the form
+                    $('form').submit();
                 }
-            </form>
-        </tbody>
-    </table>
-}
-else
-{
-    <h2>Do not have any order item yet!</h2>
-    <a asp-page="../Home">
-        <button>
-            <img src="~/images/order-now.png" width="200px" height="200px" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" />
-        </button>
-    </a>
-}
+            </script>
 
-<script>
-    function submitPayment(orderId) {
-        // Update the hidden input field with the selected OrderId
-        $('[name="OrderItemId"]').val(orderId);
-        // Submit the form
-        $('form').submit();
+        }
+        else
+        {
+            <h1>Access Denied</h1>
+        }
     }
-</script>
+    else
+    {
+        <h1>Access Denied</h1>
+    }
+}

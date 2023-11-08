@@ -19,14 +19,17 @@
                 <div class="mb-3" style="display:none">
                     <label for="id" class="form-label">Post Id</label>
                     <input type="text" class="form-control" id="id" asp-for="BlogPost.PostId" readonly />
+                    <span class="text-danger" asp-validation-for="BlogPost.PostId"></span>
                 </div>
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" id="title" asp-for="BlogPost.Title" />
+                    <span class="text-danger" asp-validation-for="BlogPost.Title"></span>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <textarea class="form-control" id="description" asp-for="BlogPost.Description"></textarea>
+                    <span class="text-danger" asp-validation-for="BlogPost.Description"></span>
                 </div>
 
                 <div class="mb-3">
@@ -39,20 +42,23 @@
                     </div>
                     <label for="price" class="form-label">Price</label>
                     <input type="text" class="form-control" id="price" asp-for="BlogPost.Price" />
+                    <span class="text-danger" asp-validation-for="BlogPost.Price"></span>
                 </div>
 
                 <div class="mb-3" style="display:none">
                     <label for="createdDate" class="form-label">CreatedDate</label>
                     <input type="date" class="form-control" id="createdDate" asp-for="BlogPost.CreatedDate" />
+                    <span class="text-danger" asp-validation-for="BlogPost.CreatedDate"></span>
                 </div>
 
                 <div class="mb-3">
                     <label for="featuredImageUpload" class="form-label">Featured Image Upload</label>
                     <input type="file" id="featuredImageUpload" asp-for="FeaturedImage" />
+                    <span class="text-danger" asp-validation-for="FeaturedImage"></span>
 
                     @if (Model.BlogPost.Image != null)
                     {
-                        <img src="" id="featuredImageDisplay" style="width:300px;" />
+                        <img src="@Model.BlogPost.Image" id="featuredImageDisplay" style="width:300px;" />
                     }
                     else
                     {
@@ -61,14 +67,17 @@
 
                 </div>
 
-                <div class="mb-3" style="display:none">
+                <div class="mb-3">
                     <label for="image" class="form-label">Image</label>
-                    <input type="hidden" class="form-control" id="image" asp-for="BlogPost.Image" />
+                    <input  class="form-control" id="image" asp-for="BlogPost.Image"/>
+                    <img src="" id="featuredImageDisplay" style="display:none; width:300px;" />
+                    <span class="text-danger" asp-validation-for="BlogPost.Image"></span>
                 </div>
 
                 <div class="mb-3" style="display:none">
                     <label for="status" class="form-label">Status</label>
                     <input type="text" class="form-control" id="status" asp-for="BlogPost.Status" />
+            
                 </div>
 
                 <div class="mb-3">
@@ -83,6 +92,7 @@
                 <div class="mb-3">
                     <label for="status" class="form-label">Age (month)</label>
                     <input type="text" class="form-control" id="age" asp-for="Animal.Age" />
+                    <span class="text-danger" asp-validation-for="Animal.Age"></span>
 
                 </div>
                 <div class="mb-3">
@@ -97,10 +107,12 @@
                 <div class="mb-3">
                     <label for="status" class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" asp-for="Animal.AnimalName" />
+                    <span class="text-danger" asp-validation-for="Animal.AnimalName"></span>
                 </div>
                 <div class="mb-3">
                     <label for="status" class="form-label">Animal Description</label>
-                    <textarea type="text" class="form-control" id="animaldescription" asp-for="Animal.Description" ></textarea>
+                    <input type="text" class="form-control" id="animaldescription" asp-for="Animal.Description" ></input>
+                    <span class="text-danger" asp-validation-for="Animal.Description"></span>
                 </div>
                 <div class="mb-3" style="display:none">
                     <label for="userId" class="form-label">UserID</label>
