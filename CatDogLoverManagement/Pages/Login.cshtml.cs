@@ -51,6 +51,7 @@ namespace CatDogLoverManagement.Pages
                     if (userName.Equals(LoginViewModel.Username) && passWord.Equals(LoginViewModel.Password))
                     {
                         HttpContext.Session.SetString("userId", id);
+                        HttpContext.Session.SetString("Role", "Admin");
                         return RedirectToPage("Admin/AccessPostList");
                     }
                     TempData["error"] = "Invalid username or password";

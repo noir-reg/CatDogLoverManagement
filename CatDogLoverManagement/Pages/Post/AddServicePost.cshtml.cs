@@ -51,7 +51,6 @@ namespace CatDogLoverManagement.Pages.Post
            
                 if (AddTimeFrameRequest.Count > 0)
                 {
-                    
                     List<AddTimeFrame> timeFramesTemp = new List<AddTimeFrame>();
                     foreach (var timeFrame in AddTimeFrameRequest)
                     {

@@ -130,15 +130,6 @@
                 </a>
             }
 
-            <script>
-                function submitPayment(orderId) {
-                    // Update the hidden input field with the selected OrderId
-                    $('[name="OrderItemId"]').val(orderId);
-                    // Submit the form
-                    $('form').submit();
-                }
-            </script>
-
         }
         else
         {
@@ -150,3 +141,12 @@
         <h1>Access Denied</h1>
     }
 }
+
+<script>
+    function submitPayment(orderId) {
+        // Update the hidden input field with the selected OrderId
+        $('[name="OrderItemId"]').val(orderId);
+        // Submit the form
+        $('form').submit();
+    }
+</script>

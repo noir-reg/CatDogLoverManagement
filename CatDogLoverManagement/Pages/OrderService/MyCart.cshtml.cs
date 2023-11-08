@@ -65,7 +65,7 @@ namespace CatDogLoverManagement.Pages.OrderService
             new SessionLineItemOptions {
                 PriceData = new SessionLineItemPriceDataOptions {
                     Currency = currency,
-                    UnitAmount = Convert.ToInt32(Price) , // Amount in the smallest currency unit (e.g., cents)
+                    UnitAmount = Convert.ToInt32(Price) * 100, // Amount in the smallest currency unit (e.g., cents)
                     ProductData = new SessionLineItemPriceDataProductDataOptions {
                         Name = "Product Name",
                         Description = "Product Description"

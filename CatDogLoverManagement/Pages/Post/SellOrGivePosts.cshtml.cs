@@ -4,6 +4,7 @@ using CatDogLoverManagement.Repository.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.Design;
 using System.Text.Json;
 
 namespace CatDogLoverManagement.Pages.Post
@@ -22,6 +23,13 @@ namespace CatDogLoverManagement.Pages.Post
         public string PostId { get; set; }
         [BindProperty]
         public Order Order { get; set; }
+
+        [BindProperty]
+        public GiveGiftDTO Gift { get; set; }
+
+        [BindProperty]
+        public Guid LuckyGuy { get; set; }
+
         public ListModel(IBlogPostRepository blogPostRepository, ICommentRepository commentRepository, IOrderRepository orderRepository)
         {
             this.blogPostRepository = blogPostRepository;
@@ -58,12 +66,40 @@ namespace CatDogLoverManagement.Pages.Post
         {
             if (string.IsNullOrEmpty(VolunteerId))
                 return RedirectToPage("/Login");
-            
+
             var result = await commentRepository.AddAsync(Message, PostId, VolunteerId);
             if (result)
             {
                 TempData["success"] = "Completed";
             }
+            return RedirectToPage("SellOrGivePosts");
+        }
+
+
+        public async Task<IActionResult> OnPostGiveForUser()
+        {
+            if (LuckyGuy.ToString() == null)
+            {
+                TempData["error"] = "Please choose a lucky guy";
+                return Page();
+            }
+            if (Gift.SellerId.ToString() != null && Gift.PostId.ToString() != null && Gift.CommentId.ToString() != null && LuckyGuy.ToString() != null)
+            {
+                Gift.BuyerId = LuckyGuy;
+                var AnimalId = await blogPostRepository.GetAnimalId(Gift.PostId.ToString());
+                var result = await orderRepository.CreateOrderForSellOrGivePost(AnimalId, Gift.SellerId.ToString(), Gift.BuyerId.ToString(), 0);
+                if (result)
+                {
+                    await commentRepository.UpdateCommentStatus(Gift.CommentId.ToString());
+                    TempData["success"] = "Give user successfully!";
+                    BlogPosts = await blogPostRepository.GetAllSellPostAsync();
+                }
+                else
+                {
+                    TempData["error"] = "Failure";
+                }
+            }
+
             return RedirectToPage("SellOrGivePosts");
         }
     }

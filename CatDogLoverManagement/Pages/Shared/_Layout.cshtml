@@ -73,10 +73,11 @@
                             </ul>
                             <!--end-->
                         </li>
-
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin")
+                        {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                   aria-expanded="false" id="navbardropdownpost">
+                                aria-expanded="false" id="navbardropdownpost">
                                     Admin
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbardropdownpost">
@@ -86,7 +87,7 @@
                                 </ul>
                                 <!--end-->
                             </li>
-                       
+                        }
 
                     </ul>
                     @if (HttpContextAccessor.HttpContext.Session.GetString("userId") == null)
